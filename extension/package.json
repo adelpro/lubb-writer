@@ -1,5 +1,5 @@
 {
-  "name": "lubb-writer",
+  "name": "@lubb-writer/extension",
   "displayName": "Lubb Writer",
   "version": "1.0.0",
   "description": "AI-powered text enhancement anywhere in your browser",
@@ -10,10 +10,14 @@
     "dev:firefox": "plasmo dev --target=firefox-mv3",
     "build:chrome": "plasmo build",
     "build:firefox": "plasmo build --target=firefox-mv3",
-    "build:all": "yarn build:chrome && yarn build:firefox",
+    "build": "yarn build:chrome && yarn build:firefox",
     "package:chrome": "plasmo build && plasmo package",
     "package:firefox": "plasmo build --target=firefox-mv3 && plasmo package --target=firefox-mv3",
+    "package": "yarn package:chrome && yarn package:firefox",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "format:check": "prettier --check \"src/**/*.ts\"",
     "lint": "eslint . --ext .ts,.tsx",
+    "lint:fix": "eslint src --ext .ts --fix",
     "clean": "rimraf .plasmo build"
   },
   "dependencies": {
@@ -36,8 +40,6 @@
     "typescript": "5.3.3"
   },
   "manifest": {
-    "default_popup": "src/popup/index.tsx",
-    "default_locale": "en",
     "permissions": [
       "storage",
       "activeTab",
@@ -45,7 +47,10 @@
       "scripting"
     ],
     "host_permissions": [
-      "<all_urls>"
+      "http://lubb-writer-api.adelpro.us.kg/*",
+      "https://lubb-writer-api.adelpro.us.kg/*",
+      "https://lubb-writer.adelpro.us.kg/*",
+      "https://lubb-writer.adelpro.us.kg/*"
     ],
     "commands": {
       "enhance-selection": {
@@ -59,7 +64,12 @@
     "browser_specific_settings": {
       "gecko": {
         "id": "lubb-writer@adelpro.us",
-        "strict_min_version": "140.0"
+        "strict_min_version": "140.0",
+        "data_collection_permissions": {
+          "required": [
+            "none"
+          ]
+        }
       }
     }
   }

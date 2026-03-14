@@ -10,10 +10,17 @@
     "dev:api": "yarn workspace @lubb-writer/api dev",
     "build:api": "yarn workspace @lubb-writer/api build",
     "start:api": "yarn workspace @lubb-writer/api start",
-    "build:extension": "yarn workspace @lubb-writer/extension build",
     "dev:extension": "yarn workspace @lubb-writer/extension dev",
-    "build": "yarn build:api && yarn build:extension"
+    "package:extension": "yarn workspace @lubb-writer/extension package",
+    "build:extension": "yarn workspace @lubb-writer/extension build",
+    "clean:extension": "rimraf .plasmo build",
+    "lint": "eslint . --ext .ts,.tsx",
+    "lint:fix": "eslint src --ext .ts --fix",
+    "build:all": "yarn build:api && yarn build:extension",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "format:check": "prettier --check \"src/**/*.ts\""
   },
   "author": "Adel Benyahia <contact@adelpro.us.kg>",
-  "license": "MIT"
+  "license": "MIT",
+  "packageManager": "yarn@4.13.0+sha512.5c20ba010c99815433e5c8453112165e673f1c7948d8d2b267f4b5e52097538658388ebc9f9580656d9b75c5cc996f990f611f99304a2197d4c56d21eea370e7"
 }

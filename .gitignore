@@ -16,6 +16,9 @@ build/
 .vscode/
 .idea/
 
+# Yarn (Berry)
+.yarn
+
 # OS
 .DS_Store
 Thumbs.db
