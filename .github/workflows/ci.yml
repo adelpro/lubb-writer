@@ -11,25 +11,50 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'yarn'
-      - run: yarn install --frozen-lockfile
-      - run: yarn lint
-      - run: yarn format:check
+          
+      - name: Install Yarn v4
+        run: |
+          npm install -g yarn@berry
+          yarn --version
+          
+      - name: Install dependencies
+        run: yarn install
+        
+      - name: Lint API
+        run: yarn workspace @lubb-writer/api lint
+        
+      - name: Format check
+        run: yarn workspace @lubb-writer/api format:check
 
   build:
     runs-on: ubuntu-latest
     needs: lint
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'yarn'
-      - run: yarn install --frozen-lockfile
-      - run: yarn build
+          
+      - name: Install Yarn v4
+        run: |
+          npm install -g yarn@berry
+          yarn --version
+          
+      - name: Install dependencies
+        run: yarn install
+        
+      - name: Build API
+        run: yarn workspace @lubb-writer/api build
+        
+      - name: Build Extension
+        run: yarn workspace @lubb-writer/extension build:chrome
 
   docker:
     runs-on: ubuntu-latest
