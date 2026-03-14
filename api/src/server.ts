@@ -205,7 +205,7 @@ const DEFAULT_PROMPTS: Record<string, string> = {
 // Helper Function: Strip Thinking Blocks
 // =============================================================================
 function cleanThinkingBlocks(text: string): string {
-  let cleaned = text
+  const cleaned = text
     .replace(/<think>[\s\S]*?<\/think>/gi, "")
     .replace(/<thinking>[\s\S]*?<\/thinking>/gi, "")
     .replace(/<thought>[\s\S]*?<\/thought>/gi, "")
