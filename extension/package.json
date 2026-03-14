@@ -1,16 +1,66 @@
 {
-  "name": "@lubb-writer/extension",
+  "name": "lubb-writer",
+  "displayName": "Lubb Writer",
   "version": "1.0.0",
-  "description": "Lubb Writer Browser Extension",
-  "type": "module",
+  "description": "AI-powered text enhancement anywhere in your browser",
+  "author": "Adel Benyahia <contact@adelpro.us.kg>",
   "scripts": {
-    "dev": "vite build --watch",
-    "build": "vite build",
-    "preview": "vite preview"
+    "dev": "plasmo dev",
+    "dev:chrome": "plasmo dev",
+    "dev:firefox": "plasmo dev --target=firefox-mv3",
+    "build:chrome": "plasmo build",
+    "build:firefox": "plasmo build --target=firefox-mv3",
+    "build:all": "yarn build:chrome && yarn build:firefox",
+    "package:chrome": "plasmo build && plasmo package",
+    "package:firefox": "plasmo build --target=firefox-mv3 && plasmo package --target=firefox-mv3",
+    "lint": "eslint . --ext .ts,.tsx",
+    "clean": "rimraf .plasmo build"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.552.0",
+    "plasmo": "0.90.5",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "zustand": "^5.0.8"
   },
   "devDependencies": {
-    "typescript": "^5.3.3",
-    "vite": "^5.0.0",
-    "vite-plugin-static-copy": "^1.0.0"
+    "@types/chrome": "0.0.258",
+    "@types/node": "20.11.5",
+    "@types/react": "18.2.48",
+    "@types/react-dom": "18.2.18",
+    "autoprefixer": "^10.4.21",
+    "postcss": "8.4.33",
+    "prettier": "3.2.4",
+    "tailwindcss": "3",
+    "typescript": "5.3.3"
+  },
+  "manifest": {
+    "default_popup": "src/popup/index.tsx",
+    "default_locale": "en",
+    "permissions": [
+      "storage",
+      "activeTab",
+      "contextMenus",
+      "scripting"
+    ],
+    "host_permissions": [
+      "<all_urls>"
+    ],
+    "commands": {
+      "enhance-selection": {
+        "suggested_key": {
+          "default": "Ctrl+Shift+L",
+          "mac": "Command+Shift+L"
+        },
+        "description": "Enhance selected text with Lubb Writer"
+      }
+    },
+    "browser_specific_settings": {
+      "gecko": {
+        "id": "lubb-writer@adelpro.us",
+        "strict_min_version": "140.0"
+      }
+    }
   }
 }
