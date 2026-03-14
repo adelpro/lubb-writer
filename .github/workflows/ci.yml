@@ -17,11 +17,9 @@ jobs:
         with:
           node-version: '20'
           
-      - name: Install Yarn v4
-        run: |
-          npm install -g yarn@4.13.0
-          yarn --version
-          
+      - name: Enable corepack
+        run: corepack enable
+        
       - name: Install dependencies
         run: yarn install
         
@@ -42,10 +40,8 @@ jobs:
         with:
           node-version: '20'
           
-      - name: Install Yarn v4
-        run: |
-          npm install -g yarn@4.13.0
-          yarn --version
+      - name: Enable corepack
+        run: corepack enable
           
       - name: Install dependencies
         run: yarn install
