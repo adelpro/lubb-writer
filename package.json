@@ -10,7 +10,9 @@
     "dev:api": "yarn workspace @lubb-writer/api dev",
     "build:api": "yarn workspace @lubb-writer/api build",
     "start:api": "yarn workspace @lubb-writer/api start",
-    "build": "yarn build:api"
+    "build:extension": "yarn workspace @lubb-writer/extension build",
+    "dev:extension": "yarn workspace @lubb-writer/extension dev",
+    "build": "yarn build:api && yarn build:extension"
   },
   "author": "Adel Benyahia <contact@adelpro.us.kg>",
   "license": "MIT"

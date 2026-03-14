@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lubb Writer - Settings</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="options">
+    <header class="header">
+      <h1>⚙️ Lubb Writer Settings</h1>
+    </header>
+
+    <main class="main">
+      <section class="section">
+        <h2>API Configuration</h2>
+        
+        <div class="field">
+          <label for="apiUrl">API URL</label>
+          <input type="url" id="apiUrl" placeholder="https://lubb-writer-api.adelpro.us.kg">
+          <p class="hint">Your Lubb Writer API endpoint</p>
+        </div>
+
+        <div class="field">
+          <label for="apiToken">API Token</label>
+          <input type="password" id="apiToken" placeholder="Your API token">
+          <p class="hint">Leave empty if API doesn't require auth</p>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Defaults</h2>
+        
+        <div class="field">
+          <label for="defaultMode">Default Mode</label>
+          <select id="defaultMode">
+            <option value="humanize">Humanize</option>
+            <option value="rewrite">Rewrite</option>
+            <option value="summarize">Summarize</option>
+            <option value="grammar">Grammar</option>
+            <option value="formal">Formal</option>
+            <option value="casual">Casual</option>
+            <option value="academic">Academic</option>
+            <option value="seo">SEO</option>
+            <option value="persuasive">Persuasive</option>
+            <option value="creative">Creative</option>
+            <option value="twitter">Twitter</option>
+            <option value="linkedin">LinkedIn</option>
+            <option value="story">Story</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="defaultModel">Default Model</label>
+          <select id="defaultModel">
+            <option value="MiniMax-M2.1">MiniMax M2.1</option>
+            <option value="gpt-4o-mini">GPT-4o Mini</option>
+            <option value="gpt-4o">GPT-4o</option>
+            <option value="claude-3-5-sonnet">Claude 3.5 Sonnet</option>
+            <option value="gemini-1.5-flash">Gemini 1.5 Flash</option>
+          </select>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Features</h2>
+        
+        <div class="field checkbox">
+          <input type="checkbox" id="showInlineIcon" checked>
+          <label for="showInlineIcon">Show inline enhancement icon</label>
+          <p class="hint">Show ✨ icon next to text inputs</p>
+        </div>
+
+        <div class="field checkbox">
+          <input type="checkbox" id="historyEnabled" checked>
+          <label for="historyEnabled">Enable history</label>
+          <p class="hint">Store recent enhancements</p>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Appearance</h2>
+        
+        <div class="field">
+          <label for="theme">Theme</label>
+          <select id="theme">
+            <option value="system">System Default</option>
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+          </select>
+        </div>
+      </section>
+
+      <div class="actions">
+        <button id="saveBtn" class="btn-primary">💾 Save Settings</button>
+        <span id="savedMsg" class="saved hidden">✓ Saved!</span>
+      </div>
+    </main>
+  </div>
+
+  <script src="options.js" type="module"></script>
+</body>
+</html>

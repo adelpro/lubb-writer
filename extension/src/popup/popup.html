@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lubb Writer</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup">
+    <header class="header">
+      <div class="logo">
+        <span class="logo-icon">✨</span>
+        <span class="logo-text">Lubb Writer</span>
+      </div>
+    </header>
+
+    <main class="main">
+      <div class="input-section">
+        <textarea 
+          id="inputText" 
+          placeholder="Enter text to enhance..."
+          rows="4"
+        ></textarea>
+      </div>
+
+      <div class="options">
+        <div class="option">
+          <label for="mode">Mode</label>
+          <select id="mode">
+            <option value="humanize">Humanize</option>
+            <option value="rewrite">Rewrite</option>
+            <option value="summarize">Summarize</option>
+            <option value="grammar">Grammar</option>
+            <option value="formal">Formal</option>
+            <option value="casual">Casual</option>
+            <option value="academic">Academic</option>
+            <option value="seo">SEO</option>
+            <option value="persuasive">Persuasive</option>
+            <option value="creative">Creative</option>
+            <option value="twitter">Twitter</option>
+            <option value="linkedin">LinkedIn</option>
+            <option value="story">Story</option>
+          </select>
+        </div>
+
+        <div class="option">
+          <label for="model">Model</label>
+          <select id="model">
+            <option value="MiniMax-M2.1">MiniMax</option>
+            <option value="gpt-4o-mini">GPT-4o Mini</option>
+            <option value="gpt-4o">GPT-4o</option>
+            <option value="claude-3-5-sonnet">Claude 3.5</option>
+            <option value="gemini-1.5-flash">Gemini Flash</option>
+          </select>
+        </div>
+      </div>
+
+      <button id="enhanceBtn" class="btn-primary">
+        <span>✨</span> Enhance
+      </button>
+
+      <div id="resultSection" class="result-section hidden">
+        <textarea id="resultText" rows="4" readonly></textarea>
+        <button id="copyBtn" class="btn-secondary">
+          📋 Copy
+        </button>
+      </div>
+
+      <div id="loading" class="loading hidden">
+        <div class="spinner"></div>
+        <span>Enhancing...</span>
+      </div>
+
+      <div id="error" class="error hidden"></div>
+    </main>
+
+    <footer class="footer">
+      <a href="#" id="settingsLink">⚙️ Settings</a>
+    </footer>
+  </div>
+
+  <script src="popup.js" type="module"></script>
+</body>
+</html>
