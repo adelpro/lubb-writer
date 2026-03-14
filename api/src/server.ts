@@ -206,7 +206,7 @@ const DEFAULT_PROMPTS: Record<string, string> = {
 // =============================================================================
 function cleanThinkingBlocks(text: string): string {
   let cleaned = text
-    .replace(/<think>[\s\S]*?<\/think>/gi, "")
+    .replace(/<think>[\s\S]*?think>/gi, "")
     .replace(/<thinking>[\s\S]*?<\/thinking>/gi, "")
     .replace(/<thought>[\s\S]*?<\/thought>/gi, "")
     .replace(/<思考>[\s\S]*?<\/思考>/gi, "")
