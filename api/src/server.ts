@@ -205,11 +205,12 @@ const DEFAULT_PROMPTS: Record<string, string> = {
 // Helper Function: Strip Thinking Blocks
 // =============================================================================
 function cleanThinkingBlocks(text: string): string {
-  let cleaned = text.replace(/<think>[\s\S]*?<\/think>/gi, "");
-
-  cleaned = cleaned.replace(/<thinking>[\s\S]*?<\/thinking>/gi, "");
-
-  cleaned = cleaned.replace(/^(\s*)(thinking|thoughts?)[:\s].*/gim, "");
+  let cleaned = text
+    .replace(/<think>[\s\S]*?<\/think>/gi, "")
+    .replace(/<thinking>[\s\S]*?<\/thinking>/gi, "")
+    .replace(/<thought>[\s\S]*?<\/thought>/gi, "")
+    .replace(/<思考>[\s\S]*?<\/思考>/gi, "")
+    .replace(/^(\s*)(thinking|thoughts?)[:\s].*/gim, "");
 
   return cleaned.trim();
 }
