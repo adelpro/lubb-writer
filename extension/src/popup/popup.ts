@@ -88,7 +88,7 @@ copyBtn.addEventListener('click', copyResult);
 
 // Handle keyboard shortcuts
 document.addEventListener('keydown', async (e) => {
-  if (e.ctrlKey && e.shiftKey && e.key === 'E') {
+  if (e.ctrlKey && e.shiftKey && e.key === 'L') {
     e.preventDefault();
     
     // Get selected text from active tab
