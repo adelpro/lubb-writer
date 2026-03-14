@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  lubb-writer-api:
+    build: .
+    image: lubb-writer-api:latest
+    container_name: lubb-writer-api
+    restart: unless-stopped
+    ports:
+      - "3003:3001"
+    env_file:
+      - .env
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:3001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    networks:
+      - ai-network
+
+networks:
+  ai-network:
+    driver: bridge

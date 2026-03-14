@@ -1,0 +1,17 @@
+{
+  "name": "lubb-writer",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "api",
+    "extension"
+  ],
+  "scripts": {
+    "dev:api": "yarn workspace @lubb-writer/api dev",
+    "build:api": "yarn workspace @lubb-writer/api build",
+    "start:api": "yarn workspace @lubb-writer/api start",
+    "build": "yarn build:api"
+  },
+  "author": "Adel Benyahia <contact@adelpro.us.kg>",
+  "license": "MIT"
+}

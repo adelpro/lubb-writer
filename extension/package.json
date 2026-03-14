@@ -1,0 +1,9 @@
+{
+  "name": "@lubb-writer/extension",
+  "version": "1.0.0",
+  "description": "Browser extension for Lubb Writer",
+  "scripts": {
+    "dev": "echo 'Extension dev not configured'",
+    "build": "echo 'Extension build not configured'"
+  }
+}
