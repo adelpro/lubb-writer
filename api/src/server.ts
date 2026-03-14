@@ -312,14 +312,19 @@ app.post("/enhance", authenticate, async (req, res) => {
     }
 
     const chatModel = model || process.env.DEFAULT_MODEL || "MiniMax-M2.1";
-    const systemPrompt =
-      "You are a helpful writing assistant. Provide only the improved text without explanations.";
+    const systemPrompt = `You are a writing enhancement assistant. Your ONLY task is to improve the provided text according to the instruction. Return ONLY the enhanced text, nothing else. Do not include any explanations, meta-commentary, or the original instruction in your response. Output only the improved version of the text.`;
 
-    const result = await chatWithAI(
-      chatModel,
-      systemPrompt,
-      `${fullPrompt}\n\n${text}`,
-    );
+    const userMessage = `<instruction>
+${fullPrompt}
+</instruction>
+
+<content>
+${text}
+</content>
+
+Return ONLY the enhanced content. Do not include the instruction text itself in your response.`;
+
+    const result = await chatWithAI(chatModel, systemPrompt, userMessage);
     res.json(result);
   } catch (error: unknown) {
     const errorMessage =
@@ -337,12 +342,21 @@ app.post("/custom", authenticate, async (req, res) => {
       return res.status(400).json({ error: "Text and prompt are required" });
     }
 
-    const fullPrompt = prompt.replace(/{text}/g, text);
     const chatModel = model || process.env.DEFAULT_MODEL || "MiniMax-M2.1";
-    const systemPrompt =
-      "You are a helpful writing assistant. Provide only the result.";
+    const systemPrompt = `You are a text processing assistant. Your task is to process text according to specific instructions. Return ONLY the result. Do not include explanations, instructions, or any meta-commentary. Output only the processed text.`;
 
-    const result = await chatWithAI(chatModel, systemPrompt, fullPrompt);
+    const userMessage = `<task>
+Process the following text according to these instructions:
+${prompt}
+</task>
+
+<text>
+${text}
+</text>
+
+Return ONLY the processed result. Do not repeat the instructions or include any other content.`;
+
+    const result = await chatWithAI(chatModel, systemPrompt, userMessage);
     res.json(result);
   } catch (error: unknown) {
     const errorMessage =
