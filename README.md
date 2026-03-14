@@ -1,25 +1,17 @@
 # Lubb Writer
 
-AI-powered text enhancement platform.
+AI-powered text enhancement API with multiple provider support.
 
-## Projects
+## Features
 
-- [API](./api/) - Backend API server
-- [Extension](./extension/) - Browser extension
+- Multiple AI providers (OpenAI, Anthropic, Google Gemini)
+- 13 writing modes
+- Dockerized
+- Browser extension
 
 ## Quick Start
 
-```bash
-# Install dependencies
+\`\`\`bash
 yarn install
-
-# Run API locally
 yarn dev:api
-
-# Build
-yarn build
-```
-
-## License
-
-MIT
+\`\`\`
