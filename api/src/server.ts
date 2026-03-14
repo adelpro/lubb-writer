@@ -11,6 +11,7 @@ import "dotenv/config";
 // =============================================================================
 const API_TOKEN = process.env.API_TOKEN;
 const PORT = process.env.PORT || 3001;
+const API_VERSION = "1.0.0";
 
 // =============================================================================
 // AI Provider Configuration
@@ -201,6 +202,19 @@ const DEFAULT_PROMPTS: Record<string, string> = {
 };
 
 // =============================================================================
+// Helper Function: Strip Thinking Blocks
+// =============================================================================
+function cleanThinkingBlocks(text: string): string {
+  let cleaned = text.replace(/<think>[\s\S]*?<\/think>/gi, "");
+
+  cleaned = cleaned.replace(/<thinking>[\s\S]*?<\/thinking>/gi, "");
+
+  cleaned = cleaned.replace(/^(\s*)(thinking|thoughts?)[:\s].*/gim, "");
+
+  return cleaned.trim();
+}
+
+// =============================================================================
 // AI Chat Function
 // =============================================================================
 async function chatWithAI(
@@ -229,8 +243,9 @@ async function chatWithAI(
       max_tokens: 2000,
     });
 
+    const rawResult = response.choices[0]?.message?.content || "";
     return {
-      result: response.choices[0]?.message?.content || "",
+      result: cleanThinkingBlocks(rawResult),
       model: model,
       usage: response.usage,
     };
@@ -244,9 +259,10 @@ async function chatWithAI(
       messages: [{ role: "user", content: userPrompt }],
     });
 
+    const rawResult =
+      response.content[0].type === "text" ? response.content[0].text : "";
     return {
-      result:
-        response.content[0].type === "text" ? response.content[0].text : "",
+      result: cleanThinkingBlocks(rawResult),
       model: model,
       usage: {
         prompt_tokens: response.usage.input_tokens,
@@ -268,7 +284,7 @@ async function chatWithAI(
     const response = result.response;
 
     return {
-      result: response.text(),
+      result: cleanThinkingBlocks(response.text()),
       model: model,
       usage: null,
     };
@@ -281,8 +297,17 @@ async function chatWithAI(
 // Routes
 // =============================================================================
 
+const startTime = Date.now();
+
 app.get("/health", (req, res) => {
-  res.json({ status: "ok" });
+  const uptime = Math.floor((Date.now() - startTime) / 1000);
+
+  res.json({
+    status: "ok",
+    version: API_VERSION,
+    uptime: uptime,
+    timestamp: new Date().toISOString(),
+  });
 });
 
 app.get("/models", (req, res) => {
