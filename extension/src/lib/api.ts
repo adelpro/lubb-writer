@@ -1,4 +1,4 @@
-import { useSettingsStore } from "../stores/settings";
+import type { Settings } from "../stores/settings";
 
 export interface EnhanceResponse {
   result: string;
@@ -13,10 +13,9 @@ export interface EnhanceResponse {
 export async function enhanceText(
   text: string,
   mode: string,
+  settings: Settings,
   model?: string
 ): Promise<EnhanceResponse> {
-  const settings = useSettingsStore.getState();
-
   if (!settings.apiUrl) {
     throw new Error("API URL not configured. Please set it in settings.");
   }

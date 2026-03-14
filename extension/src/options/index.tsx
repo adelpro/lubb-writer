@@ -31,8 +31,8 @@ export default function Options() {
 
   if (!settings.apiToken) {
     return (
-      <div className="min-h-screen bg-background dark:bg-gray-900 flex items-center justify-center p-6 text-gray-900 dark:text-gray-100">
-        <div className="w-full max-w-md bg-white dark:bg-gray-800/80 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700 overflow-hidden animate-in fade-in zoom-in-95 duration-300">
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center p-6 text-gray-900 dark:text-gray-100">
+        <div className="w-full max-w-md bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
           <div className="p-8 text-center space-y-6">
             <div className="flex flex-col items-center space-y-4">
               <div className="w-16 h-16 rounded-2xl overflow-hidden shadow-md bg-gray-100 flex items-center justify-center p-2">
@@ -43,8 +43,8 @@ export default function Options() {
                 <p className="text-sm text-gray-500">Please provide your API token to get started.</p>
               </div>
             </div>
-            
-            <div className="space-y-4 text-left bg-gray-50 dark:bg-gray-900/50 p-6 rounded-xl border border-gray-100 dark:border-gray-700">
+
+            <div className="space-y-4 text-left bg-gray-50 dark:bg-gray-900/50 p-6 rounded-xl border border-gray-200 dark:border-gray-700">
               <div className="space-y-2">
                 <label className="text-sm font-medium">API Token:</label>
                 <input
@@ -72,7 +72,8 @@ export default function Options() {
   }
 
   return (
-    <div className="max-w-xl mx-auto p-6 space-y-6">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+      <div className="w-full max-w-2xl mx-auto p-6 space-y-6">
       <div className="flex items-center gap-2 pb-4 border-b border-gray-200 dark:border-gray-700">
         <Sparkles className="w-6 h-6 text-primary" />
         <h1 className="text-xl font-semibold">Lubb Writer Settings</h1>
@@ -115,18 +116,18 @@ export default function Options() {
         </button>
       </div>
 
-      <div className="min-h-[220px]">
+      <div className="w-full">
         {/* General Tab */}
         {activeTab === "general" && (
-          <section className="space-y-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
+          <section className="space-y-4">
             <h2 className="font-medium text-lg hidden">Defaults</h2>
-            <div className="space-y-4 bg-background dark:bg-gray-800 p-4 rounded-xl border border-gray-100 dark:border-gray-700">
+            <div className="space-y-4 bg-white dark:bg-gray-800 p-4 rounded-xl border border-gray-200 dark:border-gray-700">
               <div className="space-y-2">
                 <label className="block text-sm font-medium">Default Mode</label>
                 <select
                   value={settings.defaultMode}
                   onChange={async (e) => await settings.setSettings({ defaultMode: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-background dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-primary"
                 >
                   {MODES.map((m) => (
                     <option key={m.value} value={m.value}>
@@ -141,7 +142,7 @@ export default function Options() {
                 <select
                   value={settings.defaultModel}
                   onChange={async (e) => await settings.setSettings({ defaultModel: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-background dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-primary"
                 >
                   {MODELS.map((m) => (
                     <option key={m.value} value={m.value}>
@@ -156,7 +157,7 @@ export default function Options() {
                 <select
                   value={settings.theme}
                   onChange={async (e) => await settings.setSettings({ theme: e.target.value as "light" | "dark" | "system" })}
-                  className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-background dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-primary"
                 >
                   <option value="system">System Default</option>
                   <option value="light">Light</option>
@@ -169,8 +170,8 @@ export default function Options() {
 
         {/* Features Tab */}
         {activeTab === "features" && (
-          <section className="space-y-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
-            <div className="space-y-4 bg-background dark:bg-gray-800 p-4 rounded-xl border border-gray-100 dark:border-gray-700">
+          <section className="space-y-4">
+            <div className="space-y-4 bg-white dark:bg-gray-800 p-4 rounded-xl border border-gray-200 dark:border-gray-700">
               <label className="flex items-center gap-3 cursor-pointer p-2 hover:bg-gray-50 dark:hover:bg-gray-700/50 rounded-lg transition-colors">
                 <input
                   type="checkbox"
@@ -202,8 +203,8 @@ export default function Options() {
 
         {/* API Tab */}
         {activeTab === "api" && (
-          <section className="space-y-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
-            <div className="space-y-4 bg-background dark:bg-gray-800 p-4 rounded-xl border border-gray-100 dark:border-gray-700">
+          <section className="space-y-4">
+            <div className="space-y-4 bg-white dark:bg-gray-800 p-4 rounded-xl border border-gray-200 dark:border-gray-700">
               <div className="space-y-2">
                 <label className="block text-sm font-medium">API URL</label>
                 <input
@@ -211,7 +212,7 @@ export default function Options() {
                   value={settings.apiUrl}
                   onChange={async (e) => await settings.setSettings({ apiUrl: e.target.value })}
                   placeholder="https://lubb-writer-api.adelpro.us.kg"
-                  className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-background dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary font-mono text-sm"
+                  className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-primary font-mono text-sm"
                 />
                 <p className="text-xs text-gray-500 mt-1">Your Lubb Writer API endpoint</p>
               </div>
@@ -223,7 +224,7 @@ export default function Options() {
                   value={settings.apiToken}
                   onChange={async (e) => await settings.setSettings({ apiToken: e.target.value })}
                   placeholder="Your API token"
-                  className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-background dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary font-mono text-sm"
+                  className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-primary font-mono text-sm"
                 />
                 <p className="text-xs text-gray-500 mt-1">Leave empty if the API defaults don't require authorization</p>
               </div>
@@ -256,6 +257,7 @@ export default function Options() {
             "Save Settings"
           )}
         </button>
+      </div>
       </div>
     </div>
   );

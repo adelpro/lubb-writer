@@ -89,7 +89,7 @@ export default function InlineToolbar() {
 
     setLoading(true)
     try {
-      const response = await enhanceText(selection, modeValue, settings.defaultModel)
+      const response = await enhanceText(selection, modeValue, settings, settings.defaultModel)
       const newText = response.result
       
       // Attempt to replace the text in-place

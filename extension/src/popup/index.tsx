@@ -33,7 +33,7 @@ export default function Popup() {
     setOutput("");
 
     try {
-      const result = await enhanceText(input, mode, model);
+      const result = await enhanceText(input, mode, settings, model);
       setOutput(result.result);
       
       if (settings.historyEnabled) {
