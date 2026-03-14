@@ -1,5 +1,4 @@
 // Background service worker
-import type { PlasmoMessaging } from "@plasmohq/messaging";
 
 // Handle keyboard shortcut
 chrome.commands.onCommand.addListener(async (command) => {
@@ -54,15 +53,6 @@ chrome.contextMenus?.onClicked.addListener(async (info, tab) => {
   }
 });
 
-// Message handler
-export const handler: PlasmoMessaging.MessageHandler = async (req) => {
-  if (req.body?.type === "getSettings") {
-    const settings = await chrome.storage.sync.get(null);
-    return { data: settings };
-  }
-  
-  if (req.body?.type === "saveSettings") {
-    await chrome.storage.sync.set(req.body.settings);
-    return { success: true };
-  }
-};
+// Background service worker
+// Removed redundant message handlers due to migrating to @plasmohq/storage
+

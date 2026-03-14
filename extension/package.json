@@ -21,6 +21,7 @@
     "clean": "rimraf .plasmo build"
   },
   "dependencies": {
+    "@plasmohq/storage": "^1.15.0",
     "clsx": "^2.1.1",
     "lucide-react": "^0.552.0",
     "plasmo": "0.90.5",
@@ -47,10 +48,7 @@
       "scripting"
     ],
     "host_permissions": [
-      "http://lubb-writer-api.adelpro.us.kg/*",
-      "https://lubb-writer-api.adelpro.us.kg/*",
-      "https://lubb-writer.adelpro.us.kg/*",
-      "https://lubb-writer.adelpro.us.kg/*"
+      "<all_urls>"
     ],
     "commands": {
       "enhance-selection": {

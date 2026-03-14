@@ -1,5 +1,5 @@
-import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { Storage } from "@plasmohq/storage";
+import { useStorage } from "@plasmohq/storage/hook";
 
 export interface Settings {
   apiUrl: string;
@@ -11,24 +11,39 @@ export interface Settings {
   historyEnabled: boolean;
 }
 
-interface SettingsStore extends Settings {
-  setSettings: (settings: Partial<Settings>) => void;
-}
+const defaultSettings: Settings = {
+  apiUrl: "https://lubb-writer-api.adelpro.us.kg",
+  apiToken: "",
+  defaultMode: "humanize",
+  defaultModel: "MiniMax-M2.1",
+  showInlineIcon: true,
+  theme: "system",
+  historyEnabled: true,
+};
 
-export const useSettingsStore = create<SettingsStore>()(
-  persist(
-    (set) => ({
-      apiUrl: "https://lubb-writer-api.adelpro.us.kg",
-      apiToken: "",
-      defaultMode: "humanize",
-      defaultModel: "MiniMax-M2.1",
-      showInlineIcon: true,
-      theme: "system",
-      historyEnabled: true,
-      setSettings: (settings) => set((state) => ({ ...state, ...settings })),
-    }),
+export const settingsStorage = new Storage({
+  area: "local",
+});
+
+export const useSettingsStore = () => {
+  const [settings, setSettingsData] = useStorage<Settings>(
     {
-      name: "lubb-writer-settings",
-    }
-  )
-);
+      key: "lubb-writer-settings",
+      instance: settingsStorage,
+    },
+    defaultSettings
+  );
+
+  const setSettings = async (newSettings: Partial<Settings>) => {
+    await setSettingsData((prev) => ({
+      ...defaultSettings,
+      ...(prev || {}),
+      ...newSettings,
+    }));
+  };
+
+  return {
+    ...(settings || defaultSettings),
+    setSettings,
+  };
+};
