@@ -20,14 +20,14 @@ export async function enhanceText(
     throw new Error("API URL not configured. Please set it in settings.");
   }
 
-  const url = `${settings.apiUrl}/enhance`;
+  const url = `${settings.apiUrl.replace(/\/+$/, '')}/enhance`;
 
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
   };
 
   if (settings.apiToken) {
-    headers["Authorization"] = `Bearer ${settings.apiToken}`;
+    headers["Authorization"] = `Bearer ${settings.apiToken.trim()}`;
   }
 
   const response = await fetch(url, {

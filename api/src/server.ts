@@ -54,17 +54,17 @@ const MODELS: Record<
   "MiniMax-M2.1": {
     provider: "openai",
     client: openai,
-    baseURL: "https://api.minimax.chat/v1",
+    baseURL: "https://api.minimax.io/v1",
   },
   "MiniMax-M2.1-lightning": {
     provider: "openai",
     client: openai,
-    baseURL: "https://api.minimax.chat/v1",
+    baseURL: "https://api.minimax.io/v1",
   },
   "MiniMax-M2.5": {
     provider: "openai",
     client: openai,
-    baseURL: "https://api.minimax.chat/v1",
+    baseURL: "https://api.minimax.io/v1",
   },
 
   // Anthropic (Claude)

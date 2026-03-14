@@ -13,19 +13,16 @@ export default function Options() {
   const [activeTab, setActiveTab] = useState<"general" | "features" | "api">("general");
   const [tempToken, setTempToken] = useState("");
 
-  const handleSave = async () => {
-    setSaving(true);
-    // Plasmo storage auto-saves on change, so this is mostly for UX
-    await new Promise((r) => setTimeout(r, 500));
-    setSaving(false);
+  const handleSave = () => {
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
   };
 
   const handleSaveToken = async () => {
-    if (!tempToken.trim()) return;
+    const cleanToken = tempToken.trim();
+    if (!cleanToken) return;
     setSaving(true);
-    await settings.setSettings({ apiToken: tempToken });
+    await settings.setSettings({ apiToken: cleanToken });
     setSaving(false);
   };
 
@@ -222,7 +219,7 @@ export default function Options() {
                 <input
                   type="password"
                   value={settings.apiToken}
-                  onChange={async (e) => await settings.setSettings({ apiToken: e.target.value })}
+                  onChange={async (e) => await settings.setSettings({ apiToken: e.target.value.trim() })}
                   placeholder="Your API token"
                   className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-primary font-mono text-sm"
                 />

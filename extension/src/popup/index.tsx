@@ -71,9 +71,10 @@ export default function Popup() {
   const [tempToken, setTempToken] = useState("");
 
   const handleSaveToken = async () => {
-    if (!tempToken.trim()) return;
+    const cleanToken = tempToken.trim();
+    if (!cleanToken) return;
     setLoading(true);
-    await settings.setSettings({ apiToken: tempToken });
+    await settings.setSettings({ apiToken: cleanToken });
     setLoading(false);
   };
 

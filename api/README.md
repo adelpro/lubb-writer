@@ -31,13 +31,14 @@ curl http://localhost:3003/health
 
 Lubb Writer supports multiple AI providers. Configure **at least one**:
 
-| Provider | Key | Get Key From |
-|----------|-----|--------------|
-| **OpenAI/MiniMax** | `OPENAI_API_KEY` | OpenAI or MiniMax |
+| Provider               | Key                 | Get Key From          |
+| ---------------------- | ------------------- | --------------------- |
+| **OpenAI/MiniMax**     | `OPENAI_API_KEY`    | OpenAI or MiniMax     |
 | **Anthropic (Claude)** | `ANTHROPIC_API_KEY` | console.anthropic.com |
-| **Google (Gemini)** | `GOOGLE_API_KEY` | aistudio.google.com |
+| **Google (Gemini)**    | `GOOGLE_API_KEY`    | aistudio.google.com   |
 
 Example `.env`:
+
 ```bash
 # Choose one or more
 OPENAI_API_KEY=sk-...
@@ -46,6 +47,7 @@ OPENAI_API_KEY=sk-...
 ```
 
 ### Optional: API Token
+
 ```bash
 API_TOKEN=your-secure-token
 ```
@@ -53,17 +55,20 @@ API_TOKEN=your-secure-token
 ## Supported Models
 
 ### OpenAI / MiniMax
+
 - `gpt-4o` - GPT-4 Omni
 - `gpt-4o-mini` - GPT-4 Omni Mini
 - `MiniMax-M2.1` - MiniMax (default)
 - `MiniMax-M2.5` - MiniMax v2.5
 
 ### Anthropic (Claude)
+
 - `claude-3-5-sonnet` - Claude 3.5 Sonnet
 - `claude-3-opus` - Claude 3 Opus
 - `claude-3-haiku` - Claude 3 Haiku
 
 ### Google (Gemini)
+
 - `gemini-2.0-flash` - Gemini 2.0 Flash
 - `gemini-1.5-pro` - Gemini 1.5 Pro
 - `gemini-1.5-flash` - Gemini 1.5 Flash
@@ -73,6 +78,7 @@ API_TOKEN=your-secure-token
 You can use **any OpenAI-compatible endpoint** with Lubb Writer:
 
 ### Supported
+
 - **Ollama** - Local AI models
 - **LM Studio** - Local LLM hosting
 - **KoboldCPP** - Local AI
@@ -95,25 +101,30 @@ OPENAI_BASE_URL=http://localhost:11434/v1
 ### Examples
 
 #### Ollama (Local)
+
 ```bash
 OPENAI_API_KEY=ollama
 OPENAI_BASE_URL=http://localhost:11434/v1
 ```
+
 Then use model: `llama3`, `mistral`, `codellama`, etc.
 
 #### LM Studio
+
 ```bash
 OPENAI_API_KEY=local
 OPENAI_BASE_URL=http://localhost:1234/v1
 ```
 
 #### MiniMax
+
 ```bash
 OPENAI_API_KEY=your-minimax-key
-OPENAI_BASE_URL=https://api.minimax.chat/v1
+OPENAI_BASE_URL=https://api.minimax.io/v1
 ```
 
 #### Custom Cloud API
+
 ```bash
 OPENAI_API_KEY=your-api-key
 OPENAI_BASE_URL=https://your-endpoint.com/v1
@@ -138,16 +149,19 @@ Authorization: Bearer your-token
 ### Endpoints
 
 #### Health Check
+
 ```bash
 curl http://localhost:3003/health
 ```
 
 #### List Available Models
+
 ```bash
 curl http://localhost:3003/models -H "Authorization: Bearer your-token"
 ```
 
 #### Enhance Text
+
 ```bash
 curl -X POST http://localhost:3003/enhance \
   -H "Content-Type: application/json" \
@@ -168,23 +182,25 @@ curl -X POST http://localhost:3003/enhance \
 | `model` | string | No | AI model (default: MiniMax-M2.1) |
 
 #### Available Modes
-| Mode | Description |
-|------|-------------|
-| rewrite | Clearer, engaging |
-| summarize | Concise |
-| humanize | Remove AI patterns |
-| grammar | Fix errors |
-| formal | Professional |
-| casual | Friendly |
-| academic | Academic style |
-| seo | SEO optimized |
-| persuasive | Argument + CTA |
-| creative | Creative writing |
-| twitter | Under 280 chars |
-| linkedin | LinkedIn format |
-| story | Narrative |
+
+| Mode       | Description        |
+| ---------- | ------------------ |
+| rewrite    | Clearer, engaging  |
+| summarize  | Concise            |
+| humanize   | Remove AI patterns |
+| grammar    | Fix errors         |
+| formal     | Professional       |
+| casual     | Friendly           |
+| academic   | Academic style     |
+| seo        | SEO optimized      |
+| persuasive | Argument + CTA     |
+| creative   | Creative writing   |
+| twitter    | Under 280 chars    |
+| linkedin   | LinkedIn format    |
+| story      | Narrative          |
 
 #### Custom Prompt
+
 ```bash
 curl -X POST http://localhost:3003/custom \
   -H "Authorization: Bearer your-token" \
@@ -194,6 +210,7 @@ curl -X POST http://localhost:3003/custom \
 ## Deployment
 
 ### Docker Compose
+
 ```yaml
 services:
   lubb-writer-api:
