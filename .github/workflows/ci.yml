@@ -19,7 +19,7 @@ jobs:
           
       - name: Install Yarn v4
         run: |
-          npm install -g yarn@berry
+          npm install -g yarn@4.13.0
           yarn --version
           
       - name: Install dependencies
@@ -44,7 +44,7 @@ jobs:
           
       - name: Install Yarn v4
         run: |
-          npm install -g yarn@berry
+          npm install -g yarn@4.13.0
           yarn --version
           
       - name: Install dependencies
@@ -67,3 +67,4 @@ jobs:
           context: ./api
           push: false
           tags: lubb-writer:latest
+
