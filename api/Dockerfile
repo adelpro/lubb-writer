@@ -2,21 +2,21 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-# Install pnpm globally
-RUN npm install -g pnpm
+# Install yarn globally
+RUN npm install -g yarn
 
 # Copy package files
-COPY package.json pnpm-lock.yaml* ./
+COPY package.json yarn.lock* ./
 
 # Install dependencies
-RUN pnpm install --frozen-lockfile
+RUN yarn install --frozen-lockfile
 
 # Copy source
 COPY src/ ./src/
 COPY tsconfig.json ./
 
 # Build TypeScript
-RUN pnpm build
+RUN yarn build
 
 # Create non-root user for security
 RUN addgroup -g 1001 -S appgroup && \
@@ -32,4 +32,5 @@ USER appuser
 EXPOSE 3001
 
 # Run the server
-CMD ["pnpm", "start:prod"]
+CMD ["yarn", "start:prod"]
+
