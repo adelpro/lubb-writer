@@ -2,10 +2,7 @@ FROM node:20-alpine
 
 WORKDIR /app
 
-# Install yarn globally
-RUN npm install -g yarn
-
-# Copy package files
+# Copy package files (yarn comes with node:20)
 COPY package.json yarn.lock* ./
 
 # Install dependencies
