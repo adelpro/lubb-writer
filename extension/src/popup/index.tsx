@@ -31,6 +31,8 @@ export default function Popup() {
   const [error, setError] = useState("");
   const [modelsLoading, setModelsLoading] = useState(false);
 
+  const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
   useEffect(() => {
     const loadPendingText = async () => {
       try {
@@ -157,10 +159,10 @@ export default function Popup() {
 
   if (!settings.apiToken) {
     return (
-      <div className="w-[400px] h-[500px] flex flex-col bg-background dark:bg-gray-900 border-gray-200 dark:border-gray-800 text-gray-900 dark:text-gray-100 p-6 justify-center items-center text-center">
+      <div className="w-[400px] h-[510px] flex flex-col bg-background dark:bg-gray-900 border-gray-200 dark:border-gray-800 text-gray-900 dark:text-gray-100 p-6 justify-center items-center text-center">
         <div className="space-y-8 w-full max-w-sm">
           <div className="flex flex-col items-center space-y-4">
-            <div className="flex overflow-hidden justify-center items-center p-2 w-16 h-16 bg-white/90 rounded-2xl shadow-md ring-1 ring-gray-200/50 dark:ring-gray-700/50">
+            <div className="flex overflow-hidden justify-center items-center p-2 w-16 mt-8 h-16 bg-white/90 rounded-2xl shadow-md ring-1 ring-gray-200/50 dark:ring-gray-700/50">
               <img
                 src={iconUrl}
                 alt="Lubb Writer"
@@ -231,7 +233,14 @@ export default function Popup() {
   }
 
   return (
-    <div className="w-[400px] h-[500px] flex flex-col bg-background dark:bg-gray-900 border-gray-200 dark:border-gray-800 text-gray-900 dark:text-gray-100">
+    <div
+      className={clsx(
+        "w-[400px] h-[500px] flex flex-col border text-sm mt-4",
+        isDark
+          ? "bg-gray-900 border-gray-800 text-gray-100"
+          : "bg-background border-gray-200 text-gray-900",
+      )}
+    >
       {/* Header */}
       <div className="flex justify-between items-center p-4 border-b border-gray-100 dark:border-gray-800 shrink-0">
         <div className="flex gap-2 items-center">

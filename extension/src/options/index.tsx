@@ -2,7 +2,7 @@ import "../styles.css";
 import iconUrl from "data-base64:../../assets/icon.png";
 import { useSettingsStore } from "../stores/settings";
 import { MODES, MODELS, VERSION } from "../constants";
-import { Sparkles, Check, Loader2, Settings, Key, Globe } from "lucide-react";
+import { Check, Loader2, Settings, Key, SlidersHorizontal } from "lucide-react";
 import { useState, useEffect } from "react";
 import { fetchAvailableModels } from "../lib/api";
 import clsx from "clsx";
@@ -15,6 +15,7 @@ export default function Options() {
     "general",
   );
   const [tempToken, setTempToken] = useState("");
+  const [tempUrl, setTempUrl] = useState("https://localhost:3001");
   const [modelsLoading, setModelsLoading] = useState(false);
 
   useEffect(() => {
@@ -56,7 +57,10 @@ export default function Options() {
     const cleanToken = tempToken.trim();
     if (!cleanToken) return;
     setSaving(true);
-    await settings.setSettings({ apiToken: cleanToken });
+    await settings.setSettings({
+      apiToken: cleanToken,
+      apiUrl: tempUrl.trim() || "https://localhost:3001",
+    });
     setSaving(false);
   };
 
@@ -82,6 +86,16 @@ export default function Options() {
             </div>
 
             <div className="space-y-4 text-left bg-gray-50 dark:bg-gray-900/50 p-6 rounded-xl border border-gray-200 dark:border-gray-700">
+              <div className="space-y-2">
+                <label className="text-sm font-medium">API URL:</label>
+                <input
+                  type="url"
+                  value={tempUrl}
+                  onChange={(e) => setTempUrl(e.target.value)}
+                  placeholder="https://localhost:3001"
+                  className="w-full px-4 py-3 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary font-mono text-sm shadow-sm transition-shadow"
+                />
+              </div>
               <div className="space-y-2">
                 <label className="text-sm font-medium">API Token:</label>
                 <input
@@ -115,9 +129,15 @@ export default function Options() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
       <div className="w-full max-w-2xl mx-auto p-6 space-y-6">
-        <div className="flex items-center gap-2 pb-4 border-b border-gray-200 dark:border-gray-700">
-          <Sparkles className="w-6 h-6 text-primary" />
-          <h1 className="text-xl font-semibold">Lubb Writer Settings</h1>
+        <div className="flex items-center gap-3 pb-4 border-b border-gray-200 dark:border-gray-700">
+          <div className="w-10 h-10 rounded-xl overflow-hidden shadow-sm bg-white/90 flex items-center justify-center p-1.5 ring-1 ring-gray-200/50 dark:ring-gray-700/50">
+            <img
+              src={iconUrl}
+              alt="Writer"
+              className="w-full h-full object-contain"
+            />
+          </div>
+          <h1 className="text-xl font-semibold">Settings</h1>
         </div>
 
         {/* Tabs */}
@@ -142,7 +162,7 @@ export default function Options() {
                 : "border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300",
             )}
           >
-            <img src={iconUrl} alt="" className="w-4 h-4" /> Features
+            <SlidersHorizontal className="w-4 h-4" /> Features
           </button>
           <button
             onClick={() => setActiveTab("api")}
@@ -209,44 +229,6 @@ export default function Options() {
                     )}
                   </select>
                 </div>
-
-                <div className="space-y-2 pt-2 border-t border-gray-200 dark:border-gray-700">
-                  <label className="block text-sm font-medium pt-2">
-                    Theme
-                  </label>
-                  <select
-                    value={settings.theme}
-                    onChange={async (e) =>
-                      await settings.setSettings({
-                        theme: e.target.value as "light" | "dark" | "system",
-                      })
-                    }
-                    className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-primary"
-                  >
-                    <option value="system">System Default</option>
-                    <option value="light">Light</option>
-                    <option value="dark">Dark</option>
-                  </select>
-                </div>
-
-                <div className="space-y-2 pt-2 border-t border-gray-200 dark:border-gray-700">
-                  <label className="flex items-center gap-2 text-sm font-medium pt-2">
-                    <Globe className="w-4 h-4" />
-                    Language
-                  </label>
-                  <select
-                    value={settings.language}
-                    onChange={async (e) =>
-                      await settings.setSettings({
-                        language: e.target.value as "en" | "ar",
-                      })
-                    }
-                    className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-primary"
-                  >
-                    <option value="en">English</option>
-                    <option value="ar">العربية</option>
-                  </select>
-                </div>
               </div>
             </section>
           )}
@@ -267,8 +249,11 @@ export default function Options() {
                     className="w-4 h-4 text-primary rounded focus:ring-primary"
                   />
                   <div>
-                    <span className="font-medium">
+                    <span className="font-medium flex items-center gap-2">
                       Show inline enhancement icon
+                      <span className="px-1.5 py-0.5 text-[10px] font-medium bg-primary/10 text-primary dark:bg-primary/20 rounded-full">
+                        {settings.language === "ar" ? "قريباً" : "Coming Soon"}
+                      </span>
                     </span>
                     <p className="text-xs text-gray-500">
                       Show ✨ icon next to text inputs on webpages

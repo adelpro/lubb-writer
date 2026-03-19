@@ -19,12 +19,12 @@ export interface Settings {
 }
 
 const defaultSettings: Settings = {
-  apiUrl: "https://lubb-writer-api.adelpro.us.kg",
+  apiUrl: "https://localhost:3001",
   apiToken: "",
   defaultMode: "humanize",
   defaultModel: "",
   showInlineIcon: true,
-  theme: "system",
+  theme: "light",
   historyEnabled: true,
   availableModels: [],
   language: "en",
