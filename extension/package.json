@@ -1,8 +1,8 @@
 {
   "name": "@lubb-writer/extension",
-  "displayName": "Lubb Writer",
+  "displayName": "__MSG_extensionName__",
   "version": "1.0.0",
-  "description": "AI-powered text enhancement anywhere in your browser",
+  "description": "__MSG_extensionDescription__",
   "author": "Adel Benyahia <contact@adelpro.us.kg>",
   "scripts": {
     "dev": "plasmo dev",
@@ -41,6 +41,7 @@
     "typescript": "5.3.3"
   },
   "manifest": {
+    "default_locale": "en",
     "permissions": [
       "storage",
       "activeTab",

@@ -1,0 +1,258 @@
+{
+  "extensionName": {
+    "message": "كاتب لوب",
+    "description": "اسم الإضافة"
+  },
+  "extensionDescription": {
+    "message": "تعزيز النص بالذكاء الاصطناعي في أي مكان في متصفحك",
+    "description": "وصف الإضافة"
+  },
+  "welcome": {
+    "message": "مرحباً",
+    "description": "رسالة الترحيب"
+  },
+  "configureApiToken": {
+    "message": "قم بتكوين عنوان URL للواجهة البرمجية والرمز لفتح كاتب لوب.",
+    "description": "تعليمات الإعداد"
+  },
+  "apiUrl": {
+    "message": "عنوان API",
+    "description": "عنوان URL للواجهة البرمجية"
+  },
+  "apiToken": {
+    "message": "رمز API",
+    "description": "رمز الواجهة البرمجية"
+  },
+  "write": {
+    "message": "كتابة",
+    "description": "علامة تبويب الكتابة"
+  },
+  "history": {
+    "message": "السجل",
+    "description": "علامة تبويب السجل"
+  },
+  "enhanceText": {
+    "message": "تحسين النص",
+    "description": "نص زر التحسين"
+  },
+  "enhancing": {
+    "message": "جارٍ التحسين...",
+    "description": "نص التحميل أثناء التحسين"
+  },
+  "enterText": {
+    "message": "أدخل النص للتحسين",
+    "description": "نصائح الإدخال"
+  },
+  "pleaseEnterText": {
+    "message": "يرجى إدخال بعض النص",
+    "description": "رسالة الخطأ عندما لا يتم إدخال النص"
+  },
+  "copied": {
+    "message": "تم النسخ!",
+    "description": "تأكيد النسخ"
+  },
+  "copyToClipboard": {
+    "message": "نسخ إلى الحافظة",
+    "description": "تلميح زر النسخ"
+  },
+  "clearHistory": {
+    "message": "مسح السجل",
+    "description": "زر مسح السجل"
+  },
+  "noHistory": {
+    "message": "لا يوجد سجل تحسين بعد",
+    "description": "رسالة السجل الفارغة"
+  },
+  "settings": {
+    "message": "الإعدادات",
+    "description": "تسمية زر الإعدادات"
+  },
+  "apiUrl": {
+    "message": "رابط API",
+    "description": "تسمية رابط API"
+  },
+  "apiToken": {
+    "message": "رمز API",
+    "description": "تسمية رمز API"
+  },
+  "defaultMode": {
+    "message": "الوضع الافتراضي",
+    "description": "وضع التحسين الافتراضي"
+  },
+  "selectModel": {
+    "message": "اختر النموذج",
+    "description": "تسمية اختيار النموذج"
+  },
+  "theme": {
+    "message": "المظهر",
+    "description": "تسمية إعداد المظهر"
+  },
+  "light": {
+    "message": "فاتح",
+    "description": "خيار المظهر الفاتح"
+  },
+  "dark": {
+    "message": "داكن",
+    "description": "خيار المظهر الداكن"
+  },
+  "system": {
+    "message": "النظام",
+    "description": "خيار مظهر النظام"
+  },
+  "save": {
+    "message": "حفظ",
+    "description": "نص زر الحفظ"
+  },
+  "saved": {
+    "message": "تم الحفظ!",
+    "description": "تأكيد الحفظ"
+  },
+  "error": {
+    "message": "خطأ",
+    "description": "تسمية الخطأ"
+  },
+  "retry": {
+    "message": "إعادة المحاولة",
+    "description": "زر إعادة المحاولة"
+  },
+  "modeHumanize": {
+    "message": "تحسين البشرية",
+    "description": "وضع تحسين البشرية"
+  },
+  "modeRewrite": {
+    "message": "إعادة الكتابة",
+    "description": "وضع إعادة الكتابة"
+  },
+  "modeShorten": {
+    "message": "اختصار",
+    "description": "وضع الاختصار"
+  },
+  "modeExpand": {
+    "message": "توسيع",
+    "description": "وضع التوسيع"
+  },
+  "modeFormal": {
+    "message": "رسمي",
+    "description": "الوضع الرسمي"
+  },
+  "modeCasual": {
+    "message": "غير رسمي",
+    "description": "الوضع غير الرسمي"
+  },
+  "modeGrammar": {
+    "message": "تصحيح القواعد",
+    "description": "وضع تصحيح القواعد"
+  },
+  "modeSummarize": {
+    "message": "تلخيص",
+    "description": "وضع التلخيص"
+  },
+  "enhanceMode": {
+    "message": "وضع التحسين",
+    "description": "تسمية اختيار وضع التحسين"
+  },
+  "language": {
+    "message": "اللغة",
+    "description": "تسمية إعداد اللغة"
+  },
+  "english": {
+    "message": "English",
+    "description": "خيار اللغة الإنجليزية"
+  },
+  "arabic": {
+    "message": "العربية",
+    "description": "خيار اللغة العربية"
+  },
+  "apiUrlPlaceholder": {
+    "message": "https://lubb-writer-api.adelpro.us.kg",
+    "description": "نصائح رابط API"
+  },
+  "apiTokenPlaceholder": {
+    "message": "الصق الرمز هنا",
+    "description": "نصائح رمز API"
+  },
+  "apiKeyRequired": {
+    "message": "مطلوب رمز API لاستخدام الإضافة",
+    "description": "رسالة مفتاح API مطلوب"
+  },
+  "showInlineIcon": {
+    "message": "إظهار الأيقونة المضمنة",
+    "description": "إظهار إعداد الأيقونة المضمنة"
+  },
+  "historyEnabled": {
+    "message": "تفعيل السجل",
+    "description": "تفعيل إعداد السجل"
+  },
+  "about": {
+    "message": "حول",
+    "description": "تسمية قسم حول"
+  },
+  "version": {
+    "message": "الإصدار",
+    "description": "تسمية الإصدار"
+  },
+  "madeWithLove": {
+    "message": "صُنع بـ ❤️ للكتّاب في كل مكان",
+    "description": "شعار التذييل"
+  },
+  "enhanceInline": {
+    "message": "انقر للتحسين",
+    "description": "تلميح التحسين المضمن"
+  },
+  "poweredByAI": {
+    "message": "مدعوم بالذكاء الاصطناعي",
+    "description": "مؤشر القوة الذكاء الاصطناعي"
+  },
+  "processing": {
+    "message": "جارٍ المعالجة...",
+    "description": "مؤشر المعالجة"
+  },
+  "customPrompt": {
+    "message": "مطالبة مخصصة",
+    "description": "تسمية المطالبة المخصصة"
+  },
+  "customPromptPlaceholder": {
+    "message": "مثال: اجعله يبدو أكثر احترافية...",
+    "description": "نصائح المطالبة المخصصة"
+  },
+  "useCustomPrompt": {
+    "message": "استخدم مطالبة مخصصة",
+    "description": "خانة اختيار المطالبة المخصصة"
+  },
+  "insertEnhanced": {
+    "message": "إدراج المحسّن",
+    "description": "زر إدراج النص المحسّن"
+  },
+  "enhancedText": {
+    "message": "النص المحسّن",
+    "description": "تسمية النص المحسّن"
+  },
+  "close": {
+    "message": "إغلاق",
+    "description": "زر الإغلاق"
+  },
+  "configureExtension": {
+    "message": "تكوين الإضافة",
+    "description": "مطالبة تكوين الإضافة"
+  },
+  "getStarted": {
+    "message": "ابدأ",
+    "description": "زر البدء"
+  },
+  "apiConfiguration": {
+    "message": "تكوين API",
+    "description": "قسم تكوين API"
+  },
+  "appearance": {
+    "message": "المظهر",
+    "description": "قسم المظهر"
+  },
+  "features": {
+    "message": "الميزات",
+    "description": "قسم الميزات"
+  },
+  "keyboardShortcuts": {
+    "message": "اختصارات لوحة المفاتيح",
+    "description": "قسم اختصارات لوحة المفاتيح"
+  }
+}

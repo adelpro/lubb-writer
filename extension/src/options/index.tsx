@@ -2,7 +2,7 @@ import "../styles.css";
 import iconUrl from "data-base64:../../assets/icon.png";
 import { useSettingsStore } from "../stores/settings";
 import { MODES, MODELS, VERSION } from "../constants";
-import { Sparkles, Check, Loader2, Settings, Key } from "lucide-react";
+import { Sparkles, Check, Loader2, Settings, Key, Globe } from "lucide-react";
 import { useState, useEffect } from "react";
 import { fetchAvailableModels } from "../lib/api";
 import clsx from "clsx";
@@ -226,6 +226,25 @@ export default function Options() {
                     <option value="system">System Default</option>
                     <option value="light">Light</option>
                     <option value="dark">Dark</option>
+                  </select>
+                </div>
+
+                <div className="space-y-2 pt-2 border-t border-gray-200 dark:border-gray-700">
+                  <label className="flex items-center gap-2 text-sm font-medium pt-2">
+                    <Globe className="w-4 h-4" />
+                    Language
+                  </label>
+                  <select
+                    value={settings.language}
+                    onChange={async (e) =>
+                      await settings.setSettings({
+                        language: e.target.value as "en" | "ar",
+                      })
+                    }
+                    className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-primary"
+                  >
+                    <option value="en">English</option>
+                    <option value="ar">العربية</option>
                   </select>
                 </div>
               </div>

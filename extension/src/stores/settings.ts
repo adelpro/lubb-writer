@@ -15,6 +15,7 @@ export interface Settings {
   theme: "light" | "dark" | "system";
   historyEnabled: boolean;
   availableModels: ModelOption[];
+  language: "en" | "ar";
 }
 
 const defaultSettings: Settings = {
@@ -26,6 +27,7 @@ const defaultSettings: Settings = {
   theme: "system",
   historyEnabled: true,
   availableModels: [],
+  language: "en",
 };
 
 export const settingsStorage = new Storage({
@@ -38,7 +40,7 @@ export const useSettingsStore = () => {
       key: "lubb-writer-settings",
       instance: settingsStorage,
     },
-    defaultSettings
+    defaultSettings,
   );
 
   const setSettings = async (newSettings: Partial<Settings>) => {

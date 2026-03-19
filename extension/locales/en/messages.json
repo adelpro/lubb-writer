@@ -1,0 +1,258 @@
+{
+  "extensionName": {
+    "message": "Lubb Writer",
+    "description": "Extension name"
+  },
+  "extensionDescription": {
+    "message": "AI-powered text enhancement anywhere in your browser",
+    "description": "Extension description"
+  },
+  "welcome": {
+    "message": "Welcome",
+    "description": "Welcome message"
+  },
+  "configureApiToken": {
+    "message": "Configure your API URL and token to unlock Lubb Writer.",
+    "description": "Setup instructions"
+  },
+  "apiUrl": {
+    "message": "API URL",
+    "description": "API URL label"
+  },
+  "apiToken": {
+    "message": "API Token",
+    "description": "API Token label"
+  },
+  "write": {
+    "message": "Write",
+    "description": "Write tab label"
+  },
+  "history": {
+    "message": "History",
+    "description": "History tab label"
+  },
+  "enhanceText": {
+    "message": "Enhance Text",
+    "description": "Enhance button text"
+  },
+  "enhancing": {
+    "message": "Enhancing...",
+    "description": "Enhancing loading text"
+  },
+  "enterText": {
+    "message": "Enter text to enhance",
+    "description": "Placeholder for text input"
+  },
+  "pleaseEnterText": {
+    "message": "Please enter some text",
+    "description": "Error message when no text entered"
+  },
+  "copied": {
+    "message": "Copied!",
+    "description": "Copied confirmation"
+  },
+  "copyToClipboard": {
+    "message": "Copy to clipboard",
+    "description": "Copy button tooltip"
+  },
+  "clearHistory": {
+    "message": "Clear History",
+    "description": "Clear history button"
+  },
+  "noHistory": {
+    "message": "No enhancement history yet",
+    "description": "Empty history message"
+  },
+  "settings": {
+    "message": "Settings",
+    "description": "Settings button label"
+  },
+  "apiUrl": {
+    "message": "API URL",
+    "description": "API URL label"
+  },
+  "apiToken": {
+    "message": "API Token",
+    "description": "API token label"
+  },
+  "defaultMode": {
+    "message": "Default Mode",
+    "description": "Default enhancement mode"
+  },
+  "selectModel": {
+    "message": "Select Model",
+    "description": "Model selection label"
+  },
+  "theme": {
+    "message": "Theme",
+    "description": "Theme setting label"
+  },
+  "light": {
+    "message": "Light",
+    "description": "Light theme option"
+  },
+  "dark": {
+    "message": "Dark",
+    "description": "Dark theme option"
+  },
+  "system": {
+    "message": "System",
+    "description": "System theme option"
+  },
+  "save": {
+    "message": "Save",
+    "description": "Save button text"
+  },
+  "saved": {
+    "message": "Saved!",
+    "description": "Saved confirmation"
+  },
+  "error": {
+    "message": "Error",
+    "description": "Error label"
+  },
+  "retry": {
+    "message": "Retry",
+    "description": "Retry button"
+  },
+  "modeHumanize": {
+    "message": "Humanize",
+    "description": "Humanize mode"
+  },
+  "modeRewrite": {
+    "message": "Rewrite",
+    "description": "Rewrite mode"
+  },
+  "modeShorten": {
+    "message": "Shorten",
+    "description": "Shorten mode"
+  },
+  "modeExpand": {
+    "message": "Expand",
+    "description": "Expand mode"
+  },
+  "modeFormal": {
+    "message": "Formal",
+    "description": "Formal mode"
+  },
+  "modeCasual": {
+    "message": "Casual",
+    "description": "Casual mode"
+  },
+  "modeGrammar": {
+    "message": "Fix Grammar",
+    "description": "Grammar fix mode"
+  },
+  "modeSummarize": {
+    "message": "Summarize",
+    "description": "Summarize mode"
+  },
+  "enhanceMode": {
+    "message": "Enhance Mode",
+    "description": "Enhancement mode selection label"
+  },
+  "language": {
+    "message": "Language",
+    "description": "Language setting label"
+  },
+  "english": {
+    "message": "English",
+    "description": "English language option"
+  },
+  "arabic": {
+    "message": "العربية",
+    "description": "Arabic language option"
+  },
+  "apiUrlPlaceholder": {
+    "message": "https://lubb-writer-api.adelpro.us.kg",
+    "description": "API URL placeholder"
+  },
+  "apiTokenPlaceholder": {
+    "message": "Paste your token here",
+    "description": "API token placeholder"
+  },
+  "apiKeyRequired": {
+    "message": "API token is required to use the extension",
+    "description": "API key required message"
+  },
+  "showInlineIcon": {
+    "message": "Show inline icon",
+    "description": "Show inline icon setting"
+  },
+  "historyEnabled": {
+    "message": "Enable history",
+    "description": "Enable history setting"
+  },
+  "about": {
+    "message": "About",
+    "description": "About section label"
+  },
+  "version": {
+    "message": "Version",
+    "description": "Version label"
+  },
+  "madeWithLove": {
+    "message": "Made with ❤️ for writers everywhere",
+    "description": "Footer tagline"
+  },
+  "enhanceInline": {
+    "message": "Click to enhance",
+    "description": "Inline enhancement tooltip"
+  },
+  "poweredByAI": {
+    "message": "Powered by AI",
+    "description": "AI power indicator"
+  },
+  "processing": {
+    "message": "Processing...",
+    "description": "Processing indicator"
+  },
+  "customPrompt": {
+    "message": "Custom Prompt",
+    "description": "Custom prompt label"
+  },
+  "customPromptPlaceholder": {
+    "message": "e.g., Make it sound more professional...",
+    "description": "Custom prompt placeholder"
+  },
+  "useCustomPrompt": {
+    "message": "Use Custom Prompt",
+    "description": "Use custom prompt checkbox"
+  },
+  "insertEnhanced": {
+    "message": "Insert Enhanced",
+    "description": "Insert enhanced text button"
+  },
+  "enhancedText": {
+    "message": "Enhanced Text",
+    "description": "Enhanced text label"
+  },
+  "close": {
+    "message": "Close",
+    "description": "Close button"
+  },
+  "configureExtension": {
+    "message": "Configure Extension",
+    "description": "Configure extension prompt"
+  },
+  "getStarted": {
+    "message": "Get Started",
+    "description": "Get started button"
+  },
+  "apiConfiguration": {
+    "message": "API Configuration",
+    "description": "API configuration section"
+  },
+  "appearance": {
+    "message": "Appearance",
+    "description": "Appearance section"
+  },
+  "features": {
+    "message": "Features",
+    "description": "Features section"
+  },
+  "keyboardShortcuts": {
+    "message": "Keyboard Shortcuts",
+    "description": "Keyboard shortcuts section"
+  }
+}

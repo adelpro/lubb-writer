@@ -168,9 +168,12 @@ export default function Popup() {
               />
             </div>
             <div className="space-y-1">
-              <h1 className="text-2xl font-semibold">Welcome</h1>
+              <h1 className="text-2xl font-semibold">
+                {chrome.i18n.getMessage("welcome") || "Welcome"}
+              </h1>
               <p className="px-4 text-sm text-gray-500">
-                Configure your API URL and token to unlock Lubb Writer.
+                {chrome.i18n.getMessage("configureApiToken") ||
+                  "Configure your API URL and token to unlock Lubb Writer."}
               </p>
             </div>
           </div>
@@ -178,7 +181,7 @@ export default function Popup() {
           <div className="p-5 space-y-4 text-left bg-gray-50 rounded-xl border border-gray-100 dark:bg-gray-800 dark:border-gray-700">
             <div className="space-y-2">
               <label className="text-xs font-medium text-gray-700 dark:text-gray-300">
-                API URL
+                {chrome.i18n.getMessage("apiUrl") || "API URL"}
               </label>
               <input
                 type="url"
