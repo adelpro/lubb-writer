@@ -1,6 +1,11 @@
 import { Storage } from "@plasmohq/storage";
 import { useStorage } from "@plasmohq/storage/hook";
 
+export interface ModelOption {
+  value: string;
+  label: string;
+}
+
 export interface Settings {
   apiUrl: string;
   apiToken: string;
@@ -9,16 +14,18 @@ export interface Settings {
   showInlineIcon: boolean;
   theme: "light" | "dark" | "system";
   historyEnabled: boolean;
+  availableModels: ModelOption[];
 }
 
 const defaultSettings: Settings = {
-  apiUrl: process.env.PLASMO_API_URL || "https://lubb-writer-api.adelpro.us.kg",
+  apiUrl: "https://lubb-writer-api.adelpro.us.kg",
   apiToken: "",
   defaultMode: "humanize",
-  defaultModel: "MiniMax-M2.1",
+  defaultModel: "",
   showInlineIcon: true,
   theme: "system",
   historyEnabled: true,
+  availableModels: [],
 };
 
 export const settingsStorage = new Storage({

@@ -1,219 +1,346 @@
-import cssText from "data-text:../styles.css"
-import type { PlasmoCSConfig, PlasmoGetStyle } from "plasmo"
-import { useEffect, useState } from "react"
-import { Sparkles, X, Loader2, Check } from "lucide-react"
-import { useSettingsStore } from "../stores/settings"
-import { useHistoryStore } from "../stores/history"
-import { enhanceText } from "../lib/api"
-import { MODES } from "../constants"
+import cssText from "data-text:../styles.css";
+import type { PlasmoCSConfig, PlasmoGetStyle } from "plasmo";
+import { useEffect, useState, useCallback } from "react";
+import {
+  X,
+  Loader2,
+  Check,
+  Copy,
+  RefreshCw,
+  Wand2,
+  AlignLeft,
+  FileText,
+  Scale,
+  MessageSquare,
+  GraduationCap,
+  Search,
+  Megaphone,
+  Sparkles,
+  Send,
+  MessageCircle,
+  Heart,
+} from "lucide-react";
+import { useSettingsStore } from "../stores/settings";
+import { enhanceText } from "../lib/api";
+import { MODES } from "../constants";
+import clsx from "clsx";
 
 export const config: PlasmoCSConfig = {
-  matches: ["<all_urls>"]
-}
+  matches: ["<all_urls>"],
+};
 
 export const getStyle: PlasmoGetStyle = () => {
-  const element = document.createElement("style")
-  element.textContent = cssText
-  return element
+  const style = document.createElement("style");
+  style.textContent = cssText;
+  return style;
+};
+
+interface EnhanceModalProps {
+  originalText: string;
+  onClose: () => void;
 }
 
-interface Position {
-  x: number
-  y: number
-}
+function EnhanceModal({ originalText, onClose }: EnhanceModalProps) {
+  const settings = useSettingsStore();
+  const [selectedMode, setSelectedMode] = useState<string>(MODES[0].value);
+  const [customPrompt, setCustomPrompt] = useState("");
+  const [useCustomPrompt, setUseCustomPrompt] = useState(false);
+  const [enhancedText, setEnhancedText] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [error, setError] = useState("");
+  const [textareaFocused, setTextareaFocused] = useState(false);
 
-// Helper to determine if an element is an editable input/textarea or contenteditable
-const isEditableElement = (el: Element | null): boolean => {
-  if (!el) return false;
-  if (el.tagName === 'TEXTAREA' || el.tagName === 'INPUT') {
-    const inputType = (el as HTMLInputElement).type;
-    return !['button', 'checkbox', 'hidden', 'radio', 'submit'].includes(inputType);
-  }
-  if (el.getAttribute('contenteditable') === 'true' || el.hasAttribute('data-lexical-editor')) return true;
-  return false;
-}
+  const modeIcons: Record<string, React.ReactNode> = {
+    grammar: <AlignLeft className="w-4 h-4" />,
+    rewrite: <RefreshCw className="w-4 h-4" />,
+    humanize: <Heart className="w-4 h-4" />,
+    summarize: <FileText className="w-4 h-4" />,
+    formal: <Scale className="w-4 h-4" />,
+    casual: <MessageSquare className="w-4 h-4" />,
+    academic: <GraduationCap className="w-4 h-4" />,
+    seo: <Search className="w-4 h-4" />,
+    persuasive: <Megaphone className="w-4 h-4" />,
+    creative: <Sparkles className="w-4 h-4" />,
+  };
 
-export default function InlineToolbar() {
-  const settings = useSettingsStore()
-  const { addItem } = useHistoryStore()
-  
-  const [selection, setSelection] = useState("")
-  const [position, setPosition] = useState<Position | null>(null)
-  const [activeElement, setActiveElement] = useState<HTMLElement | null>(null)
-  const [isOpen, setIsOpen] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [success, setSuccess] = useState(false)
-
-  useEffect(() => {
-    const handleMouseUp = (e: MouseEvent) => {
-      // Don't close if clicking within our own toolbar
-      if ((e.target as HTMLElement).closest('#lubb-writer-toolbar')) return;
-
-      setTimeout(() => {
-        const windowSelection = window.getSelection()
-        const text = windowSelection?.toString().trim()
-        const active = document.activeElement as HTMLElement
-
-        // Ensure we are selecting within an editable field AND that inline is enabled
-        if (text && isEditableElement(active) && settings.showInlineIcon) {
-          const range = windowSelection?.getRangeAt(0)
-          const rect = range?.getBoundingClientRect()
-          
-          if (rect) {
-            setSelection(text)
-            setActiveElement(active)
-            // Position slightly above the selection
-            setPosition({
-              x: e.clientX,
-              y: rect.top - 40
-            })
-          }
-        } else {
-          // If they click away, hide the toolbar
-          if (!isOpen) {
-            setPosition(null)
-            setSelection("")
-            setActiveElement(null)
-            setIsOpen(false)
-          }
-        }
-      }, 10)
+  const handleEnhance = async () => {
+    if (!settings.apiToken) {
+      setError(
+        "API token not configured. Please add your API token in extension settings.",
+      );
+      return;
     }
 
-    document.addEventListener("mouseup", handleMouseUp)
-    return () => document.removeEventListener("mouseup", handleMouseUp)
-  }, [isOpen, settings.showInlineIcon])
+    if (!settings.apiUrl) {
+      setError(
+        "API URL not configured. Please add your API URL in extension settings.",
+      );
+      return;
+    }
 
-  const handleEnhance = async (modeValue: string) => {
-    if (!selection || !activeElement) return
-
-    setLoading(true)
+    setLoading(true);
+    setError("");
+    setEnhancedText("");
     try {
-      const response = await enhanceText(selection, modeValue, settings, settings.defaultModel)
-      const newText = response.result
-      
-      // Attempt to replace the text in-place
-      replaceTextInElement(activeElement, newText)
-      
-      if (settings.historyEnabled) {
-        await addItem({
-          originalText: selection,
-          enhancedText: newText,
-          mode: modeValue,
-          model: settings.defaultModel
-        })
-      }
-
-      setSuccess(true)
-      setTimeout(() => {
-        setSuccess(false)
-        handleClose()
-      }, 2000)
-
-    } catch (error) {
-      console.error("Lubb Writer: Failed to enhance text inline", error)
-      alert("Lubb Writer Failed: " + (error instanceof Error ? error.message : "Unknown error"))
+      const response = await enhanceText(
+        originalText,
+        selectedMode,
+        settings,
+        settings.defaultModel,
+        useCustomPrompt ? customPrompt : undefined,
+      );
+      setEnhancedText(response.result);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to enhance text");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
-  const replaceTextInElement = (element: HTMLElement, newText: string) => {
-    if (element.tagName === 'TEXTAREA' || element.tagName === 'INPUT') {
-      const el = element as HTMLInputElement | HTMLTextAreaElement
-      const start = el.selectionStart || 0
-      const end = el.selectionEnd || 0
-      
-      el.value = el.value.substring(0, start) + newText + el.value.substring(end)
-      // Trigger a React/native change event so the underlying site realizes it changed
-      el.dispatchEvent(new Event('input', { bubbles: true }))
-    } else if (element.isContentEditable) {
-      document.execCommand('insertText', false, newText)
+  const handleCopy = async () => {
+    if (enhancedText) {
+      await navigator.clipboard.writeText(enhancedText);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
     }
-  }
+  };
 
-  const handleClose = () => {
-    setIsOpen(false)
-    setPosition(null)
-    setSelection("")
-    setActiveElement(null)
-  }
+  const handleInsert = () => {
+    if (!enhancedText) return;
 
-  // If floating is completely disabled or we have no position, render nothing
-  if (!settings.showInlineIcon || !position) return null
+    const selection = window.getSelection();
+    if (!selection || selection.rangeCount === 0) {
+      setError("No text selected to replace");
+      return;
+    }
 
-  // The small simple bubble that appears first
-  if (!isOpen && !loading && !success) {
-    return (
-      <div
-        id="lubb-writer-toolbar"
-        style={{
-          position: "fixed",
-          left: position.x + "px",
-          top: position.y + "px",
-          transform: "translate(-50%, -100%)",
-          zIndex: 2147483647 // Max z-index to stay above everything
-        }}
-        className="animate-in zoom-in duration-200"
-      >
-        <button
-          onClick={() => setIsOpen(true)}
-          className="bg-background dark:bg-gray-800 text-primary shadow-lg border border-gray-200 dark:border-gray-700 p-2 rounded-full hover:scale-105 hover:shadow-xl transition-all"
-          title="Enhance with Lubb Writer"
-        >
-          <Sparkles className="w-5 h-5" />
-        </button>
-      </div>
-    )
-  }
+    const range = selection.getRangeAt(0);
+    range.deleteContents();
+    range.insertNode(document.createTextNode(enhancedText));
+    range.collapse(false);
+    onClose();
+  };
 
-  // The expanded toolbar with Quick Actions
   return (
     <div
-        id="lubb-writer-toolbar"
-        style={{
-          position: "fixed",
-          left: position.x + "px",
-          top: position.y + "px",
-          transform: "translate(-50%, -100%)",
-          zIndex: 2147483647
-        }}
-        className="bg-background dark:bg-gray-800 shadow-xl border border-gray-200 dark:border-gray-700 rounded-xl p-2 flex items-center gap-1.5 animate-in slide-in-from-bottom-2 duration-200"
-      >
-        {success ? (
-          <div className="px-4 flex items-center gap-2 text-green-500 font-medium py-1">
-            <Check className="w-4 h-4" />
-            Replaced text!
+      className="fixed inset-0 z-[2147483647] flex items-center justify-center bg-black/50 backdrop-blur-sm font-sans"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
+      <div className="bg-white rounded-xl w-[90%] max-w-[560px] max-h-[90vh] overflow-hidden shadow-2xl flex flex-col">
+        <div className="flex justify-between items-center px-5 py-4 text-white border-b border-gray-200 bg-primary">
+          <div className="flex gap-2 items-center">
+            <Wand2 className="w-5 h-5" />
+            <span className="text-base font-semibold">Lubb Writer</span>
           </div>
-        ) : loading ? (
-          <div className="px-4 flex items-center gap-2 text-primary font-medium py-1">
-            <Loader2 className="w-4 h-4 animate-spin" />
-            Enhancing...
+          <button
+            onClick={onClose}
+            className="p-1.5 rounded-md hover:bg-white/10 transition-colors opacity-80 hover:opacity-100"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        <div className="overflow-y-auto flex-1 p-5 space-y-4">
+          <div>
+            <label className="text-xs font-medium text-gray-500 mb-1.5 block">
+              Original Text
+            </label>
+            <div className="overflow-y-auto p-3 max-h-20 text-sm text-gray-700 bg-gray-100 rounded-lg">
+              {originalText}
+            </div>
           </div>
-        ) : (
-          <>
-            {/* Quick Actions */}
-            {MODES.slice(0, 4).map((m) => (
-              <button
-                key={m.value}
-                onClick={() => handleEnhance(m.value)}
-                className="px-3 py-1.5 text-sm font-medium hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg whitespace-nowrap transition-colors flex items-center text-gray-700 dark:text-gray-200"
-                title={m.label}
-              >
-                {m.label.split(' ')[0]} {/* Shorten label for toolbar */}
-              </button>
-            ))}
-            
-            <div className="w-px h-6 bg-gray-200 dark:bg-gray-700 mx-1" />
-            
+
+          <div>
+            <label className="text-xs font-medium text-gray-500 mb-2 flex items-center gap-1.5">
+              <Wand2 className="w-3.5 h-3.5" />
+              Enhancement Mode
+            </label>
+            <div className="grid grid-cols-3 gap-2">
+              {MODES.slice(0, 6).map((mode) => {
+                const isSelected = selectedMode === mode.value;
+                return (
+                  <button
+                    key={mode.value}
+                    onClick={() => setSelectedMode(mode.value)}
+                    className={clsx(
+                      "px-2 py-2.5 rounded-lg text-xs font-medium transition-all flex items-center justify-center gap-1.5",
+                      isSelected
+                        ? "bg-primary text-white border-2 border-primary"
+                        : "bg-white text-gray-700 border-2 border-gray-200 hover:border-primary/50",
+                    )}
+                  >
+                    {modeIcons[mode.value]}
+                    {mode.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div>
+            <label className="flex gap-2 items-center mb-2 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={useCustomPrompt}
+                onChange={(e) => setUseCustomPrompt(e.target.checked)}
+                className="w-4 h-4 accent-primary"
+              />
+              <span className="flex gap-1 items-center text-xs font-medium text-gray-500">
+                <MessageCircle className="w-3.5 h-3.5" />
+                Add custom instructions
+              </span>
+            </label>
+            {useCustomPrompt && (
+              <textarea
+                value={customPrompt}
+                onChange={(e) => setCustomPrompt(e.target.value)}
+                placeholder="e.g., Make it sound more professional..."
+                className={clsx(
+                  "p-3 w-full font-sans text-sm rounded-lg border transition-colors outline-none resize-y min-h-[60px]",
+                  textareaFocused ? "border-primary" : "border-gray-200",
+                )}
+                onFocus={() => setTextareaFocused(true)}
+                onBlur={() => setTextareaFocused(false)}
+              />
+            )}
+          </div>
+
+          {!enhancedText && !error && (
             <button
-              onClick={handleClose}
-              className="p-1.5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+              onClick={handleEnhance}
+              disabled={loading}
+              className={clsx(
+                "flex gap-2 justify-center items-center py-3 w-full text-sm font-semibold rounded-xl transition-colors",
+                loading
+                  ? "cursor-not-allowed bg-primary/70"
+                  : "text-white bg-primary hover:bg-primary-hover",
+              )}
             >
-              <X className="w-4 h-4" />
+              {loading ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  Enhancing...
+                </>
+              ) : (
+                <>
+                  <Wand2 className="w-4 h-4" />
+                  Enhance Text
+                </>
+              )}
             </button>
-          </>
-        )}
+          )}
+
+          {error && (
+            <div className="p-3 text-sm bg-red-50 rounded-lg border border-red-200">
+              <p className="mb-2 text-red-600">{error}</p>
+              {error.includes("API token") && (
+                <button
+                  onClick={() => chrome.runtime.openOptionsPage?.()}
+                  className="px-3 py-1.5 bg-primary text-white rounded-md text-xs font-medium hover:bg-primary-hover transition-colors"
+                >
+                  Open Extension Settings
+                </button>
+              )}
+            </div>
+          )}
+
+          {enhancedText && (
+            <>
+              <div>
+                <label className="text-xs font-medium text-gray-500 mb-1.5 block">
+                  Enhanced Text
+                </label>
+                <div className="overflow-y-auto p-3 max-h-40 text-sm text-green-700 whitespace-pre-wrap bg-green-50 rounded-lg border border-green-200">
+                  {enhancedText}
+                </div>
+              </div>
+
+              <div className="flex gap-2">
+                <button
+                  onClick={handleCopy}
+                  className={clsx(
+                    "flex-1 py-2.5 rounded-lg font-medium text-sm flex items-center justify-center gap-1.5 transition-all",
+                    copied
+                      ? "bg-green-500 text-white"
+                      : "bg-gray-100 text-gray-700 hover:bg-gray-200",
+                  )}
+                >
+                  {copied ? (
+                    <>
+                      <Check className="w-4 h-4" />
+                      Copied!
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-4 h-4" />
+                      Copy
+                    </>
+                  )}
+                </button>
+                <button
+                  onClick={handleInsert}
+                  className="flex-1 py-2.5 rounded-lg bg-primary hover:bg-primary-hover text-white font-medium text-sm flex items-center justify-center gap-1.5 transition-colors"
+                >
+                  <Send className="w-4 h-4" />
+                  Insert
+                </button>
+              </div>
+
+              <button
+                onClick={() => {
+                  setEnhancedText("");
+                  setError("");
+                }}
+                className="w-full py-2 text-xs text-gray-400 hover:text-gray-600 flex items-center justify-center gap-1.5 transition-colors"
+              >
+                <RefreshCw className="w-3 h-3" />
+                Try different mode
+              </button>
+            </>
+          )}
+        </div>
       </div>
-  )
+    </div>
+  );
+}
+
+export default function InlineEnhanceHandler() {
+  const [modalData, setModalData] = useState<{ text: string } | null>(null);
+
+  useEffect(() => {
+    const handleMessage = (message: { type: string; text?: string }) => {
+      if (message.type === "SHOW_ENHANCE_MODAL" && message.text) {
+        setModalData({ text: message.text });
+      } else if (message.type === "GET_SELECTION_AND_SHOW_MODAL") {
+        const selectedText = window.getSelection()?.toString().trim();
+        if (selectedText) {
+          setModalData({ text: selectedText });
+        }
+      }
+    };
+
+    chrome.runtime.onMessage.addListener(handleMessage);
+    return () => chrome.runtime.onMessage.removeListener(handleMessage);
+  }, []);
+
+  const handleClose = useCallback(() => {
+    setModalData(null);
+  }, []);
+
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && modalData) {
+        handleClose();
+      }
+    };
+    document.addEventListener("keydown", handleEsc);
+    return () => document.removeEventListener("keydown", handleEsc);
+  }, [modalData, handleClose]);
+
+  if (!modalData) return null;
+
+  return <EnhanceModal originalText={modalData.text} onClose={handleClose} />;
 }

@@ -1,58 +1,78 @@
 // Background service worker
 
-// Handle keyboard shortcut
-chrome.commands.onCommand.addListener(async (command) => {
-  if (command === "enhance-selection") {
-    const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+const isFirefox = navigator.userAgent.includes("Firefox");
 
-    if (!tab.id) return;
-
-    // Get selected text
-    const results = await chrome.scripting.executeScript({
-      target: { tabId: tab.id },
-      func: () => window.getSelection()?.toString() || "",
+const sendMessageToTab = (tabId: number, message: object) => {
+  return new Promise((resolve) => {
+    chrome.tabs.sendMessage(tabId, message, () => {
+      if (chrome.runtime.lastError) {
+        // Silently handle - content script might not be ready
+      }
+      resolve(null);
     });
+  });
+};
 
-    const selectedText = results[0]?.result;
+const injectContentScript = async (tabId: number): Promise<boolean> => {
+  const file = "static/contents/inline.js";
 
-    if (selectedText && selectedText.length > 0) {
-      // Open popup with selected text
-      chrome.action.openPopup();
+  try {
+    if (isFirefox) {
+      // Firefox uses tabs.executeScript
+      await chrome.tabs.executeScript(tabId, { file });
+    } else {
+      // Chrome uses scripting.executeScript
+      if (chrome.scripting?.executeScript) {
+        await chrome.scripting.executeScript({
+          target: { tabId },
+          files: [file],
+        });
+      } else {
+        await chrome.tabs.executeScript(tabId, { file });
+      }
     }
+    return true;
+  } catch (err) {
+    // Script might already be injected
+    return false;
   }
-});
+};
 
-// Context menu
+const showModalInTab = async (tabId: number, message: object) => {
+  // First inject the content script
+  await injectContentScript(tabId);
+
+  // Small delay to ensure script is ready
+  await new Promise((resolve) => setTimeout(resolve, 50));
+
+  // Send the message
+  await sendMessageToTab(tabId, message);
+};
+
 chrome.runtime.onInstalled.addListener(() => {
   chrome.contextMenus?.create({
     id: "enhanceWithLubb",
-    title: "✨ Enhance with Lubb Writer",
-    contexts: ["selection", "editable"],
+    title: "Enhance with Lubb Writer",
+    contexts: ["selection"],
   });
 });
 
-chrome.contextMenus?.onClicked.addListener(async (info, tab) => {
+chrome.contextMenus?.onClicked.addListener((info, tab) => {
   if (info.menuItemId === "enhanceWithLubb" && tab?.id) {
-    let text = info.selectionText || "";
-
-    if (!text && info.editable) {
-      const results = await chrome.scripting.executeScript({
-        target: { tabId: tab.id },
-        func: () => {
-          const el = document.activeElement as HTMLInputElement | HTMLTextAreaElement;
-          return el?.value || "";
-        },
+    const selectedText = info.selectionText?.trim() || "";
+    if (selectedText) {
+      showModalInTab(tab.id, {
+        type: "SHOW_ENHANCE_MODAL",
+        text: selectedText,
       });
-      text = results[0]?.result || "";
-    }
-
-    if (text) {
-      await chrome.storage.session.set({ pendingText: text });
-      chrome.action.openPopup();
     }
   }
 });
 
-// Background service worker
-// Removed redundant message handlers due to migrating to @plasmohq/storage
-
+chrome.commands.onCommand.addListener((command, tab) => {
+  if (command === "enhance-selection" && tab?.id) {
+    showModalInTab(tab.id, {
+      type: "GET_SELECTION_AND_SHOW_MODAL",
+    });
+  }
+});

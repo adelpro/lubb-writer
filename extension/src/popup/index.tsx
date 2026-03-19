@@ -1,9 +1,9 @@
 import "../styles.css";
 import iconUrl from "data-base64:../../assets/icon.png";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSettingsStore } from "../stores/settings";
 import { useHistoryStore } from "../stores/history";
-import { enhanceText } from "../lib/api";
+import { enhanceText, fetchAvailableModels } from "../lib/api";
 import { MODES, MODELS } from "../constants";
 import {
   Sparkles,
@@ -29,6 +29,71 @@ export default function Popup() {
   const [copied, setCopied] = useState(false);
   const [copiedHistoryId, setCopiedHistoryId] = useState<string | null>(null);
   const [error, setError] = useState("");
+  const [modelsLoading, setModelsLoading] = useState(false);
+
+  useEffect(() => {
+    const loadPendingText = async () => {
+      try {
+        const response = await chrome.runtime.sendMessage({
+          type: "getPendingText",
+          tabId: undefined,
+        });
+        if (response?.text) {
+          setInput(response.text);
+        }
+      } catch (e) {
+        // Ignore - popup might be opened without pending text
+      }
+    };
+
+    loadPendingText();
+  }, []);
+
+  useEffect(() => {
+    const loadModels = async () => {
+      if (!settings.apiToken || !settings.apiUrl) return;
+
+      setModelsLoading(true);
+      try {
+        const models = await fetchAvailableModels(settings);
+        const modelOptions = models.map((m) => ({
+          value: m.name,
+          label: `${m.providerName}: ${formatModelLabel(m.name)}`,
+        }));
+        await settings.setSettings({ availableModels: modelOptions });
+
+        if (!settings.defaultModel && modelOptions.length > 0) {
+          await settings.setSettings({ defaultModel: modelOptions[0].value });
+          setModel(modelOptions[0].value);
+        } else {
+          const modelNames = models.map((m) => m.name);
+          if (
+            settings.defaultModel &&
+            !modelNames.includes(settings.defaultModel)
+          ) {
+            await settings.setSettings({ defaultModel: modelOptions[0].value });
+            setModel(modelOptions[0].value);
+          }
+        }
+      } catch (err) {
+        console.error("Failed to fetch models:", err);
+      } finally {
+        setModelsLoading(false);
+      }
+    };
+
+    loadModels();
+  }, [settings.apiToken, settings.apiUrl]);
+
+  const formatModelLabel = (name: string): string => {
+    return name
+      .split(/[-_]/)
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+  };
+
+  const displayModels =
+    settings.availableModels.length > 0 ? settings.availableModels : MODELS;
 
   const handleEnhance = async () => {
     if (!input.trim()) {
@@ -93,9 +158,9 @@ export default function Popup() {
   if (!settings.apiToken) {
     return (
       <div className="w-[400px] h-[500px] flex flex-col bg-background dark:bg-gray-900 border-gray-200 dark:border-gray-800 text-gray-900 dark:text-gray-100 p-6 justify-center items-center text-center">
-        <div className="w-full max-w-sm space-y-8">
+        <div className="space-y-8 w-full max-w-sm">
           <div className="flex flex-col items-center space-y-4">
-            <div className="flex items-center justify-center w-16 h-16 p-2 overflow-hidden bg-gray-100 shadow-md rounded-2xl">
+            <div className="flex overflow-hidden justify-center items-center p-2 w-16 h-16 bg-gray-100 rounded-2xl shadow-md">
               <img
                 src={iconUrl}
                 alt="Lubb Writer"
@@ -110,7 +175,7 @@ export default function Popup() {
             </div>
           </div>
 
-          <div className="p-5 space-y-4 text-left border border-gray-100 bg-gray-50 dark:bg-gray-800 rounded-xl dark:border-gray-700">
+          <div className="p-5 space-y-4 text-left bg-gray-50 rounded-xl border border-gray-100 dark:bg-gray-800 dark:border-gray-700">
             <div className="space-y-2">
               <label className="text-xs font-medium text-gray-700 dark:text-gray-300">
                 API URL
@@ -165,24 +230,22 @@ export default function Popup() {
   return (
     <div className="w-[400px] h-[500px] flex flex-col bg-background dark:bg-gray-900 border-gray-200 dark:border-gray-800 text-gray-900 dark:text-gray-100">
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-gray-100 dark:border-gray-800 shrink-0">
-        <div className="flex items-center gap-2">
-          <div className="bg-primary/10 p-1.5 rounded-lg">
-            <Sparkles className="w-5 h-5 text-primary" />
-          </div>
+      <div className="flex justify-between items-center p-4 border-b border-gray-100 dark:border-gray-800 shrink-0">
+        <div className="flex gap-2 items-center">
+          <img src={iconUrl} alt="Lubb Writer" className="w-8 h-8" />
           <span className="text-lg font-semibold">Lubb Writer</span>
         </div>
         <button
           onClick={openOptions}
           title="Settings"
-          className="p-2 transition-colors rounded-full hover:bg-gray-100 dark:hover:bg-gray-800"
+          className="p-2 rounded-full transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
         >
           <Settings className="w-4 h-4 text-gray-500" />
         </button>
       </div>
 
       {/* Tabs */}
-      <div className="flex w-full px-4 pt-2 border-b border-gray-100 dark:border-gray-800 shrink-0">
+      <div className="flex px-4 pt-2 w-full border-b border-gray-100 dark:border-gray-800 shrink-0">
         <button
           onClick={() => setActiveTab("write")}
           className={clsx(
@@ -209,7 +272,7 @@ export default function Popup() {
       </div>
 
       {/* Main Content Area */}
-      <div className="flex-1 p-4 space-y-4 overflow-y-auto">
+      <div className="overflow-y-auto flex-1 p-4 space-y-4">
         {activeTab === "write" ? (
           <>
             {/* Input Form - Hide when output is displayed */}
@@ -219,7 +282,7 @@ export default function Popup() {
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="Enter text to enhance... or select text on a webpage."
-                  className="w-full p-3 text-sm transition-shadow border border-gray-200 rounded-lg resize-none dark:border-gray-700 bg-gray-50 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                  className="p-3 w-full text-sm bg-gray-50 rounded-lg border border-gray-200 transition-shadow resize-none dark:border-gray-700 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                   rows={4}
                 />
 
@@ -227,7 +290,7 @@ export default function Popup() {
                   <select
                     value={mode}
                     onChange={(e) => setMode(e.target.value)}
-                    className="flex-1 px-3 py-2 text-sm transition-colors border border-gray-200 rounded-lg cursor-pointer dark:border-gray-700 bg-gray-50 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary hover:bg-gray-100 dark:hover:bg-gray-700/50"
+                    className="flex-1 px-3 py-2 text-sm bg-gray-50 rounded-lg border border-gray-200 transition-colors cursor-pointer dark:border-gray-700 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary hover:bg-gray-100 dark:hover:bg-gray-700/50"
                   >
                     {MODES.map((m) => (
                       <option key={m.value} value={m.value}>
@@ -238,13 +301,18 @@ export default function Popup() {
                   <select
                     value={model}
                     onChange={(e) => setModel(e.target.value)}
-                    className="flex-1 px-3 py-2 text-sm transition-colors border border-gray-200 rounded-lg cursor-pointer dark:border-gray-700 bg-gray-50 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary hover:bg-gray-100 dark:hover:bg-gray-700/50"
+                    className="flex-1 px-3 py-2 text-sm bg-gray-50 rounded-lg border border-gray-200 transition-colors cursor-pointer dark:border-gray-700 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary hover:bg-gray-100 dark:hover:bg-gray-700/50"
+                    disabled={modelsLoading}
                   >
-                    {MODELS.map((m) => (
-                      <option key={m.value} value={m.value}>
-                        {m.label}
-                      </option>
-                    ))}
+                    {modelsLoading ? (
+                      <option>Loading models...</option>
+                    ) : (
+                      displayModels.map((m) => (
+                        <option key={m.value} value={m.value}>
+                          {m.label}
+                        </option>
+                      ))
+                    )}
                   </select>
                 </div>
 
@@ -272,23 +340,23 @@ export default function Popup() {
             )}
 
             {error && (
-              <div className="p-3 text-sm text-red-600 border border-red-100 rounded-lg bg-red-50 dark:bg-red-900/20 dark:border-red-900/30">
+              <div className="p-3 text-sm text-red-600 bg-red-50 rounded-lg border border-red-100 dark:bg-red-900/20 dark:border-red-900/30">
                 {error}
               </div>
             )}
 
             {output && (
               <div className="space-y-2">
-                <p className="text-sm leading-relaxed text-gray-900 dark:text-gray-100 whitespace-pre-wrap">
+                <p className="text-sm leading-relaxed text-gray-900 whitespace-pre-wrap dark:text-gray-100">
                   {output}
                 </p>
                 <button
                   onClick={() => handleCopy(output)}
                   className={clsx(
-                    "w-full py-2 px-4 rounded-lg font-medium text-sm flex items-center justify-center gap-2 transition-colors",
+                    "flex gap-2 justify-center items-center px-4 py-2 w-full text-sm font-medium rounded-lg transition-colors",
                     copied
-                      ? "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300"
-                      : "bg-primary hover:bg-primary-hover text-white",
+                      ? "text-green-700 bg-green-100 dark:bg-green-900/30 dark:text-green-300"
+                      : "text-white bg-primary hover:bg-primary-hover",
                   )}
                 >
                   {copied ? (
@@ -308,7 +376,7 @@ export default function Popup() {
                     setOutput("");
                     setCopied(false);
                   }}
-                  className="w-full py-2 px-4 rounded-lg font-medium text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                  className="px-4 py-2 w-full text-sm font-medium text-gray-700 rounded-lg transition-colors dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
                 >
                   ← New
                 </button>
@@ -317,14 +385,14 @@ export default function Popup() {
           </>
         ) : (
           <div className="space-y-4">
-            <div className="flex items-center justify-between">
+            <div className="flex justify-between items-center">
               <span className="text-xs font-medium tracking-wider text-gray-500 uppercase">
                 Recent Items
               </span>
               {history.length > 0 && (
                 <button
                   onClick={clearHistory}
-                  className="flex items-center gap-1 text-xs font-medium text-red-500 hover:text-red-600"
+                  className="flex gap-1 items-center text-xs font-medium text-red-500 hover:text-red-600"
                 >
                   <Trash2 className="w-3 h-3" />
                   Clear
@@ -333,8 +401,8 @@ export default function Popup() {
             </div>
 
             {history.length === 0 ? (
-              <div className="flex flex-col items-center justify-center gap-3 py-12 text-gray-400">
-                <div className="p-4 rounded-full bg-gray-50 dark:bg-gray-800">
+              <div className="flex flex-col gap-3 justify-center items-center py-12 text-gray-400">
+                <div className="p-4 bg-gray-50 rounded-full dark:bg-gray-800">
                   <Clock className="w-8 h-8" />
                 </div>
                 <p className="text-sm">No history yet.</p>
@@ -344,7 +412,7 @@ export default function Popup() {
                 {history.map((item) => (
                   <div
                     key={item.id}
-                    className="relative p-3 border border-gray-100 rounded-lg bg-gray-50 dark:bg-gray-800/50 dark:border-gray-800 group"
+                    className="relative p-3 bg-gray-50 rounded-lg border border-gray-100 dark:bg-gray-800/50 dark:border-gray-800 group"
                   >
                     <button
                       onClick={() => removeItem(item.id)}
@@ -353,7 +421,7 @@ export default function Popup() {
                     >
                       <Trash2 className="w-3.5 h-3.5" />
                     </button>
-                    <div className="flex items-center gap-2 mb-2">
+                    <div className="flex gap-2 items-center mb-2">
                       <span className="text-[10px] uppercase font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full">
                         {item.mode}
                       </span>

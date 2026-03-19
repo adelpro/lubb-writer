@@ -13,96 +13,181 @@ import "dotenv/config";
 // =============================================================================
 const API_TOKEN = process.env.API_TOKEN?.trim();
 const PORT = process.env.PORT || 3001;
-const API_VERSION = "1.0.0";
+const API_VERSION = "1.1.0";
 
 // =============================================================================
-// AI Provider Configuration
+// Type Definitions
 // =============================================================================
-const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
-const OPENAI_BASE_URL = process.env.OPENAI_BASE_URL;
-const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
-const GOOGLE_API_KEY = process.env.GOOGLE_API_KEY;
+type ProviderFormat = "openai" | "anthropic" | "google";
 
-// Initialize clients
-const openai = OPENAI_API_KEY ? new OpenAI({ apiKey: OPENAI_API_KEY }) : null;
-const anthropic = ANTHROPIC_API_KEY
-  ? new Anthropic({ apiKey: ANTHROPIC_API_KEY })
-  : null;
-const google = GOOGLE_API_KEY ? new GoogleGenerativeAI(GOOGLE_API_KEY) : null;
+interface ModelConfig {
+  name: string;
+  provider: ProviderFormat;
+  providerName: string;
+  apiKey: string;
+  baseURL?: string;
+  client: unknown;
+}
 
-// Model mappings
-const defaultBaseURL = OPENAI_BASE_URL || "https://api.openai.com/v1";
+// =============================================================================
+// Helper Functions
+// =============================================================================
+function parseModelsList(
+  envValue: string | undefined,
+  defaults: string[],
+): string[] {
+  if (!envValue) return defaults;
+  return envValue
+    .split(",")
+    .map((m) => m.trim())
+    .filter(Boolean);
+}
 
-const MODELS: Record<
-  string,
-  { provider: string; client: unknown; baseURL?: string }
-> = {
-  // OpenAI / MiniMax / Custom
-  "gpt-4o": { provider: "openai", client: openai, baseURL: defaultBaseURL },
-  "gpt-4o-mini": {
-    provider: "openai",
-    client: openai,
-    baseURL: defaultBaseURL,
-  },
-  "gpt-4-turbo": {
-    provider: "openai",
-    client: openai,
-    baseURL: defaultBaseURL,
-  },
-  "gpt-3.5-turbo": {
-    provider: "openai",
-    client: openai,
-    baseURL: defaultBaseURL,
-  },
-  "MiniMax-M2.1": {
-    provider: "openai",
-    client: openai,
-    baseURL: "https://api.minimax.io/v1",
-  },
-  "MiniMax-M2.1-lightning": {
-    provider: "openai",
-    client: openai,
-    baseURL: "https://api.minimax.io/v1",
-  },
-  "MiniMax-M2.5": {
-    provider: "openai",
-    client: openai,
-    baseURL: "https://api.minimax.io/v1",
-  },
+function extractProviderName(baseURL: string): string {
+  try {
+    const url = new URL(baseURL);
+    const host = url.hostname;
+    if (host.includes("minimax")) return "MiniMax";
+    if (host.includes("ollama")) return "Ollama";
+    if (host.includes("lmstudio")) return "LM Studio";
+    if (host.includes("groq")) return "Groq";
+    if (host.includes("together")) return "Together AI";
+    if (host.includes("anyscale")) return "Anyscale";
+    if (host.includes("openrouter")) return "OpenRouter";
+    if (host.includes("localhost")) return "Local";
+    return host.split(".")[0];
+  } catch {
+    return "Custom";
+  }
+}
 
-  // Anthropic (Claude)
-  "claude-3-5-sonnet-20241022": { provider: "anthropic", client: anthropic },
-  "claude-3-5-sonnet": { provider: "anthropic", client: anthropic },
-  "claude-3-opus-20240229": { provider: "anthropic", client: anthropic },
-  "claude-3-opus": { provider: "anthropic", client: anthropic },
-  "claude-3-sonnet-20240229": { provider: "anthropic", client: anthropic },
-  "claude-3-haiku-20240307": { provider: "anthropic", client: anthropic },
+function getDefaultBaseURL(format: ProviderFormat): string {
+  switch (format) {
+    case "openai":
+      return "https://api.openai.com/v1";
+    case "anthropic":
+      return "https://api.anthropic.com";
+    case "google":
+      return "https://generativelanguage.googleapis.com";
+  }
+}
 
-  // Google (Gemini)
-  "gemini-2.0-flash": { provider: "google", client: google },
-  "gemini-2.0-flash-exp": { provider: "google", client: google },
-  "gemini-1.5-pro": { provider: "google", client: google },
-  "gemini-1.5-flash": { provider: "google", client: google },
-  "gemini-1.5-flash-8b": { provider: "google", client: google },
-};
+// =============================================================================
+// Provider Registry Builder
+// =============================================================================
+function buildProviderRegistry(): Record<string, ModelConfig> {
+  const MODELS: Record<string, ModelConfig> = {};
 
-function getModelConfig(model: string) {
-  // Check exact match first
-  if (MODELS[model]) return MODELS[model];
+  // OpenAI Provider
+  if (process.env.OPENAI_API_KEY) {
+    const baseURL = process.env.OPENAI_BASE_URL || "https://api.openai.com/v1";
+    const models = parseModelsList(process.env.OPENAI_MODELS, [
+      "gpt-4o",
+      "gpt-4o-mini",
+    ]);
+    const openaiClient = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+      baseURL,
+    });
 
-  // Check prefix match for dynamic models
-  if (model.startsWith("gpt-"))
-    return { ...MODELS["gpt-4o"], baseURL: defaultBaseURL };
-  if (model.startsWith("claude-")) return MODELS["claude-3-5-sonnet"];
-  if (model.startsWith("gemini-")) return MODELS["gemini-1.5-flash"];
-
-  // Unknown model - use custom base URL if set, otherwise default
-  if (OPENAI_BASE_URL) {
-    return { provider: "openai", client: openai, baseURL: OPENAI_BASE_URL };
+    for (const modelName of models) {
+      MODELS[modelName] = {
+        name: modelName,
+        provider: "openai",
+        providerName: "OpenAI",
+        apiKey: process.env.OPENAI_API_KEY,
+        baseURL,
+        client: openaiClient,
+      };
+    }
   }
 
-  // Default to MiniMax
-  return MODELS["MiniMax-M2.1"];
+  // Anthropic Provider
+  if (process.env.ANTHROPIC_API_KEY) {
+    const models = parseModelsList(process.env.ANTHROPIC_MODELS, [
+      "claude-3-5-sonnet",
+    ]);
+    const anthropicClient = new Anthropic({
+      apiKey: process.env.ANTHROPIC_API_KEY,
+    });
+
+    for (const modelName of models) {
+      MODELS[modelName] = {
+        name: modelName,
+        provider: "anthropic",
+        providerName: "Anthropic",
+        apiKey: process.env.ANTHROPIC_API_KEY,
+        baseURL: getDefaultBaseURL("anthropic"),
+        client: anthropicClient,
+      };
+    }
+  }
+
+  // Google Provider
+  if (process.env.GOOGLE_API_KEY) {
+    const models = parseModelsList(process.env.GOOGLE_MODELS, [
+      "gemini-1.5-flash",
+    ]);
+    const googleClient = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
+
+    for (const modelName of models) {
+      MODELS[modelName] = {
+        name: modelName,
+        provider: "google",
+        providerName: "Google",
+        apiKey: process.env.GOOGLE_API_KEY,
+        baseURL: getDefaultBaseURL("google"),
+        client: googleClient,
+      };
+    }
+  }
+
+  // Custom OpenAI-Compatible Providers (1-10)
+  for (let i = 1; i <= 10; i++) {
+    const baseURL = process.env[`CUSTOM_PROVIDER_${i}_BASE_URL`];
+    if (!baseURL) continue;
+
+    const apiKey =
+      process.env[`CUSTOM_PROVIDER_${i}_API_KEY`] ||
+      process.env.OPENAI_API_KEY ||
+      "";
+    const models = parseModelsList(
+      process.env[`CUSTOM_PROVIDER_${i}_MODELS`],
+      [],
+    );
+
+    if (models.length === 0) continue;
+
+    const providerName =
+      process.env[`CUSTOM_PROVIDER_${i}_NAME`] || extractProviderName(baseURL);
+    const customClient = new OpenAI({
+      apiKey,
+      baseURL,
+    });
+
+    for (const modelName of models) {
+      MODELS[modelName] = {
+        name: modelName,
+        provider: "openai",
+        providerName,
+        apiKey,
+        baseURL,
+        client: customClient,
+      };
+    }
+  }
+
+  return MODELS;
+}
+
+// Build the model registry
+const MODELS = buildProviderRegistry();
+
+// =============================================================================
+// Model Lookup Helper
+// =============================================================================
+function getModelConfig(model: string): ModelConfig | null {
+  return MODELS[model] || null;
 }
 
 // =============================================================================
@@ -290,14 +375,12 @@ async function chatWithAI(
 ) {
   const config = getModelConfig(model);
 
-  if (!config.client) {
-    throw new Error(`Provider not configured for model ${model}`);
+  if (!config) {
+    throw new Error(`Model ${model} not found or not configured`);
   }
 
   if (config.provider === "openai") {
-    const client = config.baseURL
-      ? new OpenAI({ apiKey: OPENAI_API_KEY!, baseURL: config.baseURL })
-      : openai!;
+    const client = config.client as OpenAI;
 
     const response = await client.chat.completions.create({
       model: model,
@@ -318,7 +401,8 @@ async function chatWithAI(
   }
 
   if (config.provider === "anthropic") {
-    const response = await anthropic!.messages.create({
+    const client = config.client as Anthropic;
+    const response = await client.messages.create({
       model: model,
       max_tokens: 2000,
       system: systemPrompt,
@@ -340,7 +424,8 @@ async function chatWithAI(
   }
 
   if (config.provider === "google") {
-    const genModel = google!.getGenerativeModel({ model: model });
+    const client = config.client as GoogleGenerativeAI;
+    const genModel = client.getGenerativeModel({ model: model });
 
     const result = await genModel.generateContent([
       { text: systemPrompt },
@@ -412,7 +497,7 @@ app.get("/health", (req, res) => {
  * /models:
  *   get:
  *     summary: List available AI models
- *     description: Returns all configured AI models with their provider information and configuration status
+ *     description: Returns all configured AI models with their provider information. Only includes models that are properly configured in the environment.
  *     tags:
  *       - Models
  *     responses:
@@ -430,26 +515,40 @@ app.get("/health", (req, res) => {
  *                     properties:
  *                       name:
  *                         type: string
+ *                         description: Model identifier
  *                         example: "gpt-4o"
  *                       provider:
  *                         type: string
+ *                         description: Provider type (openai, anthropic, google)
  *                         example: "openai"
- *                       configured:
- *                         type: boolean
- *                         example: true
+ *                       providerName:
+ *                         type: string
+ *                         description: Display name of the provider
+ *                         example: "OpenAI"
+ *                       baseURL:
+ *                         type: string
+ *                         description: API endpoint URL for this model
+ *                         example: "https://api.openai.com/v1"
  *                   example:
  *                     - name: "gpt-4o"
  *                       provider: "openai"
- *                       configured: true
+ *                       providerName: "OpenAI"
+ *                       baseURL: "https://api.openai.com/v1"
+ *                     - name: "MiniMax-M2.1"
+ *                       provider: "openai"
+ *                       providerName: "MiniMax"
+ *                       baseURL: "https://api.minimax.io/v1"
  *                     - name: "claude-3-5-sonnet"
  *                       provider: "anthropic"
- *                       configured: false
+ *                       providerName: "Anthropic"
+ *                       baseURL: "https://api.anthropic.com"
  */
 app.get("/models", (req, res) => {
-  const availableModels = Object.entries(MODELS).map(([name, config]) => ({
-    name,
+  const availableModels = Object.values(MODELS).map((config) => ({
+    name: config.name,
     provider: config.provider,
-    configured: !!config.client,
+    providerName: config.providerName,
+    baseURL: config.baseURL,
   }));
   res.json({ models: availableModels });
 });
@@ -562,7 +661,7 @@ app.get("/models", (req, res) => {
  */
 app.post("/enhance", authenticate, async (req, res) => {
   try {
-    const { prompt, text, model } = req.body;
+    const { prompt, text, model, customPrompt } = req.body;
 
     if (!text) {
       return res.status(400).json({ error: "Text is required" });
@@ -575,6 +674,10 @@ app.post("/enhance", authenticate, async (req, res) => {
     let fullPrompt = prompt;
     if (!prompt && req.body.mode && DEFAULT_PROMPTS[req.body.mode]) {
       fullPrompt = DEFAULT_PROMPTS[req.body.mode];
+    }
+
+    if (customPrompt) {
+      fullPrompt = `${fullPrompt}. Additional instructions: ${customPrompt}`;
     }
 
     const chatModel = model || process.env.DEFAULT_MODEL || "MiniMax-M2.1";

@@ -2,32 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  :root {
-    --primary: 53 88 114;
-    --primary-hover: 122 170 206;
-  }
-}
-
 :host {
   all: initial;
 }
 
 #lubb-writer-toolbar {
   font-family: system-ui, -apple-system, sans-serif;
-}
-
-.text-primary {
-  color: rgb(var(--primary));
-}
-.bg-primary {
-  background-color: rgb(var(--primary));
-}
-.bg-primary\/10 {
-  background-color: rgb(var(--primary) / 0.1);
-}
-.hover\:bg-primary-hover:hover {
-  background-color: rgb(var(--primary-hover));
 }
 
 @keyframes slideIn {

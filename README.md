@@ -11,13 +11,13 @@ Lubb Writer helps you improve any text with AI. Choose from 13 different writing
 ```
 Browser Extension  ─────>  REST API  ─────>  AI Providers
     (Frontend)              (Express)         OpenAI, Gemini
-                                                     Claude, MiniMax
+                                                     Claude, Custom
 ```
 
 ## Features
 
 - **13 Writing Modes**: Rewrite, summarize, humanize, grammar, formal, casual, academic, SEO, persuasive, creative, Twitter, LinkedIn, story
-- **Multi-Provider AI**: Use OpenAI, Anthropic Claude, Google Gemini, or MiniMax
+- **Multi-Provider AI**: Use OpenAI, Anthropic Claude, Google Gemini, or add up to 10 custom OpenAI-compatible providers (MiniMax, Ollama, LM Studio, Groq, etc.)
 - **Browser Extension**: Enhance text directly from any webpage with inline selection or popup
 - **Keyboard Shortcuts**: Enhance selected text with Ctrl+Shift+L
 - **Docker Ready**: Deploy the API anywhere with Docker
