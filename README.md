@@ -1,52 +1,33 @@
 # Lubb Writer
 
-AI-powered text enhancement tool with multiple writing modes and multi-provider AI support. Includes both a REST API and browser extension.
+AI-powered text enhancement tool that transforms your writing with multiple modes and multi-provider AI support. Includes both a REST API and browser extension.
 
-![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
-![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
-![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+## Overview
 
-## 🏗️ Architecture
+Lubb Writer helps you improve any text with AI. Choose from 13 different writing modes, connect to your preferred AI provider, and enhance text directly from your browser or via API.
+
+## Architecture
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│                   Lubb Writer                          │
-│                                                         │
-│  ┌─────────────────┐         ┌──────────────────┐      │
-│  │  Browser         │         │   REST API       │      │
-│  │  Extension       │────>    │   (Express.js)   │      │
-│  │  (Frontend)      │         │                  │      │
-│  └─────────────────┘         └────────┬─────────┘      │
-│                                        │                │
-│                               ┌────────▼─────────┐      │
-│                               │   AI Providers   │      │
-│                               │   OpenAI, Gemini │      │
-│                               │   Claude, MiniMax│      │
-│                               └─────────────────┘      │
-└─────────────────────────────────────────────────────────┘
+Browser Extension  ─────>  REST API  ─────>  AI Providers
+    (Frontend)              (Express)         OpenAI, Gemini
+                                                     Claude, MiniMax
 ```
 
-## ✨ Features
+## Features
 
-- **🔐 Secure API** - Bearer token authentication
-- **📝 13 Writing Modes** - Rewrite, summarize, humanize, grammar, formal, casual, academic, SEO, persuasive, creative, Twitter, LinkedIn, story
-- **🤖 Multi-Provider AI** - Use OpenAI, Anthropic Claude, Google Gemini, or MiniMax
-- **🌐 Browser Extension** - Enhance text directly from any webpage
-- **⌨️ Keyboard Shortcuts** - Enhance selected text with Ctrl+Shift+L
-- **🐳 Docker Ready** - Deploy anywhere with Docker
-- **📚 Interactive Docs** - Swagger UI at `/docs`
+- **13 Writing Modes**: Rewrite, summarize, humanize, grammar, formal, casual, academic, SEO, persuasive, creative, Twitter, LinkedIn, story
+- **Multi-Provider AI**: Use OpenAI, Anthropic Claude, Google Gemini, or MiniMax
+- **Browser Extension**: Enhance text directly from any webpage with inline selection or popup
+- **Keyboard Shortcuts**: Enhance selected text with Ctrl+Shift+L
+- **Docker Ready**: Deploy the API anywhere with Docker
+- **Interactive Docs**: Swagger UI documentation at `/docs`
 
-## 📦 Projects
+## Projects
 
 ### [API](./api/) - REST API Backend
 
-Express.js API with TypeScript, featuring:
-
-- RESTful endpoints for all enhancement modes
-- Multi-provider AI integration
-- Rate limiting and authentication
-- Swagger documentation
-- Docker deployment
+Express.js API with TypeScript for text enhancement.
 
 **Quick Start:**
 
@@ -61,12 +42,7 @@ yarn dev
 
 ### [Extension](./extension/) - Browser Extension
 
-Cross-browser extension (Chrome, Firefox, Edge) featuring:
-
-- Popup UI for text enhancement
-- Inline selection enhancement
-- Theme support (light/dark/system)
-- Multiple enhancement modes
+Cross-browser extension for Chrome, Firefox, and Edge.
 
 **Quick Start:**
 
@@ -77,7 +53,7 @@ yarn dev
 # Load the extension from build/chrome directory
 ```
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 
@@ -109,36 +85,26 @@ docker compose up -d
 # Deploy API and configure extension with your endpoint
 ```
 
-## 📚 Documentation
+## Documentation
 
-- **API Documentation**: [api/README.md](./api/README.md)
-- **Extension Documentation**: [extension/README.md](./extension/README.md)
+- [API Documentation](./api/README.md)
+- [Extension Documentation](./extension/README.md)
 - **Interactive API Docs**: Run the API and visit `/docs`
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 **Backend:**
 
-- TypeScript
-- Express.js
-- OpenAI SDK
-- Anthropic SDK
-- Google Generative AI
-- Swagger/OpenAPI
+- TypeScript, Express.js, OpenAI SDK, Anthropic SDK, Google Generative AI, Swagger/OpenAPI
 
 **Frontend:**
 
-- TypeScript
-- React
-- TailwindCSS
-- Plasmo (extension framework)
+- TypeScript, React, TailwindCSS, Plasmo (extension framework)
 
 **Infrastructure:**
 
-- Docker
-- Docker Compose
-- GitHub Actions (CI/CD)
+- Docker, Docker Compose, GitHub Actions (CI/CD)
 
-## 📄 License
+## License
 
 MIT License - see individual project folders for details.

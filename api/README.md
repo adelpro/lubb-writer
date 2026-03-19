@@ -1,14 +1,14 @@
 # Lubb Writer API
 
-AI-powered text enhancement API with multiple writing modes and multi-provider AI support.
+REST API for AI-powered text enhancement with multiple writing modes and multi-provider support.
 
 ## Features
 
-- 🔐 **Bearer Token Auth** - Secure API authentication
-- 📝 **13 Writing Modes** - Rewrite, summarize, humanize, grammar, formal, casual, academic, SEO, persuasive, creative, twitter, linkedin, story
-- 🤖 **Multi-Provider AI** - OpenAI, MiniMax, Anthropic (Claude), Google (Gemini)
-- 🐳 **Docker** - Production-ready container with healthcheck
-- ⚡ **Fast** - Choose your preferred AI provider
+- **Bearer Token Authentication**: Secure API access with token-based auth
+- **13 Writing Modes**: Rewrite, summarize, humanize, grammar, formal, casual, academic, SEO, persuasive, creative, twitter, linkedin, story
+- **Multi-Provider AI**: OpenAI, MiniMax, Anthropic (Claude), Google (Gemini)
+- **Docker Ready**: Production-ready container with healthcheck
+- **Fast**: Choose your preferred AI provider
 
 ## Quick Start
 
@@ -29,13 +29,13 @@ curl http://localhost:3003/health
 
 ### Required: API Key
 
-Lubb Writer supports multiple AI providers. Configure **at least one**:
+Lubb Writer supports multiple AI providers. Configure at least one:
 
 | Provider               | Key                 | Get Key From          |
 | ---------------------- | ------------------- | --------------------- |
-| **OpenAI/MiniMax**     | `OPENAI_API_KEY`    | OpenAI or MiniMax     |
-| **Anthropic (Claude)** | `ANTHROPIC_API_KEY` | console.anthropic.com |
-| **Google (Gemini)**    | `GOOGLE_API_KEY`    | aistudio.google.com   |
+| OpenAI/MiniMax         | `OPENAI_API_KEY`    | OpenAI or MiniMax     |
+| Anthropic (Claude)     | `ANTHROPIC_API_KEY` | console.anthropic.com |
+| Google (Gemini)        | `GOOGLE_API_KEY`    | aistudio.google.com   |
 
 Example `.env`:
 
@@ -75,16 +75,16 @@ API_TOKEN=your-secure-token
 
 ## Custom Models (OpenAI-Compatible)
 
-You can use **any OpenAI-compatible endpoint** with Lubb Writer:
+You can use any OpenAI-compatible endpoint with Lubb Writer:
 
 ### Supported
 
-- **Ollama** - Local AI models
-- **LM Studio** - Local LLM hosting
-- **KoboldCPP** - Local AI
-- **Text Generation WebUI** - Local LLM
-- **MiniMax** - Cloud AI
-- **Any OpenAI-compatible API**
+- Ollama - Local AI models
+- LM Studio - Local LLM hosting
+- KoboldCPP - Local AI
+- Text Generation WebUI - Local LLM
+- MiniMax - Cloud AI
+- Any OpenAI-compatible API
 
 ### Configuration
 
@@ -174,62 +174,28 @@ curl -X POST http://localhost:3003/enhance \
 ```
 
 **Parameters:**
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| `text` | string | Yes | Text to transform |
-| `mode` | string | Yes* | Transformation mode |
-| `prompt` | string | Yes* | Custom prompt with {text} |
-| `model` | string | No | AI model (default: MiniMax-M2.1) |
+
+| Parameter | Type   | Required | Description                       |
+| --------- | ------ | -------- | --------------------------------- |
+| text      | string | Yes      | Text to transform                 |
+| mode      | string | Yes*     | Transformation mode               |
+| prompt    | string | Yes*     | Custom prompt with {text}         |
+| model     | string | No       | AI model (default: MiniMax-M2.1)  |
 
 #### Available Modes
 
-| Mode       | Description        |
-| ---------- | ------------------ |
-| rewrite    | Clearer, engaging  |
-| summarize  | Concise            |
-| humanize   | Remove AI patterns |
-| grammar    | Fix errors         |
-| formal     | Professional       |
-| casual     | Friendly           |
-| academic   | Academic style     |
-| seo        | SEO optimized      |
-| persuasive | Argument + CTA     |
-| creative   | Creative writing   |
-| twitter    | Under 280 chars    |
-| linkedin   | LinkedIn format    |
-| story      | Narrative          |
-
-#### Custom Prompt
-
-```bash
-curl -X POST http://localhost:3003/custom \
-  -H "Authorization: Bearer your-token" \
-  -d '{"prompt": "Translate to French: {text}", "text": "Hello"}'
-```
-
-## Deployment
-
-### Docker Compose
-
-```yaml
-services:
-  lubb-writer-api:
-    build: .
-    ports:
-      - "3003:3001"
-    env_file:
-      - .env
-```
-
-### Expose to Internet
-
-Use any reverse proxy (Nginx, Cloudflare Tunnel, Traefik, Caddy). Point to: `http://localhost:3003`
-
-## Rate Limits
-
-- AI endpoints: 10/min
-- General: 30/min
-
-## License
-
-MIT License
+| Mode       | Description             |
+| ---------- | ----------------------- |
+| rewrite    | Clearer, engaging       |
+| summarize  | Concise                 |
+| humanize   | Remove AI patterns      |
+| grammar    | Fix errors              |
+| formal     | Professional            |
+| casual     | Friendly                |
+| academic   | Academic style          |
+| seo        | SEO optimized           |
+| persuasive | Argument + CTA          |
+| creative   | Creative writing        |
+| twitter    | Under 280 chars         |
+| linkedin   | LinkedIn format         |
+| story      | Narrative               |

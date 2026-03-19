@@ -77,12 +77,16 @@ export default function Popup() {
   };
 
   const [tempToken, setTempToken] = useState("");
+  const [tempUrl, setTempUrl] = useState(settings.apiUrl);
 
   const handleSaveToken = async () => {
     const cleanToken = tempToken.trim();
     if (!cleanToken) return;
     setLoading(true);
-    await settings.setSettings({ apiToken: cleanToken });
+    await settings.setSettings({
+      apiToken: cleanToken,
+      apiUrl: tempUrl.trim() || settings.apiUrl,
+    });
     setLoading(false);
   };
 
@@ -101,12 +105,24 @@ export default function Popup() {
             <div className="space-y-1">
               <h1 className="text-2xl font-semibold">Welcome</h1>
               <p className="px-4 text-sm text-gray-500">
-                Enter your API token to unlock Lubb Writer.
+                Configure your API URL and token to unlock Lubb Writer.
               </p>
             </div>
           </div>
 
           <div className="p-5 space-y-4 text-left border border-gray-100 bg-gray-50 dark:bg-gray-800 rounded-xl dark:border-gray-700">
+            <div className="space-y-2">
+              <label className="text-xs font-medium text-gray-700 dark:text-gray-300">
+                API URL
+              </label>
+              <input
+                type="url"
+                value={tempUrl}
+                onChange={(e) => setTempUrl(e.target.value)}
+                placeholder="https://lubb-writer-api.adelpro.us.kg"
+                className="w-full px-3 py-2.5 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary font-mono text-sm shadow-sm"
+              />
+            </div>
             <div className="space-y-2">
               <label className="text-xs font-medium text-gray-700 dark:text-gray-300">
                 API Token
@@ -130,7 +146,7 @@ export default function Popup() {
               ) : (
                 <Check className="w-4 h-4" />
               )}
-              {loading ? "Saving..." : "Save Token & Continue"}
+              {loading ? "Saving..." : "Save & Continue"}
             </button>
             <div className="pt-2 text-center">
               <button

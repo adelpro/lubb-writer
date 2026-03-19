@@ -12,7 +12,7 @@ export interface Settings {
 }
 
 const defaultSettings: Settings = {
-  apiUrl: "https://lubb-writer-api.adelpro.us.kg",
+  apiUrl: process.env.PLASMO_API_URL || "https://lubb-writer-api.adelpro.us.kg",
   apiToken: "",
   defaultMode: "humanize",
   defaultModel: "MiniMax-M2.1",
