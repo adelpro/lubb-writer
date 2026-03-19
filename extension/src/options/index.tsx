@@ -370,6 +370,27 @@ export default function Options() {
             v{VERSION}
           </div>
         </div>
+
+        {/* Footer */}
+        <div className="flex items-center justify-center gap-6 pt-6 text-xs text-gray-400 dark:text-gray-500 border-t border-gray-200 dark:border-gray-700">
+          <a
+            href="https://lubbwriter.adelpro.us.kg"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-primary transition-colors"
+          >
+            Home
+          </a>
+          <span>•</span>
+          <a
+            href="https://lubbwriter.adelpro.us.kg/privacy"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-primary transition-colors"
+          >
+            Privacy
+          </a>
+        </div>
       </div>
     </div>
   );
