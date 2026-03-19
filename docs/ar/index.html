@@ -29,6 +29,7 @@
       <nav class="nav">
         <a href="#features" class="nav-link">الميزات</a>
         <a href="#installation" class="nav-link">التثبيت</a>
+        <a href="#self-hosting" class="nav-link">الاستضافة الذاتية</a>
         <a href="#usage" class="nav-link">الاستخدام</a>
         <a href="../privacy.html" class="nav-link">الخصوصية</a>
         <a href="../" class="nav-link lang-toggle">English</a>
@@ -228,28 +229,142 @@
       </section>
 
       <section id="usage" class="usage">
-        <h2 class="section-title">كيفية الاستخدام</h2>
-        <div class="usage-grid">
-          <div class="usage-card">
-            <div class="usage-icon">🎯</div>
-            <h3>حدد النص</h3>
-            <p>
-              حدد أي نص في أي صفحة ويب تريد تحسينه أو إعادة كتابته.
-            </p>
+        <div class="section-inner">
+          <h2 class="section-title">كيفية استخدام الإضافة</h2>
+          <p class="section-intro">
+            استخدام إضافة كاتب للمتصفح بسيط وسهل. حسّن نصوصك مباشرة من أي صفحة ويب في ثلاث خطوات سهلة.
+          </p>
+          <div class="usage-grid">
+            <div class="usage-card">
+              <div class="usage-icon">🎯</div>
+              <h3>حدد النص</h3>
+              <p>
+                حدد أي نص في أي صفحة ويب تريد تحسينه أو إعادة كتابته.
+              </p>
+            </div>
+            <div class="usage-card">
+              <div class="usage-icon">✨</div>
+              <h3>انقر على تحسين</h3>
+              <p>
+                انقر على أيقونة إضافة كاتب التي تظهر أو استخدم زر التحسين المضمن.
+              </p>
+            </div>
+            <div class="usage-card">
+              <div class="usage-icon">📋</div>
+              <h3>انسخ النتائج</h3>
+              <p>
+                راجع النص المحسّن وانسخه إلى الحافظة بنقرة واحدة.
+              </p>
+            </div>
           </div>
-          <div class="usage-card">
-            <div class="usage-icon">✨</div>
-            <h3>انقر على تحسين</h3>
-            <p>
-              انقر على أيقونة كاتب لوب التي تظهر أو استخدم زر التحسين المضمن.
-            </p>
+        </div>
+      </section>
+
+      <section id="self-hosting" class="self-hosting">
+        <div class="section-inner">
+          <h2 class="section-title">الاستضافة الذاتية لخادم API</h2>
+          <p class="section-intro">
+            انشر خادم Writer API الخاص بك للحصول على خصوصية كاملة للبيانات.
+            نصوصك لا تغادر بنيتك التحتية — تحكم كامل، خصوصية كاملة.
+          </p>
+
+          <div class="hosting-features">
+            <div class="hosting-feature">
+              <div class="hosting-icon">🔐</div>
+              <h3>خصوصية كاملة</h3>
+              <p>نصوصك لا تغادر بنيتك التحتية. سيادة كاملة للبيانات.</p>
+            </div>
+            <div class="hosting-feature">
+              <div class="hosting-icon">🐳</div>
+              <h3>جاهز لـ Docker</h3>
+              <p>نشر بأمر واحد مع Docker و Docker Compose.</p>
+            </div>
+            <div class="hosting-feature">
+              <div class="hosting-icon">🔧</div>
+              <h3>مزودون مخصصون</h3>
+              <p>اتصل بما يصل إلى 10 نقاط نهاية متوافقة مع OpenAI.</p>
+            </div>
           </div>
-          <div class="usage-card">
-            <div class="usage-icon">📋</div>
-            <h3>انسخ النتائج</h3>
-            <p>
-              راجع النص المحسّن وانسخه إلى الحافظة بنقرة واحدة.
-            </p>
+
+          <div class="subsection">
+            <h3 class="subsection-title">ابدأ سريعاً</h3>
+
+            <div class="setup-guide">
+              <div class="setup-step">
+                <h4>1. المتطلبات الأساسية</h4>
+                <p>تأكد من تثبيت Docker و Docker Compose على نظامك.</p>
+                <div class="code-block">
+                  <code>docker --version<br />docker-compose --version</code>
+                </div>
+              </div>
+
+              <div class="setup-step">
+                <h4>2. إنشاء ملف البيئة</h4>
+                <p>انسخ ملف البيئة النموذجي وضبط إعداداتك:</p>
+                <div class="code-block">
+                  <code>cd api<br />cp .env.example .env<br />nano .env  # عدّل الإعدادات</code>
+                </div>
+              </div>
+
+              <div class="setup-step">
+                <h4>3. تشغيل الحاوية</h4>
+                <p>أطلق خادم API مع Docker Compose:</p>
+                <div class="code-block">
+                  <code>docker-compose up -d<br />docker-compose ps  # تحقق من التشغيل</code>
+                </div>
+              </div>
+
+              <div class="setup-step">
+                <h4>4. تكوين الإضافة</h4>
+                <p>وجّه كاتب إلى API المستضاف ذاتياً:</p>
+                <div class="code-block">
+                  <code>نقطة نهاية API: http://localhost:3001<br />رمز API: (من ملف .env)</code>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="subsection">
+            <h3 class="subsection-title">مزودو الذكاء الاصطناعي المدعومون</h3>
+
+            <div class="providers-section">
+              <div class="provider-group">
+                <h4>المزودون الرسميون</h4>
+                <ul class="provider-list">
+                  <li><strong>OpenAI</strong> - GPT-4o, GPT-4o-mini</li>
+                  <li><strong>Anthropic</strong> - Claude 3.5 Sonnet, Claude 3 Opus</li>
+                  <li><strong>Google</strong> - Gemini 1.5 Flash, Gemini 1.5 Pro</li>
+                </ul>
+              </div>
+
+              <div class="provider-group">
+                <h4>نقاط نهاية متوافقة مع OpenAI (حتى 10)</h4>
+                <ul class="provider-list">
+                  <li><strong>MiniMax</strong> - نماذج MiniMax-M2.1</li>
+                  <li><strong>Ollama</strong> - استدلال LLM محلي (Llama2, Mistral, Qwen, إلخ)</li>
+                  <li><strong>LM Studio</strong> - تقديم نموذج محلي</li>
+                  <li><strong>LocalAI</strong> - بوابة AI مستضافة ذاتياً</li>
+                  <li><strong>أي API متوافق مع OpenAI</strong> - نقاط نهاية مخصصة مرنة</li>
+                </ul>
+              </div>
+
+              <div class="provider-config-example">
+                <h4>مثال: تكوين Ollama</h4>
+                <div class="code-block">
+                  <code>CUSTOM_PROVIDER_1_API_KEY=sk-local<br />CUSTOM_PROVIDER_1_BASE_URL=http://localhost:11434/v1<br />CUSTOM_PROVIDER_1_NAME=Ollama<br />CUSTOM_PROVIDER_1_MODELS=llama2,mistral,qwen</code>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="security-note">
+            <h4>🔒 أفضل ممارسات الأمان</h4>
+            <ul>
+              <li>استخدم <code>API_TOKEN</code> قوياً لحماية API الخاص بك</li>
+              <li>احتفظ بملف <code>.env</code> آمناً ولا ترتكبه في التحكم بالإصدارات</li>
+              <li>استخدم HTTPS في الإنتاج مع وكيل عكسي (nginx, Traefik)</li>
+              <li>حدّث صور Docker بانتظام لتصحيحات الأمان</li>
+            </ul>
           </div>
         </div>
       </section>
@@ -274,6 +389,7 @@
           <h4>الموارد</h4>
           <a href="#features">الميزات</a>
           <a href="#installation">التثبيت</a>
+          <a href="#self-hosting">الاستضافة الذاتية</a>
           <a href="#usage">كيفية الاستخدام</a>
           <a href="../privacy.html">سياسة الخصوصية</a>
         </div>

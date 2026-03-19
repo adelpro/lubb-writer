@@ -27,6 +27,7 @@
       <nav class="nav">
         <a href="#features" class="nav-link">Features</a>
         <a href="#installation" class="nav-link">Installation</a>
+        <a href="#self-hosting" class="nav-link">Self-Hosting</a>
         <a href="#usage" class="nav-link">Usage</a>
         <a href="privacy.html" class="nav-link">Privacy</a>
         <a href="ar/" class="nav-link lang-toggle">العربية</a>
@@ -228,31 +229,146 @@
       </section>
 
       <section id="usage" class="usage">
-        <h2 class="section-title">How to Use</h2>
-        <div class="usage-grid">
-          <div class="usage-card">
-            <div class="usage-icon">🎯</div>
-            <h3>Select Text</h3>
-            <p>
-              Select any text on any webpage that you want to enhance or
-              rewrite.
-            </p>
+        <div class="section-inner">
+          <h2 class="section-title">How to Use the Extension</h2>
+          <p class="section-intro">
+            Using the Writer browser extension is simple and intuitive.
+            Enhance your text directly from any webpage in three easy steps.
+          </p>
+          <div class="usage-grid">
+            <div class="usage-card">
+              <div class="usage-icon">🎯</div>
+              <h3>Select Text</h3>
+              <p>
+                Select any text on any webpage that you want to enhance or
+                rewrite.
+              </p>
+            </div>
+            <div class="usage-card">
+              <div class="usage-icon">✨</div>
+              <h3>Click Enhance</h3>
+              <p>
+                Click the Writer extension icon that appears or use the inline
+                enhancement button.
+              </p>
+            </div>
+            <div class="usage-card">
+              <div class="usage-icon">📋</div>
+              <h3>Copy Results</h3>
+              <p>
+                Review the enhanced text and copy it to your clipboard with one
+                click.
+              </p>
+            </div>
           </div>
-          <div class="usage-card">
-            <div class="usage-icon">✨</div>
-            <h3>Click Enhance</h3>
-            <p>
-              Click the Lubb Writer icon that appears or use the inline
-              enhancement button.
-            </p>
+        </div>
+      </section>
+
+      <section id="self-hosting" class="self-hosting">
+        <div class="section-inner">
+          <h2 class="section-title">Self-Hosting the API Backend</h2>
+          <p class="section-intro">
+            Deploy your own Writer API server for complete data privacy.
+            Your text never leaves your infrastructure — full control, full privacy.
+          </p>
+
+          <div class="hosting-features">
+            <div class="hosting-feature">
+              <div class="hosting-icon">🔐</div>
+              <h3>Complete Privacy</h3>
+              <p>Your text never leaves your infrastructure. Full data sovereignty.</p>
+            </div>
+            <div class="hosting-feature">
+              <div class="hosting-icon">🐳</div>
+              <h3>Docker Ready</h3>
+              <p>One-command deployment with Docker and Docker Compose.</p>
+            </div>
+            <div class="hosting-feature">
+              <div class="hosting-icon">🔧</div>
+              <h3>Custom Providers</h3>
+              <p>Connect up to 10 custom OpenAI-compatible endpoints.</p>
+            </div>
           </div>
-          <div class="usage-card">
-            <div class="usage-icon">📋</div>
-            <h3>Copy Results</h3>
-            <p>
-              Review the enhanced text and copy it to your clipboard with one
-              click.
-            </p>
+
+          <div class="subsection">
+            <h3 class="subsection-title">Quick Start</h3>
+
+            <div class="setup-guide">
+              <div class="setup-step">
+                <h4>1. Prerequisites</h4>
+                <p>Ensure you have Docker and Docker Compose installed on your system.</p>
+                <div class="code-block">
+                  <code>docker --version<br />docker-compose --version</code>
+                </div>
+              </div>
+
+              <div class="setup-step">
+                <h4>2. Create Environment File</h4>
+                <p>Copy the example environment file and configure your settings:</p>
+                <div class="code-block">
+                  <code>cd api<br />cp .env.example .env<br />nano .env  # Edit with your settings</code>
+                </div>
+              </div>
+
+              <div class="setup-step">
+                <h4>3. Start the Container</h4>
+                <p>Launch the API server with Docker Compose:</p>
+                <div class="code-block">
+                  <code>docker-compose up -d<br />docker-compose ps  # Verify it's running</code>
+                </div>
+              </div>
+
+              <div class="setup-step">
+                <h4>4. Configure the Extension</h4>
+                <p>Point Writer to your self-hosted API:</p>
+                <div class="code-block">
+                  <code>API Endpoint: http://localhost:3001<br />API Token: (from your .env)</code>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="subsection">
+            <h3 class="subsection-title">Supported AI Providers</h3>
+
+            <div class="providers-section">
+              <div class="provider-group">
+                <h4>Official Providers</h4>
+                <ul class="provider-list">
+                  <li><strong>OpenAI</strong> - GPT-4o, GPT-4o-mini</li>
+                  <li><strong>Anthropic</strong> - Claude 3.5 Sonnet, Claude 3 Opus</li>
+                  <li><strong>Google</strong> - Gemini 1.5 Flash, Gemini 1.5 Pro</li>
+                </ul>
+              </div>
+
+              <div class="provider-group">
+                <h4>Custom OpenAI-Compatible Endpoints (up to 10)</h4>
+                <ul class="provider-list">
+                  <li><strong>MiniMax</strong> - MiniMax-M2.1 models</li>
+                  <li><strong>Ollama</strong> - Local LLM inference (Llama2, Mistral, Qwen, etc.)</li>
+                  <li><strong>LM Studio</strong> - Local model serving</li>
+                  <li><strong>LocalAI</strong> - Self-hosted AI gateway</li>
+                  <li><strong>Any OpenAI-compatible API</strong> - Flexible custom endpoints</li>
+                </ul>
+              </div>
+
+              <div class="provider-config-example">
+                <h4>Example: Ollama Configuration</h4>
+                <div class="code-block">
+                  <code>CUSTOM_PROVIDER_1_API_KEY=sk-local<br />CUSTOM_PROVIDER_1_BASE_URL=http://localhost:11434/v1<br />CUSTOM_PROVIDER_1_NAME=Ollama<br />CUSTOM_PROVIDER_1_MODELS=llama2,mistral,qwen</code>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="security-note">
+            <h4>🔒 Security Best Practices</h4>
+            <ul>
+              <li>Use a strong <code>API_TOKEN</code> to protect your API</li>
+              <li>Keep your <code>.env</code> file secure and never commit it to version control</li>
+              <li>Use HTTPS in production with a reverse proxy (nginx, Traefik)</li>
+              <li>Regularly update your Docker images for security patches</li>
+            </ul>
           </div>
         </div>
       </section>
@@ -277,6 +393,7 @@
           <h4>Resources</h4>
           <a href="#features">Features</a>
           <a href="#installation">Installation</a>
+          <a href="#self-hosting">Self-Hosting</a>
           <a href="#usage">How to Use</a>
           <a href="privacy.html">Privacy Policy</a>
         </div>
