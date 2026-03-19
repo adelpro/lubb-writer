@@ -2,7 +2,7 @@ import "../styles.css";
 import iconUrl from "data-base64:../../assets/icon.png";
 import { useSettingsStore } from "../stores/settings";
 import { MODES, MODELS } from "../constants";
-import { Sparkles, Check, Loader2, Settings, Key, Wand2 } from "lucide-react";
+import { Sparkles, Check, Loader2, Settings, Key } from "lucide-react";
 import { useState, useEffect } from "react";
 import { fetchAvailableModels } from "../lib/api";
 import clsx from "clsx";
@@ -66,7 +66,7 @@ export default function Options() {
         <div className="w-full max-w-md bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
           <div className="p-8 text-center space-y-6">
             <div className="flex flex-col items-center space-y-4">
-              <div className="w-16 h-16 rounded-2xl overflow-hidden shadow-md bg-gray-100 flex items-center justify-center p-2">
+              <div className="w-16 h-16 rounded-2xl overflow-hidden shadow-md bg-white/90 flex items-center justify-center p-2 ring-1 ring-gray-200/50 dark:ring-gray-700/50">
                 <img
                   src={iconUrl}
                   alt="Lubb Writer"
@@ -142,7 +142,7 @@ export default function Options() {
                 : "border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300",
             )}
           >
-            <Wand2 className="w-4 h-4" /> Features
+            <img src={iconUrl} alt="" className="w-4 h-4" /> Features
           </button>
           <button
             onClick={() => setActiveTab("api")}

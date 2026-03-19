@@ -1,5 +1,6 @@
 import cssText from "data-text:../styles.css";
 import type { PlasmoCSConfig, PlasmoGetStyle } from "plasmo";
+import iconUrl from "data-base64:../../assets/icon.png";
 import { useEffect, useState, useCallback } from "react";
 import {
   X,
@@ -7,7 +8,6 @@ import {
   Check,
   Copy,
   RefreshCw,
-  Wand2,
   AlignLeft,
   FileText,
   Scale,
@@ -132,7 +132,9 @@ function EnhanceModal({ originalText, onClose }: EnhanceModalProps) {
       <div className="bg-white rounded-xl w-[90%] max-w-[560px] max-h-[90vh] overflow-hidden shadow-2xl flex flex-col">
         <div className="flex justify-between items-center px-5 py-4 text-white border-b border-gray-200 bg-primary">
           <div className="flex gap-2 items-center">
-            <Wand2 className="w-5 h-5" />
+            <div className="p-1 rounded-lg bg-white/20">
+              <img src={iconUrl} alt="Lubb Writer" className="w-4 h-4" />
+            </div>
             <span className="text-base font-semibold">Lubb Writer</span>
           </div>
           <button
@@ -155,7 +157,7 @@ function EnhanceModal({ originalText, onClose }: EnhanceModalProps) {
 
           <div>
             <label className="text-xs font-medium text-gray-500 mb-2 flex items-center gap-1.5">
-              <Wand2 className="w-3.5 h-3.5" />
+              <img src={iconUrl} alt="" className="w-3.5 h-3.5" />
               Enhancement Mode
             </label>
             <div className="grid grid-cols-3 gap-2">
@@ -226,7 +228,7 @@ function EnhanceModal({ originalText, onClose }: EnhanceModalProps) {
                 </>
               ) : (
                 <>
-                  <Wand2 className="w-4 h-4" />
+                  <img src={iconUrl} alt="" className="w-4 h-4" />
                   Enhance Text
                 </>
               )}
