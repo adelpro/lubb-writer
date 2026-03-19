@@ -1,7 +1,7 @@
 import "../styles.css";
 import iconUrl from "data-base64:../../assets/icon.png";
 import { useSettingsStore } from "../stores/settings";
-import { MODES, MODELS } from "../constants";
+import { MODES, MODELS, VERSION } from "../constants";
 import { Sparkles, Check, Loader2, Settings, Key } from "lucide-react";
 import { useState, useEffect } from "react";
 import { fetchAvailableModels } from "../lib/api";
@@ -347,6 +347,9 @@ export default function Options() {
               "Save Settings"
             )}
           </button>
+          <div className="ml-auto text-xs text-gray-400 dark:text-gray-500">
+            v{VERSION}
+          </div>
         </div>
       </div>
     </div>

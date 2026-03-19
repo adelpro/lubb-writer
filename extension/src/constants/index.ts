@@ -1,3 +1,5 @@
+export const VERSION = "1.0.0";
+
 export const MODES = [
   { value: "humanize", label: "Humanize" },
   { value: "rewrite", label: "Rewrite" },
