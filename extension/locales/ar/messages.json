@@ -1,6 +1,6 @@
 {
   "extensionName": {
-    "message": "كاتب لوب",
+    "message": "لب - كاتب",
     "description": "اسم الإضافة"
   },
   "extensionDescription": {
@@ -12,7 +12,7 @@
     "description": "رسالة الترحيب"
   },
   "configureApiToken": {
-    "message": "قم بتكوين عنوان URL للواجهة البرمجية والرمز لفتح كاتب لوب.",
+    "message": "قم بتكوين عنوان URL للواجهة البرمجية والرمز لفتح لب - كاتب.",
     "description": "تعليمات الإعداد"
   },
   "apiUrl": {
@@ -254,5 +254,165 @@
   "keyboardShortcuts": {
     "message": "اختصارات لوحة المفاتيح",
     "description": "قسم اختصارات لوحة المفاتيح"
+  },
+  "largestWriter": {
+    "message": "لب - كاتب",
+    "description": "اسم العلامة التجارية للإضافة"
+  },
+  "enhanceSelectedText": {
+    "message": "تحسين النص المحدد",
+    "description": "نص زر التحسين"
+  },
+  "loadingModels": {
+    "message": "جارٍ تحميل النماذج...",
+    "description": "نص تحميل النماذج"
+  },
+  "noModelsAvailable": {
+    "message": "لا توجد نماذج متاحة",
+    "description": "رسالة عدم توفر نماذج"
+  },
+  "recentItems": {
+    "message": "العناصر الأخيرة",
+    "description": "رأس قسم العناصر الأخيرة"
+  },
+  "clear": {
+    "message": "مسح",
+    "description": "زر المسح"
+  },
+  "noHistoryYet": {
+    "message": "لا يوجد سجل بعد.",
+    "description": "رسالة السجل الفارغ"
+  },
+  "new": {
+    "message": "جديد ←",
+    "description": "نص الزر الجديد"
+  },
+  "advancedConfiguration": {
+    "message": "تكوين متقدم...",
+    "description": "رابط التكوين المتقدم"
+  },
+  "apiTokenLabel": {
+    "message": "رمز API",
+    "description": "تسمية رمز API"
+  },
+  "pasteYourTokenHere": {
+    "message": "الصق الرمز هنا",
+    "description": "نصائح الرمز"
+  },
+  "saving": {
+    "message": "جارٍ الحفظ...",
+    "description": "نص التحميل أثناء الحفظ"
+  },
+  "saveAndContinue": {
+    "message": "حفظ والمتابعة",
+    "description": "زر الحفظ والمتابعة"
+  },
+  "enhanceSelection": {
+    "message": "تحسين التحديد",
+    "description": "تسمية اختصار تحسين التحديد"
+  },
+  "openSettings": {
+    "message": "فتح الإعدادات",
+    "description": "تسمية aria لفتح الإعدادات"
+  },
+  "removeFromHistory": {
+    "message": "إزالة من السجل",
+    "description": "إزالة من aria السجل"
+  },
+  "clearAllHistory": {
+    "message": "مسح كل السجل",
+    "description": "مسح كل aria السجل"
+  },
+  "keyboardShortcutsLabel": {
+    "message": "اختصارات لوحة المفاتيح",
+    "description": "تسمية زر اختصارات لوحة المفاتيح aria"
+  },
+  "general": {
+    "message": "عام",
+    "description": "تسمية علامة التبويب العام"
+  },
+  "defaultModel": {
+    "message": "النموذج الافتراضي",
+    "description": "تسمية النموذج الافتراضي"
+  },
+  "loading": {
+    "message": "جارٍ التحميل...",
+    "description": "تسمية التحميل"
+  },
+  "aboutSection": {
+    "message": "حول",
+    "description": "قسم حول"
+  },
+  "settingsTitle": {
+    "message": "الإعدادات",
+    "description": "عنوان صفحة الإعدادات"
+  },
+  "yourApiEndpoint": {
+    "message": "نقطة نهاية API الخاصة بك",
+    "description": "وصف نقطة نهاية API"
+  },
+  "yourApiToken": {
+    "message": "رمز API الخاص بك",
+    "description": "تسمية رمز API"
+  },
+  "leaveEmptyIfNoAuth": {
+    "message": "اتركه فارغاً إذا كانت افتراضيات API لا تتطلب تفويضاً",
+    "description": "نصائح رمز API"
+  },
+  "defaultModeLabel": {
+    "message": "الوضع الافتراضي",
+    "description": "تسمية الوضع الافتراضي"
+  },
+  "showInlineEnhancement": {
+    "message": "إظهار أيقونة التحسين المضمنة",
+    "description": "إعداد إظهار التحسين المضمن"
+  },
+  "comingSoon": {
+    "message": "قريباً",
+    "description": "شارة قريباً"
+  },
+  "showIconNextToInputs": {
+    "message": "إظهار أيقونة ✨ بجوار حقول الإدخال على صفحات الويب",
+    "description": "وصف التحسين المضمن"
+  },
+  "enableHistorySetting": {
+    "message": "تفعيل السجل",
+    "description": "تفعيل إعداد السجل"
+  },
+  "storeRecentEnhancements": {
+    "message": "تخزين التحسينات الأخيرة في النافذة المنبثقة",
+    "description": "وصف إعداد السجل"
+  },
+  "enhancementMode": {
+    "message": "وضع التحسين",
+    "description": "تسمية وضع التحسين"
+  },
+  "useCustomPromptCheckbox": {
+    "message": "استخدم مطالبة مخصصة",
+    "description": "خانة اختيار المطالبة المخصصة"
+  },
+  "insertEnhancedText": {
+    "message": "إدراج المحسّن",
+    "description": "زر إدراج النص المحسّن"
+  },
+  "closeButton": {
+    "message": "إغلاق",
+    "description": "زر الإغلاق"
+  },
+  "tokensUsed": {
+    "message": "الرموز المستخدمة",
+    "description": "تسمية الرموز المستخدمة"
+  },
+  "tryDifferentMode": {
+    "message": "جرّب وضعاً مختلفاً",
+    "description": "زر تجربة وضع مختلف"
+  },
+  "copy": {
+    "message": "نسخ",
+    "description": "زر النسخ"
+  },
+  "originalText": {
+    "message": "النص الأصلي",
+    "description": "تسمية النص الأصلي"
   }
 }

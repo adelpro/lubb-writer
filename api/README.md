@@ -1,4 +1,4 @@
-# Lubb Writer API
+# Lubb - Writer API
 
 REST API for AI-powered text enhancement with multiple writing modes and multi-provider support.
 
@@ -29,7 +29,7 @@ curl http://localhost:3003/health
 
 ### Overview
 
-Lubb Writer supports multiple AI providers through environment variables. At least one provider must be configured.
+Lubb - Writer supports multiple AI providers through environment variables. At least one provider must be configured.
 
 ### Standard Providers
 

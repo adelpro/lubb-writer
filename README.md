@@ -1,10 +1,10 @@
-# Lubb Writer
+# Lubb - Writer
 
 AI-powered text enhancement tool that transforms your writing with multiple modes and multi-provider AI support. Includes both a REST API and browser extension.
 
 ## Overview
 
-Lubb Writer helps you improve any text with AI. Choose from 13 different writing modes, connect to your preferred AI provider, and enhance text directly from your browser or via API.
+Lubb - Writer helps you improve any text with AI. Choose from 13 different writing modes, connect to your preferred AI provider, and enhance text directly from your browser or via API.
 
 ## Architecture
 

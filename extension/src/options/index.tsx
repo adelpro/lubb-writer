@@ -19,6 +19,8 @@ export default function Options() {
   const [modelsLoading, setModelsLoading] = useState(false);
   const [modelsError, setModelsError] = useState<string | null>(null);
 
+  const isRTL = chrome.i18n.getUILanguage().startsWith("ar");
+
   useEffect(() => {
     const loadModels = async () => {
       if (!settings.apiToken || !settings.apiUrl) return;
@@ -72,7 +74,10 @@ export default function Options() {
 
   if (!settings.apiToken) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center p-6 text-gray-900 dark:text-gray-100">
+      <div
+        dir={isRTL ? "rtl" : "ltr"}
+        className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center p-6 text-gray-900 dark:text-gray-100"
+      >
         <div className="w-full max-w-md bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
           <div className="p-8 text-center space-y-6">
             <div className="flex flex-col items-center space-y-4">
@@ -84,16 +89,22 @@ export default function Options() {
                 />
               </div>
               <div className="space-y-2">
-                <h1 className="text-2xl font-bold">Configure Lubb Writer</h1>
+                <h1 className="text-2xl font-bold">
+                  {chrome.i18n.getMessage("configureExtension") ||
+                    "Configure Lubb Writer"}
+                </h1>
                 <p className="text-sm text-gray-500">
-                  Please provide your API token to get started.
+                  {chrome.i18n.getMessage("apiKeyRequired") ||
+                    "Please provide your API token to get started."}
                 </p>
               </div>
             </div>
 
             <div className="space-y-4 text-left bg-gray-50 dark:bg-gray-900/50 p-6 rounded-xl border border-gray-200 dark:border-gray-700">
               <div className="space-y-2">
-                <label className="text-sm font-medium">API URL:</label>
+                <label className="text-sm font-medium">
+                  {chrome.i18n.getMessage("apiUrl") || "API URL"}:
+                </label>
                 <input
                   type="url"
                   value={tempUrl}
@@ -103,12 +114,17 @@ export default function Options() {
                 />
               </div>
               <div className="space-y-2">
-                <label className="text-sm font-medium">API Token:</label>
+                <label className="text-sm font-medium">
+                  {chrome.i18n.getMessage("apiToken") || "API Token"}:
+                </label>
                 <input
                   type="password"
                   value={tempToken}
                   onChange={(e) => setTempToken(e.target.value)}
-                  placeholder="Enter your API Token"
+                  placeholder={
+                    chrome.i18n.getMessage("apiTokenPlaceholder") ||
+                    "Enter your API Token"
+                  }
                   className="w-full px-4 py-3 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary font-mono text-sm shadow-sm transition-shadow"
                   onKeyDown={(e) => e.key === "Enter" && handleSaveToken()}
                 />
@@ -123,7 +139,10 @@ export default function Options() {
                 ) : (
                   <Check className="w-5 h-5" />
                 )}
-                {saving ? "Saving..." : "Save & Continue"}
+                {saving
+                  ? chrome.i18n.getMessage("saving") || "Saving..."
+                  : chrome.i18n.getMessage("saveAndContinue") ||
+                    "Save & Continue"}
               </button>
             </div>
           </div>
@@ -133,7 +152,10 @@ export default function Options() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+    <div
+      dir={isRTL ? "rtl" : "ltr"}
+      className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100"
+    >
       <div className="w-full max-w-2xl mx-auto p-6 space-y-6">
         <div className="flex items-center gap-3 pb-4 border-b border-gray-200 dark:border-gray-700">
           <div className="w-10 h-10 rounded-xl overflow-hidden shadow-sm bg-white/90 flex items-center justify-center p-1.5 ring-1 ring-gray-200/50 dark:ring-gray-700/50">
@@ -143,7 +165,9 @@ export default function Options() {
               className="w-full h-full object-contain"
             />
           </div>
-          <h1 className="text-xl font-semibold">Settings</h1>
+          <h1 className="text-xl font-semibold">
+            {chrome.i18n.getMessage("settingsTitle") || "Settings"}
+          </h1>
         </div>
 
         {/* Tabs */}
@@ -163,7 +187,8 @@ export default function Options() {
                 : "border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300",
             )}
           >
-            <Settings className="w-4 h-4" aria-hidden="true" /> General
+            <Settings className="w-4 h-4" aria-hidden="true" />{" "}
+            {chrome.i18n.getMessage("general") || "General"}
           </button>
           <button
             role="tab"
@@ -177,7 +202,7 @@ export default function Options() {
             )}
           >
             <SlidersHorizontal className="w-4 h-4" aria-hidden="true" />{" "}
-            Features
+            {chrome.i18n.getMessage("features") || "Features"}
           </button>
           <button
             role="tab"
@@ -190,7 +215,8 @@ export default function Options() {
                 : "border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300",
             )}
           >
-            <Key className="w-4 h-4" aria-hidden="true" /> API Configuration
+            <Key className="w-4 h-4" aria-hidden="true" />{" "}
+            {chrome.i18n.getMessage("apiConfiguration") || "API Configuration"}
           </button>
         </div>
 
@@ -202,7 +228,8 @@ export default function Options() {
               <div className="space-y-4 bg-white dark:bg-gray-800 p-4 rounded-xl border border-gray-200 dark:border-gray-700">
                 <div className="space-y-2">
                   <label className="block text-sm font-medium">
-                    Default Mode
+                    {chrome.i18n.getMessage("defaultModeLabel") ||
+                      "Default Mode"}
                   </label>
                   <select
                     value={settings.defaultMode}
@@ -223,7 +250,9 @@ export default function Options() {
 
                 <div className="space-y-2">
                   <label className="block text-sm font-medium">
-                    Default Model {modelsLoading && "(Loading...)"}
+                    {chrome.i18n.getMessage("defaultModel") || "Default Model"}{" "}
+                    {modelsLoading &&
+                      `(${chrome.i18n.getMessage("loading") || "Loading..."})`}
                   </label>
                   <select
                     value={settings.defaultModel}
@@ -236,7 +265,10 @@ export default function Options() {
                     disabled={modelsLoading}
                   >
                     {modelsLoading ? (
-                      <option>Loading models...</option>
+                      <option>
+                        {chrome.i18n.getMessage("loadingModels") ||
+                          "Loading models..."}
+                      </option>
                     ) : (
                       displayModels.map((m) => (
                         <option key={m.value} value={m.value}>
@@ -267,13 +299,15 @@ export default function Options() {
                   />
                   <div>
                     <span className="font-medium flex items-center gap-2">
-                      Show inline enhancement icon
+                      {chrome.i18n.getMessage("showInlineEnhancement") ||
+                        "Show inline enhancement icon"}
                       <span className="px-1.5 py-0.5 text-[10px] font-medium bg-primary/10 text-primary dark:bg-primary/20 rounded-full">
-                        {settings.language === "ar" ? "قريباً" : "Coming Soon"}
+                        {chrome.i18n.getMessage("comingSoon") || "Coming Soon"}
                       </span>
                     </span>
                     <p className="text-xs text-gray-500">
-                      Show ✨ icon next to text inputs on webpages
+                      {chrome.i18n.getMessage("showIconNextToInputs") ||
+                        "Show ✨ icon next to text inputs on webpages"}
                     </p>
                   </div>
                 </label>
@@ -290,9 +324,13 @@ export default function Options() {
                     className="w-4 h-4 text-primary rounded focus:ring-primary"
                   />
                   <div>
-                    <span className="font-medium">Enable history</span>
+                    <span className="font-medium">
+                      {chrome.i18n.getMessage("enableHistorySetting") ||
+                        "Enable history"}
+                    </span>
                     <p className="text-xs text-gray-500">
-                      Store recent enhancements in the popup
+                      {chrome.i18n.getMessage("storeRecentEnhancements") ||
+                        "Store recent enhancements in the popup"}
                     </p>
                   </div>
                 </label>
@@ -305,7 +343,9 @@ export default function Options() {
             <section className="space-y-4">
               <div className="space-y-4 bg-white dark:bg-gray-800 p-4 rounded-xl border border-gray-200 dark:border-gray-700">
                 <div className="space-y-2">
-                  <label className="block text-sm font-medium">API URL</label>
+                  <label className="block text-sm font-medium">
+                    {chrome.i18n.getMessage("apiUrl") || "API URL"}
+                  </label>
                   <input
                     type="url"
                     autoComplete="off"
@@ -318,13 +358,14 @@ export default function Options() {
                     className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-primary font-mono text-sm"
                   />
                   <p className="text-xs text-gray-500 mt-1">
-                    Your Lubb Writer API endpoint
+                    {chrome.i18n.getMessage("yourApiEndpoint") ||
+                      "Your Lubb Writer API endpoint"}
                   </p>
                 </div>
 
                 <div className="space-y-2 pt-2 border-t border-gray-200 dark:border-gray-700">
                   <label className="block text-sm font-medium pt-2">
-                    API Token
+                    {chrome.i18n.getMessage("yourApiToken") || "API Token"}
                   </label>
                   <input
                     type="password"
@@ -336,11 +377,15 @@ export default function Options() {
                         apiToken: e.target.value.trim(),
                       })
                     }
-                    placeholder="Your API token"
+                    placeholder={
+                      chrome.i18n.getMessage("apiTokenPlaceholder") ||
+                      "Your API token"
+                    }
                     className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-primary font-mono text-sm"
                   />
                   <p className="text-xs text-gray-500 mt-1">
-                    Leave empty if the API defaults don't require authorization
+                    {chrome.i18n.getMessage("leaveEmptyIfNoAuth") ||
+                      "Leave empty if the API defaults don't require authorization"}
                   </p>
                 </div>
               </div>
@@ -361,18 +406,23 @@ export default function Options() {
             {saving ? (
               <>
                 <Loader2 className="w-4 h-4 animate-spin" />
-                Saving...
+                {chrome.i18n.getMessage("saving") || "Saving..."}
               </>
             ) : saved ? (
               <>
                 <Check className="w-4 h-4" />
-                Saved!
+                {chrome.i18n.getMessage("saved") || "Saved!"}
               </>
             ) : (
-              "Save Settings"
+              chrome.i18n.getMessage("save") || "Save Settings"
             )}
           </button>
-          <div className="ml-auto text-xs text-gray-400 dark:text-gray-500">
+          <div
+            className={clsx(
+              "text-xs text-gray-400 dark:text-gray-500",
+              isRTL ? "mr-auto" : "ml-auto",
+            )}
+          >
             v{VERSION}
           </div>
         </div>

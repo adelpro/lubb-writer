@@ -1,6 +1,6 @@
 {
   "extensionName": {
-    "message": "Lubb Writer",
+    "message": "Lubb - Writer",
     "description": "Extension name"
   },
   "extensionDescription": {
@@ -12,7 +12,7 @@
     "description": "Welcome message"
   },
   "configureApiToken": {
-    "message": "Configure your API URL and token to unlock Lubb Writer.",
+    "message": "Configure your API URL and token to unlock Lubb - Writer.",
     "description": "Setup instructions"
   },
   "apiUrl": {
@@ -254,5 +254,165 @@
   "keyboardShortcuts": {
     "message": "Keyboard Shortcuts",
     "description": "Keyboard shortcuts section"
+  },
+  "largestWriter": {
+    "message": "Lubb - Writer",
+    "description": "Extension brand name"
+  },
+  "enhanceSelectedText": {
+    "message": "Enhance Selected Text",
+    "description": "Enhance button text"
+  },
+  "loadingModels": {
+    "message": "Loading models...",
+    "description": "Loading models placeholder"
+  },
+  "noModelsAvailable": {
+    "message": "No models available",
+    "description": "No models available message"
+  },
+  "recentItems": {
+    "message": "Recent Items",
+    "description": "Recent items section header"
+  },
+  "clear": {
+    "message": "Clear",
+    "description": "Clear button"
+  },
+  "noHistoryYet": {
+    "message": "No history yet.",
+    "description": "Empty history message"
+  },
+  "new": {
+    "message": "← New",
+    "description": "New button text"
+  },
+  "advancedConfiguration": {
+    "message": "Advanced configuration...",
+    "description": "Advanced configuration link"
+  },
+  "apiTokenLabel": {
+    "message": "API Token",
+    "description": "API Token label"
+  },
+  "pasteYourTokenHere": {
+    "message": "Paste your token here",
+    "description": "Token placeholder"
+  },
+  "saving": {
+    "message": "Saving…",
+    "description": "Saving loading text"
+  },
+  "saveAndContinue": {
+    "message": "Save & Continue",
+    "description": "Save and continue button"
+  },
+  "enhanceSelection": {
+    "message": "Enhance Selection",
+    "description": "Enhance selection shortcut label"
+  },
+  "openSettings": {
+    "message": "Open settings",
+    "description": "Open settings aria label"
+  },
+  "removeFromHistory": {
+    "message": "Remove from history",
+    "description": "Remove from history aria label"
+  },
+  "clearAllHistory": {
+    "message": "Clear all history",
+    "description": "Clear all history aria label"
+  },
+  "keyboardShortcutsLabel": {
+    "message": "Keyboard shortcuts",
+    "description": "Keyboard shortcuts button aria label"
+  },
+  "general": {
+    "message": "General",
+    "description": "General tab label"
+  },
+  "defaultModel": {
+    "message": "Default Model",
+    "description": "Default model label"
+  },
+  "loading": {
+    "message": "Loading...",
+    "description": "Loading label"
+  },
+  "aboutSection": {
+    "message": "About",
+    "description": "About section"
+  },
+  "settingsTitle": {
+    "message": "Settings",
+    "description": "Settings page title"
+  },
+  "yourApiEndpoint": {
+    "message": "Your Lubb - Writer API endpoint",
+    "description": "API endpoint description"
+  },
+  "yourApiToken": {
+    "message": "Your API token",
+    "description": "API token label"
+  },
+  "leaveEmptyIfNoAuth": {
+    "message": "Leave empty if the API defaults don't require authorization",
+    "description": "API token helper text"
+  },
+  "defaultModeLabel": {
+    "message": "Default Mode",
+    "description": "Default mode label"
+  },
+  "showInlineEnhancement": {
+    "message": "Show inline enhancement icon",
+    "description": "Show inline enhancement setting"
+  },
+  "comingSoon": {
+    "message": "Coming Soon",
+    "description": "Coming soon badge"
+  },
+  "showIconNextToInputs": {
+    "message": "Show ✨ icon next to text inputs on webpages",
+    "description": "Inline enhancement description"
+  },
+  "enableHistorySetting": {
+    "message": "Enable history",
+    "description": "Enable history setting"
+  },
+  "storeRecentEnhancements": {
+    "message": "Store recent enhancements in the popup",
+    "description": "History setting description"
+  },
+  "enhancementMode": {
+    "message": "Enhancement Mode",
+    "description": "Enhancement mode label"
+  },
+  "useCustomPromptCheckbox": {
+    "message": "Use Custom Prompt",
+    "description": "Use custom prompt checkbox"
+  },
+  "insertEnhancedText": {
+    "message": "Insert Enhanced",
+    "description": "Insert enhanced text button"
+  },
+  "closeButton": {
+    "message": "Close",
+    "description": "Close button"
+  },
+  "tokensUsed": {
+    "message": "tokens used",
+    "description": "Tokens used label"
+  },
+  "tryDifferentMode": {
+    "message": "Try different mode",
+    "description": "Try different mode button"
+  },
+  "copy": {
+    "message": "Copy",
+    "description": "Copy button label"
+  },
+  "originalText": {
+    "message": "Original Text",
+    "description": "Original text label"
   }
 }

@@ -153,7 +153,8 @@ export default function Popup() {
   };
 
   const formatRelativeTime = (timestamp: number): string => {
-    const rtf = new Intl.RelativeTimeFormat(settings.language, {
+    const uiLang = chrome.i18n.getUILanguage();
+    const rtf = new Intl.RelativeTimeFormat(uiLang, {
       numeric: "auto",
     });
     const diffSeconds = Math.round((timestamp - Date.now()) / 1000);
@@ -173,7 +174,7 @@ export default function Popup() {
     if (Math.abs(diffDays) < 30) {
       return rtf.format(diffDays, "day");
     }
-    return new Intl.DateTimeFormat(settings.language, {
+    return new Intl.DateTimeFormat(uiLang, {
       month: "short",
       day: "numeric",
     }).format(timestamp);
@@ -233,7 +234,7 @@ export default function Popup() {
             </div>
             <div className="space-y-2">
               <label className="text-xs font-medium text-gray-700 dark:text-gray-300">
-                API Token
+                {chrome.i18n.getMessage("apiTokenLabel") || "API Token"}
               </label>
               <input
                 type="password"
@@ -241,7 +242,10 @@ export default function Popup() {
                 spellCheck={false}
                 value={tempToken}
                 onChange={(e) => setTempToken(e.target.value)}
-                placeholder="Paste your token here"
+                placeholder={
+                  chrome.i18n.getMessage("pasteYourTokenHere") ||
+                  "Paste your token here"
+                }
                 className="w-full px-3 py-2.5 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary font-mono text-sm shadow-sm"
                 onKeyDown={(e) => e.key === "Enter" && handleSaveToken()}
               />
@@ -256,14 +260,18 @@ export default function Popup() {
               ) : (
                 <Check className="w-4 h-4" aria-hidden="true" />
               )}
-              {loading ? "Saving…" : "Save & Continue"}
+              {loading
+                ? chrome.i18n.getMessage("saving") || "Saving…"
+                : chrome.i18n.getMessage("saveAndContinue") ||
+                  "Save & Continue"}
             </button>
             <div className="pt-2 text-center">
               <button
                 onClick={openOptions}
                 className="text-xs text-gray-500 transition-colors hover:text-primary hover:underline"
               >
-                Advanced configuration...
+                {chrome.i18n.getMessage("advancedConfiguration") ||
+                  "Advanced configuration..."}
               </button>
             </div>
           </div>
@@ -272,8 +280,11 @@ export default function Popup() {
     );
   }
 
+  const isRTL = chrome.i18n.getUILanguage().startsWith("ar");
+
   return (
     <div
+      dir={isRTL ? "rtl" : "ltr"}
       className={clsx(
         "flex flex-col mt-4 text-sm border w-[400px] h-[500px]",
         isDark
@@ -287,13 +298,18 @@ export default function Popup() {
           <div className="p-1.5 bg-white/90 rounded-xl shadow-sm ring-1 ring-gray-200/50 dark:ring-gray-700/50">
             <img src={iconUrl} alt="Lubb Writer" className="w-5 h-5" />
           </div>
-          <span className="text-lg font-semibold">Lubb Writer</span>
+          <span className="text-lg font-semibold">
+            {chrome.i18n.getMessage("largestWriter") || "Lubb Writer"}
+          </span>
         </div>
         <div className="flex gap-1 items-center">
           <div className="relative">
             <button
               onClick={() => setShowShortcuts(!showShortcuts)}
-              aria-label="Keyboard shortcuts"
+              aria-label={
+                chrome.i18n.getMessage("keyboardShortcutsLabel") ||
+                "Keyboard shortcuts"
+              }
               aria-expanded={showShortcuts}
               aria-haspopup="true"
               className="p-2 rounded-full transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
@@ -303,12 +319,21 @@ export default function Popup() {
             {showShortcuts && (
               <div
                 role="tooltip"
-                className="absolute right-0 top-full z-50 p-3 mt-2 w-48 bg-white rounded-lg border border-gray-200 shadow-lg dark:bg-gray-800 dark:border-gray-700"
+                className={clsx(
+                  "absolute z-50 p-3 mt-2 w-48 bg-white rounded-lg border border-gray-200 shadow-lg dark:bg-gray-800 dark:border-gray-700",
+                  isRTL ? "left-0" : "right-0",
+                )}
               >
-                <p className="mb-2 text-xs font-medium">Keyboard Shortcuts</p>
+                <p className="mb-2 text-xs font-medium">
+                  {chrome.i18n.getMessage("keyboardShortcuts") ||
+                    "Keyboard Shortcuts"}
+                </p>
                 <div className="space-y-1.5 text-xs text-gray-600 dark:text-gray-400">
                   <div className="flex justify-between items-center">
-                    <span>Enhance Selection</span>
+                    <span>
+                      {chrome.i18n.getMessage("enhanceSelection") ||
+                        "Enhance Selection"}
+                    </span>
                     <kbd className="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-700 rounded text-[10px] font-mono">
                       Ctrl+Shift+Y
                     </kbd>
@@ -319,7 +344,9 @@ export default function Popup() {
           </div>
           <button
             onClick={openOptions}
-            aria-label="Open settings"
+            aria-label={
+              chrome.i18n.getMessage("openSettings") || "Open settings"
+            }
             className="p-2 rounded-full transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
           >
             <Settings className="w-4 h-4 text-gray-500" />
@@ -344,7 +371,7 @@ export default function Popup() {
               : "border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300",
           )}
         >
-          Write
+          {chrome.i18n.getMessage("write") || "Write"}
         </button>
         <button
           role="tab"
@@ -358,7 +385,7 @@ export default function Popup() {
           )}
         >
           <Clock className="w-4 h-4" aria-hidden="true" />
-          History
+          {chrome.i18n.getMessage("history") || "History"}
         </button>
       </div>
 
@@ -372,7 +399,10 @@ export default function Popup() {
                 <textarea
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
-                  placeholder="Enter text to enhance... or select text on a webpage."
+                  placeholder={
+                    chrome.i18n.getMessage("enterText") ||
+                    "Enter text to enhance... or select text on a webpage."
+                  }
                   className="p-3 w-full text-sm bg-gray-50 rounded-lg border border-gray-200 transition-shadow resize-none dark:border-gray-700 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                   rows={4}
                 />
@@ -396,9 +426,15 @@ export default function Popup() {
                     disabled={modelsLoading}
                   >
                     {modelsLoading ? (
-                      <option>Loading...</option>
+                      <option>
+                        {chrome.i18n.getMessage("loadingModels") ||
+                          "Loading models..."}
+                      </option>
                     ) : displayModels.length === 0 ? (
-                      <option>No models available</option>
+                      <option>
+                        {chrome.i18n.getMessage("noModelsAvailable") ||
+                          "No models available"}
+                      </option>
                     ) : (
                       displayModels.map((m) => (
                         <option key={m.value} value={m.value}>
@@ -428,12 +464,13 @@ export default function Popup() {
                         className="w-4 h-4 animate-spin"
                         aria-hidden="true"
                       />
-                      Enhancing…
+                      {chrome.i18n.getMessage("enhancing") || "Enhancing..."}
                     </>
                   ) : (
                     <>
                       <Sparkles className="w-4 h-4" aria-hidden="true" />
-                      Enhance Selected Text
+                      {chrome.i18n.getMessage("enhanceSelectedText") ||
+                        "Enhance Selected Text"}
                     </>
                   )}
                 </button>
@@ -453,7 +490,8 @@ export default function Popup() {
                 </p>
                 {tokenUsage && (
                   <p className="text-xs text-gray-400">
-                    {tokenUsage.toLocaleString()} tokens used
+                    {tokenUsage.toLocaleString()}{" "}
+                    {chrome.i18n.getMessage("tokensUsed") || "tokens used"}
                   </p>
                 )}
                 <button
@@ -468,12 +506,12 @@ export default function Popup() {
                   {copied ? (
                     <>
                       <Check className="w-4 h-4" aria-hidden="true" />
-                      Copied!
+                      {chrome.i18n.getMessage("copied") || "Copied!"}
                     </>
                   ) : (
                     <>
                       <Copy className="w-4 h-4" aria-hidden="true" />
-                      Copy
+                      {chrome.i18n.getMessage("copyToClipboard") || "Copy"}
                     </>
                   )}
                 </button>
@@ -485,7 +523,7 @@ export default function Popup() {
                   }}
                   className="px-4 py-2 w-full text-sm font-medium text-gray-700 rounded-lg transition-colors dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
                 >
-                  ← New
+                  {chrome.i18n.getMessage("new") || "← New"}
                 </button>
               </div>
             )}
@@ -494,16 +532,19 @@ export default function Popup() {
           <div className="space-y-4">
             <div className="flex justify-between items-center">
               <span className="text-xs font-medium tracking-wider text-gray-500 uppercase">
-                Recent Items
+                {chrome.i18n.getMessage("recentItems") || "Recent Items"}
               </span>
               {history.length > 0 && (
                 <button
                   onClick={clearHistory}
-                  aria-label="Clear all history"
+                  aria-label={
+                    chrome.i18n.getMessage("clearAllHistory") ||
+                    "Clear all history"
+                  }
                   className="flex gap-1 items-center text-xs font-medium text-red-500 hover:text-red-600"
                 >
                   <Trash2 className="w-3 h-3" aria-hidden="true" />
-                  Clear
+                  {chrome.i18n.getMessage("clear") || "Clear"}
                 </button>
               )}
             </div>
@@ -513,7 +554,9 @@ export default function Popup() {
                 <div className="p-4 bg-gray-50 rounded-full dark:bg-gray-800">
                   <Clock className="w-8 h-8" aria-hidden="true" />
                 </div>
-                <p className="text-sm">No history yet.</p>
+                <p className="text-sm">
+                  {chrome.i18n.getMessage("noHistoryYet") || "No history yet."}
+                </p>
               </div>
             ) : (
               <div className="space-y-3">
@@ -524,7 +567,10 @@ export default function Popup() {
                   >
                     <button
                       onClick={() => removeItem(item.id)}
-                      aria-label="Remove from history"
+                      aria-label={
+                        chrome.i18n.getMessage("removeFromHistory") ||
+                        "Remove from history"
+                      }
                       className="absolute top-2 right-2 p-1.5 opacity-0 group-hover:opacity-100 transition-opacity rounded hover:bg-red-100 dark:hover:bg-red-900/30 text-red-500"
                     >
                       <Trash2 className="w-3.5 h-3.5" aria-hidden="true" />

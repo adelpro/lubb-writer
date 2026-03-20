@@ -51,6 +51,8 @@ function EnhanceModal({ originalText, onClose }: EnhanceModalProps) {
   const [error, setError] = useState("");
   const [textareaFocused, setTextareaFocused] = useState(false);
 
+  const isRTL = chrome.i18n.getUILanguage().startsWith("ar");
+
   const modeIcons: Record<string, React.ReactNode> = {
     grammar: <AlignLeft className="w-4 h-4" />,
     rewrite: <RefreshCw className="w-4 h-4" />,
@@ -129,17 +131,22 @@ function EnhanceModal({ originalText, onClose }: EnhanceModalProps) {
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      <div className="bg-white rounded-xl w-[90%] max-w-[560px] max-h-[90vh] overflow-hidden shadow-2xl flex flex-col">
+      <div
+        dir={isRTL ? "rtl" : "ltr"}
+        className="bg-white rounded-xl w-[90%] max-w-[560px] max-h-[90vh] overflow-hidden shadow-2xl flex flex-col"
+      >
         <div className="flex justify-between items-center px-5 py-4 text-white border-b border-gray-200 bg-primary">
           <div className="flex gap-2 items-center">
             <div className="p-1 rounded-lg bg-white/20">
               <img src={iconUrl} alt="Lubb Writer" className="w-4 h-4" />
             </div>
-            <span className="text-base font-semibold">Lubb Writer</span>
+            <span className="text-base font-semibold">
+              {chrome.i18n.getMessage("largestWriter") || "Lubb Writer"}
+            </span>
           </div>
           <button
             onClick={onClose}
-            aria-label="Close modal"
+            aria-label={chrome.i18n.getMessage("closeButton") || "Close modal"}
             className="p-1.5 rounded-md hover:bg-white/10 transition-colors opacity-80 hover:opacity-100"
           >
             <X className="w-5 h-5" aria-hidden="true" />
@@ -149,7 +156,7 @@ function EnhanceModal({ originalText, onClose }: EnhanceModalProps) {
         <div className="overflow-y-auto flex-1 p-5 space-y-4">
           <div>
             <label className="text-xs font-medium text-gray-500 mb-1.5 block">
-              Original Text
+              {chrome.i18n.getMessage("originalText") || "Original Text"}
             </label>
             <div className="overflow-y-auto p-3 max-h-20 text-sm text-gray-700 bg-gray-100 rounded-lg">
               {originalText}
@@ -158,13 +165,8 @@ function EnhanceModal({ originalText, onClose }: EnhanceModalProps) {
 
           <div>
             <label className="text-xs font-medium text-gray-500 mb-2 flex items-center gap-1.5">
-              <img
-                src={iconUrl}
-                alt=""
-                className="w-3.5 h-3.5"
-                aria-hidden="true"
-              />
-              Enhancement Mode
+              <Sparkles className="w-3.5 h-3.5" aria-hidden="true" />
+              {chrome.i18n.getMessage("enhancementMode") || "Enhancement Mode"}
             </label>
             <div
               role="group"
@@ -203,14 +205,18 @@ function EnhanceModal({ originalText, onClose }: EnhanceModalProps) {
               />
               <span className="flex gap-1 items-center text-xs font-medium text-gray-500">
                 <MessageCircle className="w-3.5 h-3.5" aria-hidden="true" />
-                Add custom instructions
+                {chrome.i18n.getMessage("useCustomPromptCheckbox") ||
+                  "Use Custom Prompt"}
               </span>
             </label>
             {useCustomPrompt && (
               <textarea
                 value={customPrompt}
                 onChange={(e) => setCustomPrompt(e.target.value)}
-                placeholder="e.g., Make it sound more professional..."
+                placeholder={
+                  chrome.i18n.getMessage("customPromptPlaceholder") ||
+                  "e.g., Make it sound more professional..."
+                }
                 className={clsx(
                   "p-3 w-full font-sans text-sm rounded-lg border transition-colors outline-none resize-y min-h-[60px]",
                   textareaFocused ? "border-primary" : "border-gray-200",
@@ -238,17 +244,12 @@ function EnhanceModal({ originalText, onClose }: EnhanceModalProps) {
                     className="w-4 h-4 animate-spin"
                     aria-hidden="true"
                   />
-                  Enhancing…
+                  {chrome.i18n.getMessage("enhancing") || "Enhancing..."}
                 </>
               ) : (
                 <>
-                  <img
-                    src={iconUrl}
-                    alt=""
-                    className="w-4 h-4"
-                    aria-hidden="true"
-                  />
-                  Enhance Text
+                  <Sparkles className="w-4 h-4" aria-hidden="true" />
+                  {chrome.i18n.getMessage("enhanceText") || "Enhance Text"}
                 </>
               )}
             </button>
@@ -262,7 +263,8 @@ function EnhanceModal({ originalText, onClose }: EnhanceModalProps) {
                   onClick={() => chrome.runtime.openOptionsPage?.()}
                   className="px-3 py-1.5 bg-primary text-white rounded-md text-xs font-medium hover:bg-primary-hover transition-colors"
                 >
-                  Open Extension Settings
+                  {chrome.i18n.getMessage("settings") ||
+                    "Open Extension Settings"}
                 </button>
               )}
             </div>
@@ -272,7 +274,7 @@ function EnhanceModal({ originalText, onClose }: EnhanceModalProps) {
             <>
               <div>
                 <label className="text-xs font-medium text-gray-500 mb-1.5 block">
-                  Enhanced Text
+                  {chrome.i18n.getMessage("enhancedText") || "Enhanced Text"}
                 </label>
                 <div className="overflow-y-auto p-3 max-h-40 text-sm text-green-700 whitespace-pre-wrap bg-green-50 rounded-lg border border-green-200">
                   {enhancedText}
@@ -292,12 +294,12 @@ function EnhanceModal({ originalText, onClose }: EnhanceModalProps) {
                   {copied ? (
                     <>
                       <Check className="w-4 h-4" />
-                      Copied!
+                      {chrome.i18n.getMessage("copied") || "Copied!"}
                     </>
                   ) : (
                     <>
                       <Copy className="w-4 h-4" />
-                      Copy
+                      {chrome.i18n.getMessage("copy") || "Copy"}
                     </>
                   )}
                 </button>
@@ -306,7 +308,7 @@ function EnhanceModal({ originalText, onClose }: EnhanceModalProps) {
                   className="flex-1 py-2.5 rounded-lg bg-primary hover:bg-primary-hover text-white font-medium text-sm flex items-center justify-center gap-1.5 transition-colors"
                 >
                   <Send className="w-4 h-4" />
-                  Insert
+                  {chrome.i18n.getMessage("insertEnhancedText") || "Insert"}
                 </button>
               </div>
 
@@ -318,7 +320,8 @@ function EnhanceModal({ originalText, onClose }: EnhanceModalProps) {
                 className="w-full py-2 text-xs text-gray-400 hover:text-gray-600 flex items-center justify-center gap-1.5 transition-colors"
               >
                 <RefreshCw className="w-3 h-3" />
-                Try different mode
+                {chrome.i18n.getMessage("tryDifferentMode") ||
+                  "Try different mode"}
               </button>
             </>
           )}

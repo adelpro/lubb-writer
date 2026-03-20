@@ -6,18 +6,62 @@
   all: initial;
 }
 
+[dir="rtl"] {
+  text-align: right;
+}
+
+[dir="rtl"] .rtl\:flip {
+  transform: scaleX(-1);
+}
+
+[dir="rtl"] .rtl\:space-x-reverse> :not([hidden])~ :not([hidden]) {
+  --tw-space-x-reverse: 1;
+}
+
+[dir="rtl"] .rtl\:mr-auto {
+  margin-right: auto;
+  margin-left: 0;
+}
+
+[dir="rtl"] .rtl\:ml-auto {
+  margin-left: auto;
+  margin-right: 0;
+}
+
+[dir="rtl"] .rtl\:origin-right {
+  transform-origin: right;
+}
+
+[dir="rtl"] .rtl\:origin-left {
+  transform-origin: left;
+}
+
 #lubb-writer-toolbar {
   font-family: system-ui, -apple-system, sans-serif;
 }
 
 @keyframes slideIn {
-  from { opacity: 0; transform: translate(-50%, calc(-100% + 10px)); }
-  to { opacity: 1; transform: translate(-50%, -100%); }
+  from {
+    opacity: 0;
+    transform: translate(-50%, calc(-100% + 10px));
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, -100%);
+  }
 }
 
 @keyframes zoomIn {
-  from { opacity: 0; transform: translate(-50%, -100%) scale(0.9); }
-  to { opacity: 1; transform: translate(-50%, -100%) scale(1); }
+  from {
+    opacity: 0;
+    transform: translate(-50%, -100%) scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, -100%) scale(1);
+  }
 }
 
 .animate-in {
@@ -35,12 +79,13 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   .animate-in,
   .slide-in-from-bottom-2,
   .zoom-in {
     animation-duration: 0ms;
   }
-  
+
   *,
   *::before,
   *::after {

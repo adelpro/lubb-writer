@@ -1,4 +1,4 @@
-# Lubb Writer - Browser Extension
+# Lubb - Writer - Browser Extension
 
 AI-powered text enhancement extension for Chrome and Firefox.
 
@@ -37,7 +37,7 @@ yarn build:firefox
 
 ## API Configuration
 
-The extension requires a Lubb Writer API endpoint. You can:
+The extension requires a Lubb - Writer API endpoint. You can:
 
 1. Use the hosted version: `https://lubb-writer-api.adelpro.us.kg`
 2. Run locally: `http://localhost:3001`

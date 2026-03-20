@@ -15,7 +15,6 @@ export interface Settings {
   theme: "light" | "dark" | "system";
   historyEnabled: boolean;
   availableModels: ModelOption[];
-  language: "en" | "ar";
 }
 
 const defaultSettings: Settings = {
@@ -27,7 +26,6 @@ const defaultSettings: Settings = {
   theme: "light",
   historyEnabled: true,
   availableModels: [],
-  language: "en",
 };
 
 export const settingsStorage = new Storage({
