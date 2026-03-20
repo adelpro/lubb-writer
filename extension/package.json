@@ -1,6 +1,6 @@
 {
   "name": "@lubb-writer/extension",
-  "displayName": "Writer",
+  "displayName": "Lubb AI Writer",
   "version": "1.1.0",
   "description": "AI-powered text enhancement for your browser",
   "author": "Adel Benyahia <contact@adelpro.us.kg>",
@@ -42,6 +42,7 @@
   },
   "manifest": {
     "default_locale": "en",
+    "description": "AI-powered text enhancement that helps you write better, clearer, and more professional content anywhere in your browser. Perfect for emails, documents, social media, and more.",
     "permissions": [
       "storage",
       "activeTab",

@@ -47,6 +47,11 @@
         "description": "Enhance text in any text field across any website. Twitter, email, docs, and more."
       },
       {
+        "icon": "🖱️",
+        "title": "Floating Inline Icon",
+        "description": "A smart icon appears when you select text. Click to enhance instantly without opening the popup."
+      },
+      {
         "icon": "⚡",
         "title": "Lightning Fast",
         "description": "Get enhanced text in seconds with our optimized AI processing pipeline."
