@@ -67,14 +67,6 @@
     "message": "Settings",
     "description": "Settings button label"
   },
-  "apiUrl": {
-    "message": "API URL",
-    "description": "API URL label"
-  },
-  "apiToken": {
-    "message": "API Token",
-    "description": "API token label"
-  },
   "defaultMode": {
     "message": "Default Mode",
     "description": "Default enhancement mode"

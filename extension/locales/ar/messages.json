@@ -67,14 +67,6 @@
     "message": "الإعدادات",
     "description": "تسمية زر الإعدادات"
   },
-  "apiUrl": {
-    "message": "رابط API",
-    "description": "تسمية رابط API"
-  },
-  "apiToken": {
-    "message": "رمز API",
-    "description": "تسمية رمز API"
-  },
   "defaultMode": {
     "message": "الوضع الافتراضي",
     "description": "وضع التحسين الافتراضي"

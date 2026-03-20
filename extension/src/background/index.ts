@@ -1,7 +1,5 @@
 // Background service worker
 
-const isFirefox = navigator.userAgent.includes("Firefox");
-
 const sendMessageToTab = (tabId: number, message: object) => {
   return new Promise((resolve) => {
     chrome.tabs.sendMessage(tabId, message, () => {
@@ -17,23 +15,17 @@ const injectContentScript = async (tabId: number): Promise<boolean> => {
   const file = "static/contents/inline.js";
 
   try {
-    if (isFirefox) {
-      // Firefox uses tabs.executeScript
-      await chrome.tabs.executeScript(tabId, { file });
+    if (chrome.scripting?.executeScript) {
+      await chrome.scripting.executeScript({
+        target: { tabId },
+        files: [file],
+      });
     } else {
-      // Chrome uses scripting.executeScript
-      if (chrome.scripting?.executeScript) {
-        await chrome.scripting.executeScript({
-          target: { tabId },
-          files: [file],
-        });
-      } else {
-        await chrome.tabs.executeScript(tabId, { file });
-      }
+      console.warn("scripting.executeScript not available");
+      return false;
     }
     return true;
   } catch (err) {
-    // Script might already be injected
     return false;
   }
 };
