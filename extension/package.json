@@ -54,9 +54,9 @@
     "commands": {
       "enhance-selection": {
         "suggested_key": {
-          "default": "Ctrl+Shift+L",
-          "mac": "Command+Shift+L",
-          "linux": "Ctrl+Shift+L"
+          "default": "Ctrl+Shift+Y",
+          "mac": "Command+Shift+Y",
+          "linux": "Ctrl+Shift+Y"
         },
         "description": "Enhance selected text with Lubb Writer"
       }

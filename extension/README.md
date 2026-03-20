@@ -7,7 +7,7 @@ AI-powered text enhancement extension for Chrome and Firefox.
 - **Popup UI**: Enter text and enhance with AI
 - **Multiple Modes**: Humanize, rewrite, summarize, grammar, formal, casual, academic, SEO, persuasive, creative, Twitter, LinkedIn, story
 - **Multi-Provider**: Supports MiniMax, OpenAI, Claude, Gemini
-- **Keyboard Shortcut**: Ctrl+Shift+L to enhance selected text
+- **Keyboard Shortcut**: Ctrl+Shift+Y to enhance selected text
 - **Theme Support**: Light, dark, and system themes
 - **Privacy**: All processing done via your own API
 
@@ -32,15 +32,15 @@ yarn build:firefox
 
 ## Keyboard Shortcut
 
-- Windows/Linux: Ctrl+Shift+L
-- Mac: Command+Shift+L
+- Windows/Linux: Ctrl+Shift+Y
+- Mac: Command+Shift+Y
 
 ## API Configuration
 
 The extension requires a Lubb Writer API endpoint. You can:
 
 1. Use the hosted version: `https://lubb-writer-api.adelpro.us.kg`
-2. Run locally: `https://localhost:3003`
+2. Run locally: `http://localhost:3001`
 3. Deploy your own using the `api/` folder
 
 ## Browser Support

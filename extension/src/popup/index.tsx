@@ -310,7 +310,7 @@ export default function Popup() {
                   <div className="flex justify-between items-center">
                     <span>Enhance Selection</span>
                     <kbd className="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-700 rounded text-[10px] font-mono">
-                      Ctrl+Shift+L
+                      Ctrl+Shift+Y
                     </kbd>
                   </div>
                 </div>
