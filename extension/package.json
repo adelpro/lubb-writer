@@ -55,7 +55,8 @@
       "enhance-selection": {
         "suggested_key": {
           "default": "Ctrl+Shift+L",
-          "mac": "Command+Shift+L"
+          "mac": "Command+Shift+L",
+          "linux": "Ctrl+Shift+L"
         },
         "description": "Enhance selected text with Lubb Writer"
       }
@@ -63,7 +64,7 @@
     "browser_specific_settings": {
       "gecko": {
         "id": "lubb-writer@adelpro.us",
-        "strict_min_version": "140.0",
+        "strict_min_version": "109.0",
         "data_collection_permissions": {
           "required": [
             "none"

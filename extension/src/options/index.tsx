@@ -15,7 +15,7 @@ export default function Options() {
     "general",
   );
   const [tempToken, setTempToken] = useState("");
-  const [tempUrl, setTempUrl] = useState("https://localhost:3001");
+  const [tempUrl, setTempUrl] = useState("http://localhost:3001");
   const [modelsLoading, setModelsLoading] = useState(false);
   const [modelsError, setModelsError] = useState<string | null>(null);
 
@@ -34,7 +34,9 @@ export default function Options() {
         await settings.setSettings({ availableModels: modelOptions });
       } catch (err) {
         console.error("Failed to fetch models:", err);
-        setModelsError(err instanceof Error ? err.message : "Failed to load models");
+        setModelsError(
+          err instanceof Error ? err.message : "Failed to load models",
+        );
       } finally {
         setModelsLoading(false);
       }
@@ -63,7 +65,7 @@ export default function Options() {
     setSaving(true);
     await settings.setSettings({
       apiToken: cleanToken,
-      apiUrl: tempUrl.trim() || "https://localhost:3001",
+      apiUrl: tempUrl.trim() || "http://localhost:3001",
     });
     setSaving(false);
   };
@@ -96,7 +98,7 @@ export default function Options() {
                   type="url"
                   value={tempUrl}
                   onChange={(e) => setTempUrl(e.target.value)}
-                  placeholder="https://localhost:3001"
+                  placeholder="http://localhost:3001"
                   className="w-full px-4 py-3 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary font-mono text-sm shadow-sm transition-shadow"
                 />
               </div>

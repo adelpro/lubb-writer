@@ -19,7 +19,7 @@ export interface Settings {
 }
 
 const defaultSettings: Settings = {
-  apiUrl: "https://localhost:3001",
+  apiUrl: "http://localhost:3001",
   apiToken: "",
   defaultMode: "humanize",
   defaultModel: "",
