@@ -1,7 +1,7 @@
 import "../styles.css";
 import iconUrl from "data-base64:../../assets/icon.png";
 import { useSettingsStore } from "../stores/settings";
-import { MODES, MODELS, VERSION } from "../constants";
+import { MODES, VERSION } from "../constants";
 import { Check, Loader2, Settings, Key, SlidersHorizontal } from "lucide-react";
 import { useState, useEffect } from "react";
 import { fetchAvailableModels } from "../lib/api";
@@ -17,12 +17,14 @@ export default function Options() {
   const [tempToken, setTempToken] = useState("");
   const [tempUrl, setTempUrl] = useState("https://localhost:3001");
   const [modelsLoading, setModelsLoading] = useState(false);
+  const [modelsError, setModelsError] = useState<string | null>(null);
 
   useEffect(() => {
     const loadModels = async () => {
       if (!settings.apiToken || !settings.apiUrl) return;
 
       setModelsLoading(true);
+      setModelsError(null);
       try {
         const models = await fetchAvailableModels(settings);
         const modelOptions = models.map((m) => ({
@@ -30,6 +32,9 @@ export default function Options() {
           label: `${m.providerName}: ${formatModelLabel(m.name)}`,
         }));
         await settings.setSettings({ availableModels: modelOptions });
+      } catch (err) {
+        console.error("Failed to fetch models:", err);
+        setModelsError(err instanceof Error ? err.message : "Failed to load models");
       } finally {
         setModelsLoading(false);
       }
@@ -45,8 +50,7 @@ export default function Options() {
       .join(" ");
   };
 
-  const displayModels =
-    settings.availableModels.length > 0 ? settings.availableModels : MODELS;
+  const displayModels = settings.availableModels;
 
   const handleSave = () => {
     setSaved(true);
@@ -141,8 +145,14 @@ export default function Options() {
         </div>
 
         {/* Tabs */}
-        <div className="flex border-b border-gray-200 dark:border-gray-700">
+        <div
+          role="tablist"
+          aria-label="Settings navigation"
+          className="flex border-b border-gray-200 dark:border-gray-700"
+        >
           <button
+            role="tab"
+            aria-selected={activeTab === "general"}
             onClick={() => setActiveTab("general")}
             className={clsx(
               "flex items-center gap-2 px-4 py-2 border-b-2 font-medium transition-colors text-sm",
@@ -151,9 +161,11 @@ export default function Options() {
                 : "border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300",
             )}
           >
-            <Settings className="w-4 h-4" /> General
+            <Settings className="w-4 h-4" aria-hidden="true" /> General
           </button>
           <button
+            role="tab"
+            aria-selected={activeTab === "features"}
             onClick={() => setActiveTab("features")}
             className={clsx(
               "flex items-center gap-2 px-4 py-2 border-b-2 font-medium transition-colors text-sm",
@@ -162,9 +174,12 @@ export default function Options() {
                 : "border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300",
             )}
           >
-            <SlidersHorizontal className="w-4 h-4" /> Features
+            <SlidersHorizontal className="w-4 h-4" aria-hidden="true" />{" "}
+            Features
           </button>
           <button
+            role="tab"
+            aria-selected={activeTab === "api"}
             onClick={() => setActiveTab("api")}
             className={clsx(
               "flex items-center gap-2 px-4 py-2 border-b-2 font-medium transition-colors text-sm",
@@ -173,7 +188,7 @@ export default function Options() {
                 : "border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300",
             )}
           >
-            <Key className="w-4 h-4" /> API Configuration
+            <Key className="w-4 h-4" aria-hidden="true" /> API Configuration
           </button>
         </div>
 
@@ -291,6 +306,8 @@ export default function Options() {
                   <label className="block text-sm font-medium">API URL</label>
                   <input
                     type="url"
+                    autoComplete="off"
+                    spellCheck={false}
                     value={settings.apiUrl}
                     onChange={async (e) =>
                       await settings.setSettings({ apiUrl: e.target.value })
@@ -309,6 +326,8 @@ export default function Options() {
                   </label>
                   <input
                     type="password"
+                    autoComplete="off"
+                    spellCheck={false}
                     value={settings.apiToken}
                     onChange={async (e) =>
                       await settings.setSettings({

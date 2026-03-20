@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useSettingsStore } from "../stores/settings";
 import { useHistoryStore } from "../stores/history";
 import { enhanceText, fetchAvailableModels } from "../lib/api";
-import { MODES, MODELS } from "../constants";
+import { MODES } from "../constants";
 import {
   Sparkles,
   Copy,
@@ -13,6 +13,7 @@ import {
   Loader2,
   Clock,
   Trash2,
+  Keyboard,
 } from "lucide-react";
 import clsx from "clsx";
 
@@ -30,6 +31,9 @@ export default function Popup() {
   const [copiedHistoryId, setCopiedHistoryId] = useState<string | null>(null);
   const [error, setError] = useState("");
   const [modelsLoading, setModelsLoading] = useState(false);
+  const [modelsError, setModelsError] = useState<string | null>(null);
+  const [tokenUsage, setTokenUsage] = useState<number | null>(null);
+  const [showShortcuts, setShowShortcuts] = useState(false);
 
   const isDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
@@ -56,6 +60,7 @@ export default function Popup() {
       if (!settings.apiToken || !settings.apiUrl) return;
 
       setModelsLoading(true);
+      setModelsError(null);
       try {
         const models = await fetchAvailableModels(settings);
         const modelOptions = models.map((m) => ({
@@ -79,6 +84,9 @@ export default function Popup() {
         }
       } catch (err) {
         console.error("Failed to fetch models:", err);
+        setModelsError(
+          err instanceof Error ? err.message : "Failed to load models",
+        );
       } finally {
         setModelsLoading(false);
       }
@@ -94,8 +102,7 @@ export default function Popup() {
       .join(" ");
   };
 
-  const displayModels =
-    settings.availableModels.length > 0 ? settings.availableModels : MODELS;
+  const displayModels = settings.availableModels;
 
   const handleEnhance = async () => {
     if (!input.trim()) {
@@ -106,10 +113,12 @@ export default function Popup() {
     setLoading(true);
     setError("");
     setOutput("");
+    setTokenUsage(null);
 
     try {
       const result = await enhanceText(input, mode, settings, model);
       setOutput(result.result);
+      setTokenUsage(result.usage?.total_tokens || null);
 
       if (settings.historyEnabled) {
         await addItem({
@@ -143,6 +152,33 @@ export default function Popup() {
     }
   };
 
+  const formatRelativeTime = (timestamp: number): string => {
+    const rtf = new Intl.RelativeTimeFormat(settings.language, {
+      numeric: "auto",
+    });
+    const diffSeconds = Math.round((timestamp - Date.now()) / 1000);
+
+    if (Math.abs(diffSeconds) < 60) {
+      return rtf.format(diffSeconds, "second");
+    }
+    const diffMinutes = Math.round(diffSeconds / 60);
+    if (Math.abs(diffMinutes) < 60) {
+      return rtf.format(diffMinutes, "minute");
+    }
+    const diffHours = Math.round(diffMinutes / 60);
+    if (Math.abs(diffHours) < 24) {
+      return rtf.format(diffHours, "hour");
+    }
+    const diffDays = Math.round(diffHours / 24);
+    if (Math.abs(diffDays) < 30) {
+      return rtf.format(diffDays, "day");
+    }
+    return new Intl.DateTimeFormat(settings.language, {
+      month: "short",
+      day: "numeric",
+    }).format(timestamp);
+  };
+
   const [tempToken, setTempToken] = useState("");
   const [tempUrl, setTempUrl] = useState(settings.apiUrl);
 
@@ -162,7 +198,7 @@ export default function Popup() {
       <div className="w-[400px] h-[510px] flex flex-col bg-background dark:bg-gray-900 border-gray-200 dark:border-gray-800 text-gray-900 dark:text-gray-100 p-6 justify-center items-center text-center">
         <div className="space-y-8 w-full max-w-sm">
           <div className="flex flex-col items-center space-y-4">
-            <div className="flex overflow-hidden justify-center items-center p-2 w-16 mt-8 h-16 bg-white/90 rounded-2xl shadow-md ring-1 ring-gray-200/50 dark:ring-gray-700/50">
+            <div className="flex overflow-hidden justify-center items-center p-2 mt-8 w-16 h-16 rounded-2xl ring-1 shadow-md bg-white/90 ring-gray-200/50 dark:ring-gray-700/50">
               <img
                 src={iconUrl}
                 alt="Lubb Writer"
@@ -187,6 +223,8 @@ export default function Popup() {
               </label>
               <input
                 type="url"
+                autoComplete="off"
+                spellCheck={false}
                 value={tempUrl}
                 onChange={(e) => setTempUrl(e.target.value)}
                 placeholder="https://lubb-writer-api.adelpro.us.kg"
@@ -199,6 +237,8 @@ export default function Popup() {
               </label>
               <input
                 type="password"
+                autoComplete="off"
+                spellCheck={false}
                 value={tempToken}
                 onChange={(e) => setTempToken(e.target.value)}
                 placeholder="Paste your token here"
@@ -212,11 +252,11 @@ export default function Popup() {
               className="w-full py-2.5 px-4 rounded-lg font-medium bg-primary hover:bg-primary-hover shadow-sm hover:shadow disabled:opacity-50 text-white transition-all duration-200 flex justify-center items-center gap-2"
             >
               {loading ? (
-                <Loader2 className="w-4 h-4 animate-spin" />
+                <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
               ) : (
-                <Check className="w-4 h-4" />
+                <Check className="w-4 h-4" aria-hidden="true" />
               )}
-              {loading ? "Saving..." : "Save & Continue"}
+              {loading ? "Saving…" : "Save & Continue"}
             </button>
             <div className="pt-2 text-center">
               <button
@@ -235,10 +275,10 @@ export default function Popup() {
   return (
     <div
       className={clsx(
-        "w-[400px] h-[500px] flex flex-col border text-sm mt-4",
+        "flex flex-col mt-4 text-sm border w-[400px] h-[500px]",
         isDark
-          ? "bg-gray-900 border-gray-800 text-gray-100"
-          : "bg-background border-gray-200 text-gray-900",
+          ? "text-gray-100 bg-gray-900 border-gray-800"
+          : "text-gray-900 border-gray-200 bg-background",
       )}
     >
       {/* Header */}
@@ -249,18 +289,53 @@ export default function Popup() {
           </div>
           <span className="text-lg font-semibold">Lubb Writer</span>
         </div>
-        <button
-          onClick={openOptions}
-          title="Settings"
-          className="p-2 rounded-full transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
-        >
-          <Settings className="w-4 h-4 text-gray-500" />
-        </button>
+        <div className="flex gap-1 items-center">
+          <div className="relative">
+            <button
+              onClick={() => setShowShortcuts(!showShortcuts)}
+              aria-label="Keyboard shortcuts"
+              aria-expanded={showShortcuts}
+              aria-haspopup="true"
+              className="p-2 rounded-full transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
+            >
+              <Keyboard className="w-4 h-4 text-gray-500" />
+            </button>
+            {showShortcuts && (
+              <div
+                role="tooltip"
+                className="absolute right-0 top-full z-50 p-3 mt-2 w-48 bg-white rounded-lg border border-gray-200 shadow-lg dark:bg-gray-800 dark:border-gray-700"
+              >
+                <p className="mb-2 text-xs font-medium">Keyboard Shortcuts</p>
+                <div className="space-y-1.5 text-xs text-gray-600 dark:text-gray-400">
+                  <div className="flex justify-between items-center">
+                    <span>Enhance Selection</span>
+                    <kbd className="px-1.5 py-0.5 bg-gray-100 dark:bg-gray-700 rounded text-[10px] font-mono">
+                      Ctrl+Shift+L
+                    </kbd>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+          <button
+            onClick={openOptions}
+            aria-label="Open settings"
+            className="p-2 rounded-full transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
+          >
+            <Settings className="w-4 h-4 text-gray-500" />
+          </button>
+        </div>
       </div>
 
       {/* Tabs */}
-      <div className="flex px-4 pt-2 w-full border-b border-gray-100 dark:border-gray-800 shrink-0">
+      <div
+        role="tablist"
+        aria-label="Main navigation"
+        className="flex px-4 pt-2 w-full border-b border-gray-100 dark:border-gray-800 shrink-0"
+      >
         <button
+          role="tab"
+          aria-selected={activeTab === "write"}
           onClick={() => setActiveTab("write")}
           className={clsx(
             "flex-1 pb-2 text-sm font-medium transition-colors border-b-2",
@@ -272,6 +347,8 @@ export default function Popup() {
           Write
         </button>
         <button
+          role="tab"
+          aria-selected={activeTab === "history"}
           onClick={() => setActiveTab("history")}
           className={clsx(
             "flex-1 pb-2 text-sm font-medium transition-colors border-b-2 flex items-center justify-center gap-2",
@@ -280,7 +357,7 @@ export default function Popup() {
               : "border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300",
           )}
         >
-          <Clock className="w-4 h-4" />
+          <Clock className="w-4 h-4" aria-hidden="true" />
           History
         </button>
       </div>
@@ -319,7 +396,9 @@ export default function Popup() {
                     disabled={modelsLoading}
                   >
                     {modelsLoading ? (
-                      <option>Loading models...</option>
+                      <option>Loading...</option>
+                    ) : displayModels.length === 0 ? (
+                      <option>No models available</option>
                     ) : (
                       displayModels.map((m) => (
                         <option key={m.value} value={m.value}>
@@ -329,6 +408,11 @@ export default function Popup() {
                     )}
                   </select>
                 </div>
+                {modelsError && (
+                  <div className="text-xs text-red-600 dark:text-red-400">
+                    {modelsError}
+                  </div>
+                )}
 
                 <button
                   onClick={handleEnhance}
@@ -340,12 +424,15 @@ export default function Popup() {
                 >
                   {loading ? (
                     <>
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                      Enhancing...
+                      <Loader2
+                        className="w-4 h-4 animate-spin"
+                        aria-hidden="true"
+                      />
+                      Enhancing…
                     </>
                   ) : (
                     <>
-                      <Sparkles className="w-4 h-4" />
+                      <Sparkles className="w-4 h-4" aria-hidden="true" />
                       Enhance Selected Text
                     </>
                   )}
@@ -364,6 +451,11 @@ export default function Popup() {
                 <p className="text-sm leading-relaxed text-gray-900 whitespace-pre-wrap dark:text-gray-100">
                   {output}
                 </p>
+                {tokenUsage && (
+                  <p className="text-xs text-gray-400">
+                    {tokenUsage.toLocaleString()} tokens used
+                  </p>
+                )}
                 <button
                   onClick={() => handleCopy(output)}
                   className={clsx(
@@ -375,12 +467,12 @@ export default function Popup() {
                 >
                   {copied ? (
                     <>
-                      <Check className="w-4 h-4" />
+                      <Check className="w-4 h-4" aria-hidden="true" />
                       Copied!
                     </>
                   ) : (
                     <>
-                      <Copy className="w-4 h-4" />
+                      <Copy className="w-4 h-4" aria-hidden="true" />
                       Copy
                     </>
                   )}
@@ -389,6 +481,7 @@ export default function Popup() {
                   onClick={() => {
                     setOutput("");
                     setCopied(false);
+                    setTokenUsage(null);
                   }}
                   className="px-4 py-2 w-full text-sm font-medium text-gray-700 rounded-lg transition-colors dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
                 >
@@ -406,9 +499,10 @@ export default function Popup() {
               {history.length > 0 && (
                 <button
                   onClick={clearHistory}
+                  aria-label="Clear all history"
                   className="flex gap-1 items-center text-xs font-medium text-red-500 hover:text-red-600"
                 >
-                  <Trash2 className="w-3 h-3" />
+                  <Trash2 className="w-3 h-3" aria-hidden="true" />
                   Clear
                 </button>
               )}
@@ -417,7 +511,7 @@ export default function Popup() {
             {history.length === 0 ? (
               <div className="flex flex-col gap-3 justify-center items-center py-12 text-gray-400">
                 <div className="p-4 bg-gray-50 rounded-full dark:bg-gray-800">
-                  <Clock className="w-8 h-8" />
+                  <Clock className="w-8 h-8" aria-hidden="true" />
                 </div>
                 <p className="text-sm">No history yet.</p>
               </div>
@@ -430,17 +524,20 @@ export default function Popup() {
                   >
                     <button
                       onClick={() => removeItem(item.id)}
+                      aria-label="Remove from history"
                       className="absolute top-2 right-2 p-1.5 opacity-0 group-hover:opacity-100 transition-opacity rounded hover:bg-red-100 dark:hover:bg-red-900/30 text-red-500"
-                      title="Remove from history"
                     >
-                      <Trash2 className="w-3.5 h-3.5" />
+                      <Trash2 className="w-3.5 h-3.5" aria-hidden="true" />
                     </button>
                     <div className="flex gap-2 items-center mb-2">
                       <span className="text-[10px] uppercase font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full">
                         {item.mode}
                       </span>
-                      <span className="text-xs text-gray-500">
-                        {new Date(item.timestamp).toLocaleDateString()}
+                      <span
+                        className="text-xs text-gray-500"
+                        title={new Date(item.timestamp).toLocaleString()}
+                      >
+                        {formatRelativeTime(item.timestamp)}
                       </span>
                     </div>
                     <p className="mb-2 text-sm text-gray-900 line-clamp-2 dark:text-gray-100">
@@ -452,12 +549,16 @@ export default function Popup() {
                     >
                       {copiedHistoryId === item.id ? (
                         <>
-                          <Check className="w-3.5 h-3.5 text-green-500" />{" "}
+                          <Check
+                            className="w-3.5 h-3.5 text-green-500"
+                            aria-hidden="true"
+                          />{" "}
                           Copied
                         </>
                       ) : (
                         <>
-                          <Copy className="w-3.5 h-3.5" /> Copy
+                          <Copy className="w-3.5 h-3.5" aria-hidden="true" />{" "}
+                          Copy
                         </>
                       )}
                     </button>

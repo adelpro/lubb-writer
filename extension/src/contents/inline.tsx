@@ -139,9 +139,10 @@ function EnhanceModal({ originalText, onClose }: EnhanceModalProps) {
           </div>
           <button
             onClick={onClose}
+            aria-label="Close modal"
             className="p-1.5 rounded-md hover:bg-white/10 transition-colors opacity-80 hover:opacity-100"
           >
-            <X className="w-5 h-5" />
+            <X className="w-5 h-5" aria-hidden="true" />
           </button>
         </div>
 
@@ -157,16 +158,26 @@ function EnhanceModal({ originalText, onClose }: EnhanceModalProps) {
 
           <div>
             <label className="text-xs font-medium text-gray-500 mb-2 flex items-center gap-1.5">
-              <img src={iconUrl} alt="" className="w-3.5 h-3.5" />
+              <img
+                src={iconUrl}
+                alt=""
+                className="w-3.5 h-3.5"
+                aria-hidden="true"
+              />
               Enhancement Mode
             </label>
-            <div className="grid grid-cols-3 gap-2">
+            <div
+              role="group"
+              aria-label="Select enhancement mode"
+              className="grid grid-cols-3 gap-2"
+            >
               {MODES.slice(0, 6).map((mode) => {
                 const isSelected = selectedMode === mode.value;
                 return (
                   <button
                     key={mode.value}
                     onClick={() => setSelectedMode(mode.value)}
+                    aria-pressed={isSelected}
                     className={clsx(
                       "px-2 py-2.5 rounded-lg text-xs font-medium transition-all flex items-center justify-center gap-1.5",
                       isSelected
@@ -174,7 +185,7 @@ function EnhanceModal({ originalText, onClose }: EnhanceModalProps) {
                         : "bg-white text-gray-700 border-2 border-gray-200 hover:border-primary/50",
                     )}
                   >
-                    {modeIcons[mode.value]}
+                    <span aria-hidden="true">{modeIcons[mode.value]}</span>
                     {mode.label}
                   </button>
                 );
@@ -191,7 +202,7 @@ function EnhanceModal({ originalText, onClose }: EnhanceModalProps) {
                 className="w-4 h-4 accent-primary"
               />
               <span className="flex gap-1 items-center text-xs font-medium text-gray-500">
-                <MessageCircle className="w-3.5 h-3.5" />
+                <MessageCircle className="w-3.5 h-3.5" aria-hidden="true" />
                 Add custom instructions
               </span>
             </label>
@@ -223,12 +234,20 @@ function EnhanceModal({ originalText, onClose }: EnhanceModalProps) {
             >
               {loading ? (
                 <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  Enhancing...
+                  <Loader2
+                    className="w-4 h-4 animate-spin"
+                    aria-hidden="true"
+                  />
+                  Enhancing…
                 </>
               ) : (
                 <>
-                  <img src={iconUrl} alt="" className="w-4 h-4" />
+                  <img
+                    src={iconUrl}
+                    alt=""
+                    className="w-4 h-4"
+                    aria-hidden="true"
+                  />
                   Enhance Text
                 </>
               )}

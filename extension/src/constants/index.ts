@@ -15,11 +15,3 @@ export const MODES = [
   { value: "linkedin", label: "LinkedIn" },
   { value: "story", label: "Story" },
 ] as const;
-
-export const MODELS = [
-  { value: "MiniMax-M2.1", label: "MiniMax M2.1" },
-  { value: "gpt-4o-mini", label: "GPT-4o Mini" },
-  { value: "gpt-4o", label: "GPT-4o" },
-  { value: "claude-3-5-sonnet", label: "Claude 3.5 Sonnet" },
-  { value: "gemini-1.5-flash", label: "Gemini 1.5 Flash" },
-] as const;

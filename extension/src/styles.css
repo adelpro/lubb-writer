@@ -33,3 +33,19 @@
 .zoom-in {
   animation-name: zoomIn;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-in,
+  .slide-in-from-bottom-2,
+  .zoom-in {
+    animation-duration: 0ms;
+  }
+  
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
