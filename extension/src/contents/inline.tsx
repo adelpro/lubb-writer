@@ -331,8 +331,41 @@ function EnhanceModal({ originalText, onClose }: EnhanceModalProps) {
   );
 }
 
+function InlineSelectionIcon({
+  onClick,
+  position,
+}: {
+  onClick: () => void;
+  position: { x: number; y: number } | null;
+}) {
+  const settings = useSettingsStore();
+
+  if (!settings.showInlineIcon || !position) return null;
+
+  return (
+    <button
+      onClick={onClick}
+      className="fixed pointer-events-auto w-9 h-9 rounded-full bg-white border-2 border-primary hover:border-primary-hover shadow-lg flex items-center justify-center transition-all hover:scale-110 active:scale-95"
+      style={{
+        left: position.x,
+        top: position.y,
+        transform: "translate(-50%, -100%)",
+        zIndex: 2147483646,
+      }}
+      aria-label="Enhance text with Lubb Writer"
+    >
+      <Sparkles className="w-5 h-5 text-primary" aria-hidden="true" />
+    </button>
+  );
+}
+
 export default function InlineEnhanceHandler() {
+  const settings = useSettingsStore();
   const [modalData, setModalData] = useState<{ text: string } | null>(null);
+  const [iconPosition, setIconPosition] = useState<{
+    x: number;
+    y: number;
+  } | null>(null);
 
   useEffect(() => {
     const handleMessage = (message: { type: string; text?: string }) => {
@@ -350,6 +383,65 @@ export default function InlineEnhanceHandler() {
     return () => chrome.runtime.onMessage.removeListener(handleMessage);
   }, []);
 
+  useEffect(() => {
+    if (!settings.showInlineIcon) {
+      setIconPosition(null);
+      return;
+    }
+
+    let hideTimeout: ReturnType<typeof setTimeout>;
+
+    const updateIconPosition = () => {
+      const selection = window.getSelection();
+      if (!selection || selection.isCollapsed || !selection.rangeCount) {
+        setIconPosition(null);
+        return;
+      }
+
+      const range = selection.getRangeAt(0);
+      const rect = range.getBoundingClientRect();
+
+      if (rect.width === 0 || rect.height === 0) {
+        setIconPosition(null);
+        return;
+      }
+
+      const x = rect.left + rect.width / 2;
+      const y = rect.top - 12;
+
+      setIconPosition({ x, y });
+    };
+
+    const handleMouseUp = () => {
+      clearTimeout(hideTimeout);
+      hideTimeout = setTimeout(updateIconPosition, 50);
+    };
+
+    const handleSelectionChange = () => {
+      const selection = window.getSelection();
+      if (!selection || selection.isCollapsed) {
+        setIconPosition(null);
+      }
+    };
+
+    document.addEventListener("mouseup", handleMouseUp);
+    document.addEventListener("selectionchange", handleSelectionChange);
+
+    return () => {
+      clearTimeout(hideTimeout);
+      document.removeEventListener("mouseup", handleMouseUp);
+      document.removeEventListener("selectionchange", handleSelectionChange);
+    };
+  }, [settings.showInlineIcon]);
+
+  const handleIconClick = () => {
+    const selectedText = window.getSelection()?.toString().trim();
+    if (selectedText) {
+      setModalData({ text: selectedText });
+    }
+    setIconPosition(null);
+  };
+
   const handleClose = useCallback(() => {
     setModalData(null);
   }, []);
@@ -364,7 +456,12 @@ export default function InlineEnhanceHandler() {
     return () => document.removeEventListener("keydown", handleEsc);
   }, [modalData, handleClose]);
 
-  if (!modalData) return null;
-
-  return <EnhanceModal originalText={modalData.text} onClose={handleClose} />;
+  return (
+    <>
+      <InlineSelectionIcon onClick={handleIconClick} position={iconPosition} />
+      {modalData && (
+        <EnhanceModal originalText={modalData.text} onClose={handleClose} />
+      )}
+    </>
+  );
 }
