@@ -42,6 +42,8 @@
   },
   "manifest": {
     "default_locale": "en",
+    "description": "Enhance any text with AI. Write better, clearer, and more professional content anywhere.",
+    "long_description": "Lubb AI Writer is your intelligent writing companion that enhances any text directly in your browser.\n\n✨ Key Features:\n\n• AI-Powered Enhancement: Transform ordinary text into polished, professional content with advanced AI technology\n• Works Everywhere: Enhance text in emails, documents, social media posts, messaging apps, and any text field in your browser\n• Keyboard Shortcuts: Use Ctrl+Shift+Y (Cmd+Shift+Y on Mac) to enhance selected text instantly\n• Smart Context Understanding: Our AI understands context and tone to provide the most appropriate enhancements\n• Privacy-First: Your text is processed securely, and no data is stored\n\n🎯 Perfect For:\n\n• Professional emails that need to sound more confident and clear\n• Social media posts that need to engage and impress\n• Documents and reports that need a professional polish\n• Quick improvements to any text on the web\n• Non-native speakers who want to communicate more naturally\n\n💡 How It Works:\n\n1. Select any text in your browser\n2. Press Ctrl+Shift+Y or click the extension icon\n3. Watch your text transform into professional, clear content\n\nWhether you're writing a crucial business email, crafting the perfect LinkedIn post, or simply want to communicate more effectively, Lubb AI Writer helps you express yourself with confidence and clarity.\n\nDownload now and elevate your writing to the next level!",
     "permissions": [
       "storage",
       "activeTab",
