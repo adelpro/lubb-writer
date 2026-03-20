@@ -4,13 +4,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Writer - AI-Powered Text Enhancement</title>
-  <meta name="description" content="حسّن كتابتك في أي مكان بالمتصفح. حوّل نصوصك بكل وضوح وثقة." />
+  <title data-i18n-attr="title:meta.title">Writer - AI-Powered Text Enhancement</title>
+  <meta name="description" data-i18n-attr="content:meta.description"
+    content="Enhance your writing anywhere in your browser." />
   <link rel="icon" type="image/svg+xml" href="/favicon.ico" />
   <link rel="manifest" href="/site.webmanifest" />
   <meta name="theme-color" content="#355872" />
   <meta property="og:title" content="Writer - AI-Powered Text Enhancement" />
-  <meta property="og:description" content="حسّن كتابتك في أي مكان بالمتصفح. حوّل نصوصك بكل وضوح وثقة." />
+  <meta property="og:description" content="Enhance your writing anywhere in your browser." />
   <meta property="og:image" content="/og-image.png" />
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -25,12 +26,12 @@
         <span class="logo-text">Writer</span>
       </div>
       <nav class="nav">
-        <a href="#features" class="nav-link">Features</a>
-        <a href="#installation" class="nav-link">Installation</a>
-        <a href="#self-hosting" class="nav-link">Self-Hosting</a>
-        <a href="#usage" class="nav-link">Usage</a>
-        <a href="privacy.html" class="nav-link">Privacy</a>
-        <a href="ar/" class="nav-link lang-toggle">العربية</a>
+        <a href="#features" class="nav-link" data-i18n="nav.features">Features</a>
+        <a href="#installation" class="nav-link" data-i18n="nav.installation">Installation</a>
+        <a href="#self-hosting" class="nav-link" data-i18n="nav.selfHosting">Self-Hosting</a>
+        <a href="#usage" class="nav-link" data-i18n="nav.usage">Usage</a>
+        <a href="privacy.html" class="nav-link" data-i18n="nav.privacy">Privacy</a>
+        <a href="#" class="nav-link lang-toggle">العربية</a>
       </nav>
     </header>
 
@@ -38,33 +39,34 @@
       <section class="hero">
         <div class="hero-content">
           <h1 class="hero-title">
-            <span class="gradient-text">AI-Powered</span> Text Enhancement
+            <span class="gradient-text" data-i18n="hero.title">AI-Powered</span> <span data-i18n="hero.titleSuffix">Text
+              Enhancement</span>
           </h1>
-          <p class="hero-description">
+          <p class="hero-description" data-i18n="hero.description">
             Enhance your writing anywhere in your browser. From casual chats
             to professional emails, Lubb Writer helps you communicate with
             clarity and confidence.
           </p>
           <div class="hero-actions">
-            <a href="#installation" class="btn btn-primary">
+            <a href="#installation" class="btn btn-primary" data-i18n="hero.installCta">
               Install Free
             </a>
-            <a href="#features" class="btn btn-secondary">
+            <a href="#features" class="btn btn-secondary" data-i18n="hero.learnMore">
               Learn More
             </a>
           </div>
           <div class="hero-stats">
             <div class="stat">
-              <span class="stat-value">8+</span>
-              <span class="stat-label">Enhancement Modes</span>
+              <span class="stat-value" data-i18n="hero.stats.modes.value">8+</span>
+              <span class="stat-label" data-i18n="hero.stats.modes.label">Enhancement Modes</span>
             </div>
             <div class="stat">
-              <span class="stat-value">100%</span>
-              <span class="stat-label">Privacy Focused</span>
+              <span class="stat-value" data-i18n="hero.stats.privacy.value">100%</span>
+              <span class="stat-label" data-i18n="hero.stats.privacy.label">Privacy Focused</span>
             </div>
             <div class="stat">
-              <span class="stat-value">Free</span>
-              <span class="stat-label">Open Source</span>
+              <span class="stat-value" data-i18n="hero.stats.free.value">Free</span>
+              <span class="stat-label" data-i18n="hero.stats.free.label">Open Source</span>
             </div>
           </div>
         </div>
@@ -74,16 +76,16 @@
               <div class="preview-dots">
                 <span></span><span></span><span></span>
               </div>
-              <span class="preview-title">Writer Popup</span>
+              <span class="preview-title" data-i18n="preview.popupTitle">Writer Popup</span>
             </div>
             <div class="preview-content">
               <div class="preview-input">
-                <label>Original Text</label>
+                <label data-i18n="preview.originalLabel">Original Text</label>
                 <textarea
                   placeholder="Your text here...">I think we should maybe consider potentially reaching out to them at some point.</textarea>
               </div>
               <div class="preview-actions">
-                <button class="preview-btn">Humanize ✨</button>
+                <button class="preview-btn" data-i18n="preview.humanize">Humanize ✨</button>
                 <select>
                   <option>Humanize</option>
                   <option>Formal</option>
@@ -91,7 +93,7 @@
                 </select>
               </div>
               <div class="preview-output">
-                <label>Enhanced Text</label>
+                <label data-i18n="preview.enhancedLabel">Enhanced Text</label>
                 <textarea readonly>I believe we should reach out to them soon to discuss this opportunity.</textarea>
               </div>
             </div>
@@ -100,113 +102,31 @@
       </section>
 
       <section id="features" class="features">
-        <h2 class="section-title">Powerful Features</h2>
-        <div class="features-grid">
-          <div class="feature-card">
-            <div class="feature-icon">✨</div>
-            <h3>Smart Enhancement</h3>
-            <p>
-              Instantly improve your text with AI-powered suggestions that
-              maintain your original meaning.
-            </p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon">📝</div>
-            <h3>Multiple Modes</h3>
-            <p>
-              Choose from Humanize, Formal, Casual, Shorten, Expand, and
-              more to match your needs.
-            </p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon">🔒</div>
-            <h3>Privacy First</h3>
-            <p>
-              Your text never leaves your browser. No tracking, no ads, no
-              data collection.
-            </p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon">🌐</div>
-            <h3>Works Everywhere</h3>
-            <p>
-              Enhance text in any text field across any website. Twitter,
-              email, docs, and more.
-            </p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon">⚡</div>
-            <h3>Lightning Fast</h3>
-            <p>
-              Get enhanced text in seconds with our optimized AI processing
-              pipeline.
-            </p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon">🎨</div>
-            <h3>Beautiful Design</h3>
-            <p>
-              Enjoy a clean, modern interface that looks great in both light
-              and dark modes.
-            </p>
-          </div>
-        </div>
+        <h2 class="section-title" data-i18n="features.title">Powerful Features</h2>
+        <div class="features-grid"></div>
       </section>
 
       <section id="enhancement-modes" class="modes">
-        <h2 class="section-title">Enhancement Modes</h2>
-        <div class="modes-list">
-          <div class="mode-item">
-            <h3>✨ Humanize</h3>
-            <p>Make your text sound natural and conversational</p>
-          </div>
-          <div class="mode-item">
-            <h3>📄 Formal</h3>
-            <p>Convert casual text to professional language</p>
-          </div>
-          <div class="mode-item">
-            <h3>😄 Casual</h3>
-            <p>Make formal text more friendly and relaxed</p>
-          </div>
-          <div class="mode-item">
-            <h3>✂️ Shorten</h3>
-            <p>Condense your text while keeping the key points</p>
-          </div>
-          <div class="mode-item">
-            <h3>📖 Expand</h3>
-            <p>Elaborate on your ideas with more detail</p>
-          </div>
-          <div class="mode-item">
-            <h3>🔍 Rewrite</h3>
-            <p>Rephrase while maintaining the original meaning</p>
-          </div>
-          <div class="mode-item">
-            <h3>✅ Grammar Fix</h3>
-            <p>Correct spelling, grammar, and punctuation errors</p>
-          </div>
-          <div class="mode-item">
-            <h3>📝 Summarize</h3>
-            <p>Create concise summaries of longer texts</p>
-          </div>
-        </div>
+        <h2 class="section-title" data-i18n="modes.title">Enhancement Modes</h2>
+        <div class="modes-list"></div>
       </section>
 
       <section id="installation" class="installation">
-        <h2 class="section-title">Easy Installation</h2>
+        <h2 class="section-title" data-i18n="installation.title">Easy Installation</h2>
         <div class="install-steps">
           <div class="install-step">
             <div class="step-number">1</div>
             <div class="step-content">
-              <h3>Choose Your Browser</h3>
-              <p>Available for Chrome, Firefox, and Edge</p>
+              <h3 data-i18n="installation.step1.title">Choose Your Browser</h3>
+              <p data-i18n="installation.step1.description">Available for Chrome, Firefox, and Edge</p>
               <div class="browser-links">
                 <a href="#" class="browser-btn">
                   <img src="icons/chrome.png" alt="Chrome" />
-                  Chrome
+                  <span data-i18n="installation.step1.chrome">Chrome</span>
                 </a>
                 <a href="#" class="browser-btn">
                   <img src="icons/firefox.png" alt="Firefox" />
-                  Firefox
+                  <span data-i18n="installation.step1.firefox">Firefox</span>
                 </a>
               </div>
             </div>
@@ -214,15 +134,15 @@
           <div class="install-step">
             <div class="step-number">2</div>
             <div class="step-content">
-              <h3>Add to Browser</h3>
-              <p>Click "Add to Browser" in your extension store</p>
+              <h3 data-i18n="installation.step2.title">Add to Browser</h3>
+              <p data-i18n="installation.step2.description">Click "Add to Browser" in your extension store</p>
             </div>
           </div>
           <div class="install-step">
             <div class="step-number">3</div>
             <div class="step-content">
-              <h3>Configure API</h3>
-              <p>Enter your API token in settings to get started</p>
+              <h3 data-i18n="installation.step3.title">Configure API</h3>
+              <p data-i18n="installation.step3.description">Enter your API token in settings to get started</p>
             </div>
           </div>
         </div>
@@ -230,110 +150,77 @@
 
       <section id="usage" class="usage">
         <div class="section-inner">
-          <h2 class="section-title">How to Use the Extension</h2>
-          <p class="section-intro">
+          <h2 class="section-title" data-i18n="usage.title">How to Use the Extension</h2>
+          <p class="section-intro" data-i18n="usage.intro">
             Using the Writer browser extension is simple and intuitive.
             Enhance your text directly from any webpage in three easy steps.
           </p>
-          <div class="usage-grid">
-            <div class="usage-card">
-              <div class="usage-icon">🎯</div>
-              <h3>Select Text</h3>
-              <p>
-                Select any text on any webpage that you want to enhance or
-                rewrite.
-              </p>
-            </div>
-            <div class="usage-card">
-              <div class="usage-icon">✨</div>
-              <h3>Click Enhance</h3>
-              <p>
-                Click the Writer extension icon that appears or use the inline
-                enhancement button.
-              </p>
-            </div>
-            <div class="usage-card">
-              <div class="usage-icon">📋</div>
-              <h3>Copy Results</h3>
-              <p>
-                Review the enhanced text and copy it to your clipboard with one
-                click.
-              </p>
-            </div>
-          </div>
+          <div class="usage-grid"></div>
         </div>
       </section>
 
       <section id="self-hosting" class="self-hosting">
         <div class="section-inner">
-          <h2 class="section-title">Self-Hosting the API Backend</h2>
-          <p class="section-intro">
+          <h2 class="section-title" data-i18n="selfHosting.title">Self-Hosting the API Backend</h2>
+          <p class="section-intro" data-i18n="selfHosting.intro">
             Deploy your own Writer API server for complete data privacy.
             Your text never leaves your infrastructure — full control, full privacy.
           </p>
 
-          <div class="hosting-features">
-            <div class="hosting-feature">
-              <div class="hosting-icon">🔐</div>
-              <h3>Complete Privacy</h3>
-              <p>Your text never leaves your infrastructure. Full data sovereignty.</p>
-            </div>
-            <div class="hosting-feature">
-              <div class="hosting-icon">🐳</div>
-              <h3>Docker Ready</h3>
-              <p>One-command deployment with Docker and Docker Compose.</p>
-            </div>
-            <div class="hosting-feature">
-              <div class="hosting-icon">🔧</div>
-              <h3>Custom Providers</h3>
-              <p>Connect up to 10 custom OpenAI-compatible endpoints.</p>
-            </div>
-          </div>
+          <div class="hosting-features"></div>
 
           <div class="subsection">
-            <h3 class="subsection-title">Quick Start</h3>
+            <h3 class="subsection-title" data-i18n="selfHosting.setup.title">Quick Start</h3>
 
             <div class="setup-guide">
               <div class="setup-step">
-                <h4>1. Prerequisites</h4>
-                <p>Ensure you have Docker and Docker Compose installed on your system.</p>
+                <h4 data-i18n="selfHosting.setup.prerequisites.title">1. Prerequisites</h4>
+                <p data-i18n="selfHosting.setup.prerequisites.description">Ensure you have Docker and Docker Compose
+                  installed on your system.</p>
                 <div class="code-block">
-                  <code>docker --version<br />docker-compose --version</code>
+                  <code
+                    data-i18n="selfHosting.setup.prerequisites.code">docker --version<br />docker-compose --version</code>
                 </div>
               </div>
 
               <div class="setup-step">
-                <h4>2. Create Environment File</h4>
-                <p>Copy the example environment file and configure your settings:</p>
+                <h4 data-i18n="selfHosting.setup.envFile.title">2. Create Environment File</h4>
+                <p data-i18n="selfHosting.setup.envFile.description">Copy the example environment file and configure
+                  your settings:</p>
                 <div class="code-block">
-                  <code>cd api<br />cp .env.example .env<br />nano .env  # Edit with your settings</code>
+                  <code
+                    data-i18n="selfHosting.setup.envFile.code">cd api<br />cp .env.example .env<br />nano .env  # Edit with your settings</code>
                 </div>
               </div>
 
               <div class="setup-step">
-                <h4>3. Start the Container</h4>
-                <p>Launch the API server with Docker Compose:</p>
+                <h4 data-i18n="selfHosting.setup.startContainer.title">3. Start the Container</h4>
+                <p data-i18n="selfHosting.setup.startContainer.description">Launch the API server with Docker Compose:
+                </p>
                 <div class="code-block">
-                  <code>docker-compose up -d<br />docker-compose ps  # Verify it's running</code>
+                  <code
+                    data-i18n="selfHosting.setup.startContainer.code">docker-compose up -d<br />docker-compose ps  # Verify it's running</code>
                 </div>
               </div>
 
               <div class="setup-step">
-                <h4>4. Configure the Extension</h4>
-                <p>Point Writer to your self-hosted API:</p>
+                <h4 data-i18n="selfHosting.setup.configureExtension.title">4. Configure the Extension</h4>
+                <p data-i18n="selfHosting.setup.configureExtension.description">Point Writer to your self-hosted API:
+                </p>
                 <div class="code-block">
-                  <code>API Endpoint: http://localhost:3001<br />API Token: (from your .env)</code>
+                  <code
+                    data-i18n="selfHosting.setup.configureExtension.code">API Endpoint: http://localhost:3001<br />API Token: (from your .env)</code>
                 </div>
               </div>
             </div>
           </div>
 
           <div class="subsection">
-            <h3 class="subsection-title">Supported AI Providers</h3>
+            <h3 class="subsection-title" data-i18n="selfHosting.providers.title">Supported AI Providers</h3>
 
             <div class="providers-section">
               <div class="provider-group">
-                <h4>Official Providers</h4>
+                <h4 data-i18n="selfHosting.providers.official.title">Official Providers</h4>
                 <ul class="provider-list">
                   <li><strong>OpenAI</strong> - GPT-4o, GPT-4o-mini</li>
                   <li><strong>Anthropic</strong> - Claude 3.5 Sonnet, Claude 3 Opus</li>
@@ -342,7 +229,7 @@
               </div>
 
               <div class="provider-group">
-                <h4>Custom OpenAI-Compatible Endpoints (up to 10)</h4>
+                <h4 data-i18n="selfHosting.providers.custom.title">Custom OpenAI-Compatible Endpoints (up to 10)</h4>
                 <ul class="provider-list">
                   <li><strong>MiniMax</strong> - MiniMax-M2.1 models</li>
                   <li><strong>Ollama</strong> - Local LLM inference (Llama2, Mistral, Qwen, etc.)</li>
@@ -353,16 +240,17 @@
               </div>
 
               <div class="provider-config-example">
-                <h4>Example: Ollama Configuration</h4>
+                <h4 data-i18n="selfHosting.providers.ollamaExample.title">Example: Ollama Configuration</h4>
                 <div class="code-block">
-                  <code>CUSTOM_PROVIDER_1_API_KEY=sk-local<br />CUSTOM_PROVIDER_1_BASE_URL=http://localhost:11434/v1<br />CUSTOM_PROVIDER_1_NAME=Ollama<br />CUSTOM_PROVIDER_1_MODELS=llama2,mistral,qwen</code>
+                  <code
+                    data-i18n="selfHosting.providers.ollamaExample.code">CUSTOM_PROVIDER_1_API_KEY=sk-local<br />CUSTOM_PROVIDER_1_BASE_URL=http://localhost:11434/v1<br />CUSTOM_PROVIDER_1_NAME=Ollama<br />CUSTOM_PROVIDER_1_MODELS=llama2,mistral,qwen</code>
                 </div>
               </div>
             </div>
           </div>
 
           <div class="security-note">
-            <h4>🔒 Security Best Practices</h4>
+            <h4 data-i18n="selfHosting.security.title">🔒 Security Best Practices</h4>
             <ul>
               <li>Use a strong <code>API_TOKEN</code> to protect your API</li>
               <li>Keep your <code>.env</code> file secure and never commit it to version control</li>
@@ -374,43 +262,47 @@
       </section>
 
       <section class="cta">
-        <h2>Ready to Enhance Your Writing?</h2>
-        <p>
+        <h2 data-i18n="cta.title">Ready to Enhance Your Writing?</h2>
+        <p data-i18n="cta.description">
           Join thousands of users who trust Lubb Writer for their daily text
           enhancement needs.
         </p>
-        <a href="#installation" class="btn btn-primary">Install Now</a>
+        <a href="#installation" class="btn btn-primary" data-i18n="cta.button">Install Now</a>
       </section>
     </main>
 
     <footer class="footer">
       <div class="footer-content">
         <div class="footer-brand">
-          <img src="assets/icon512.png" alt="Lubb Writer" class="footer-logo" />
-          <p>Lubb Writer - AI-powered text enhancement</p>
+          <img src="icons/icon512.png" alt="Lubb Writer" class="footer-logo" />
+          <p data-i18n="footer.brand">Lubb Writer - AI-powered text enhancement</p>
         </div>
         <div class="footer-links">
-          <h4>Resources</h4>
-          <a href="#features">Features</a>
-          <a href="#installation">Installation</a>
-          <a href="#self-hosting">Self-Hosting</a>
-          <a href="#usage">How to Use</a>
-          <a href="privacy.html">Privacy Policy</a>
+          <h4 data-i18n="footer.resources">Resources</h4>
+          <a href="#features" data-i18n="nav.features">Features</a>
+          <a href="#installation" data-i18n="nav.installation">Installation</a>
+          <a href="#self-hosting" data-i18n="nav.selfHosting">Self-Hosting</a>
+          <a href="#usage" data-i18n="nav.usage">How to Use</a>
+          <a href="privacy.html" data-i18n="nav.privacy">Privacy Policy</a>
         </div>
         <div class="footer-links">
-          <h4>Connect</h4>
-          <a href="https://github.com" target="_blank">GitHub</a>
-          <a href="mailto:contact@lubbwriter.com">Contact</a>
+          <h4 data-i18n="footer.connect">Connect</h4>
+          <a href="https://github.com" target="_blank" data-i18n="footer.github">GitHub</a>
+          <a href="mailto:contact@lubbwriter.com" data-i18n="footer.contact">Contact</a>
         </div>
       </div>
       <div class="footer-bottom">
-        <p>&copy; 2024 Lubb Writer. All rights reserved.</p>
-        <p class="made-with">
+        <p data-i18n="footer.copyright">&copy; 2024 Lubb Writer. All rights reserved.</p>
+        <p class="made-with" data-i18n="footer.madeWith">
           Made with ❤️ for writers everywhere
         </p>
       </div>
     </footer>
   </div>
+  <script src="i18n.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => window.i18n.init());
+  </script>
 </body>
 
 </html>

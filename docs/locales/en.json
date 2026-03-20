@@ -1,0 +1,326 @@
+{
+  "meta": {
+    "title": "Writer - AI-Powered Text Enhancement",
+    "description": "Enhance your writing anywhere in your browser. From casual chats to professional emails, Lubb Writer helps you communicate with clarity and confidence."
+  },
+  "nav": {
+    "features": "Features",
+    "installation": "Installation",
+    "selfHosting": "Self-Hosting",
+    "usage": "Usage",
+    "privacy": "Privacy",
+    "switchToArabic": "العربية"
+  },
+  "hero": {
+    "title": "AI-Powered",
+    "titleSuffix": "Text Enhancement",
+    "description": "Enhance your writing anywhere in your browser. From casual chats to professional emails, Lubb Writer helps you communicate with clarity and confidence.",
+    "installCta": "Install Free",
+    "learnMore": "Learn More",
+    "stats": {
+      "modes": { "value": "8+", "label": "Enhancement Modes" },
+      "privacy": { "value": "100%", "label": "Privacy Focused" },
+      "free": { "value": "Free", "label": "Open Source" }
+    }
+  },
+  "features": {
+    "title": "Powerful Features",
+    "items": [
+      {
+        "icon": "✨",
+        "title": "Smart Enhancement",
+        "description": "Instantly improve your text with AI-powered suggestions that maintain your original meaning."
+      },
+      {
+        "icon": "📝",
+        "title": "Multiple Modes",
+        "description": "Choose from Humanize, Formal, Casual, Shorten, Expand, and more to match your needs."
+      },
+      {
+        "icon": "🔒",
+        "title": "Privacy First",
+        "description": "Your text is sent only to your configured API. No central servers, no data collection."
+      },
+      {
+        "icon": "🌐",
+        "title": "Works Everywhere",
+        "description": "Enhance text in any text field across any website. Twitter, email, docs, and more."
+      },
+      {
+        "icon": "⚡",
+        "title": "Lightning Fast",
+        "description": "Get enhanced text in seconds with our optimized AI processing pipeline."
+      },
+      {
+        "icon": "🎨",
+        "title": "Beautiful Design",
+        "description": "Enjoy a clean, modern interface that looks great in both light and dark modes."
+      }
+    ]
+  },
+  "modes": {
+    "title": "Enhancement Modes",
+    "items": [
+      {
+        "icon": "✨",
+        "title": "Humanize",
+        "description": "Make your text sound natural and conversational"
+      },
+      {
+        "icon": "📄",
+        "title": "Formal",
+        "description": "Convert casual text to professional language"
+      },
+      {
+        "icon": "😄",
+        "title": "Casual",
+        "description": "Make formal text more friendly and relaxed"
+      },
+      {
+        "icon": "✂️",
+        "title": "Shorten",
+        "description": "Condense your text while keeping the key points"
+      },
+      {
+        "icon": "📖",
+        "title": "Expand",
+        "description": "Elaborate on your ideas with more detail"
+      },
+      {
+        "icon": "🔍",
+        "title": "Rewrite",
+        "description": "Rephrase while maintaining the original meaning"
+      },
+      {
+        "icon": "✅",
+        "title": "Grammar Fix",
+        "description": "Correct spelling, grammar, and punctuation errors"
+      },
+      {
+        "icon": "📝",
+        "title": "Summarize",
+        "description": "Create concise summaries of longer texts"
+      }
+    ]
+  },
+  "installation": {
+    "title": "Easy Installation",
+    "step1": {
+      "title": "Choose Your Browser",
+      "description": "Available for Chrome, Firefox, and Edge",
+      "chrome": "Chrome",
+      "firefox": "Firefox"
+    },
+    "step2": {
+      "title": "Add to Browser",
+      "description": "Click \"Add to Browser\" in your extension store"
+    },
+    "step3": {
+      "title": "Configure API",
+      "description": "Enter your API token in settings to get started"
+    }
+  },
+  "usage": {
+    "title": "How to Use the Extension",
+    "intro": "Using the Writer browser extension is simple and intuitive. Enhance your text directly from any webpage in three easy steps.",
+    "steps": [
+      {
+        "icon": "🎯",
+        "title": "Select Text",
+        "description": "Select any text on any webpage that you want to enhance or rewrite."
+      },
+      {
+        "icon": "✨",
+        "title": "Click Enhance",
+        "description": "Click the Writer extension icon that appears or use the inline enhancement button."
+      },
+      {
+        "icon": "📋",
+        "title": "Copy Results",
+        "description": "Review the enhanced text and copy it to your clipboard with one click."
+      }
+    ]
+  },
+  "selfHosting": {
+    "title": "Self-Hosting the API Backend",
+    "intro": "Deploy your own Writer API server for complete data privacy. Your text never leaves your infrastructure — full control, full privacy.",
+    "features": [
+      {
+        "icon": "🔐",
+        "title": "Complete Privacy",
+        "description": "Your text never leaves your infrastructure. Full data sovereignty."
+      },
+      {
+        "icon": "🐳",
+        "title": "Docker Ready",
+        "description": "One-command deployment with Docker and Docker Compose."
+      },
+      {
+        "icon": "🔧",
+        "title": "Custom Providers",
+        "description": "Connect up to 10 custom OpenAI-compatible endpoints."
+      }
+    ],
+    "setup": {
+      "title": "Quick Start",
+      "prerequisites": {
+        "title": "1. Prerequisites",
+        "description": "Ensure you have Docker and Docker Compose installed on your system.",
+        "code": "docker --version\ndocker-compose --version"
+      },
+      "envFile": {
+        "title": "2. Create Environment File",
+        "description": "Copy the example environment file and configure your settings:",
+        "code": "cd api\ncp .env.example .env\nnano .env  # Edit with your settings"
+      },
+      "startContainer": {
+        "title": "3. Start the Container",
+        "description": "Launch the API server with Docker Compose:",
+        "code": "docker-compose up -d\ndocker-compose ps  # Verify it's running"
+      },
+      "configureExtension": {
+        "title": "4. Configure the Extension",
+        "description": "Point Writer to your self-hosted API:",
+        "code": "API Endpoint: http://localhost:3001\nAPI Token: (from your .env)"
+      }
+    },
+    "providers": {
+      "title": "Supported AI Providers",
+      "official": {
+        "title": "Official Providers",
+        "items": [
+          "<strong>OpenAI</strong> - GPT-4o, GPT-4o-mini",
+          "<strong>Anthropic</strong> - Claude 3.5 Sonnet, Claude 3 Opus",
+          "<strong>Google</strong> - Gemini 1.5 Flash, Gemini 1.5 Pro"
+        ]
+      },
+      "custom": {
+        "title": "Custom OpenAI-Compatible Endpoints (up to 10)",
+        "items": [
+          "<strong>MiniMax</strong> - MiniMax-M2.1 models",
+          "<strong>Ollama</strong> - Local LLM inference (Llama2, Mistral, Qwen, etc.)",
+          "<strong>LM Studio</strong> - Local model serving",
+          "<strong>LocalAI</strong> - Self-hosted AI gateway",
+          "<strong>Any OpenAI-compatible API</strong> - Flexible custom endpoints"
+        ]
+      },
+      "ollamaExample": {
+        "title": "Example: Ollama Configuration",
+        "code": "CUSTOM_PROVIDER_1_API_KEY=sk-local\nCUSTOM_PROVIDER_1_BASE_URL=http://localhost:11434/v1\nCUSTOM_PROVIDER_1_NAME=Ollama\nCUSTOM_PROVIDER_1_MODELS=llama2,mistral,qwen"
+      }
+    },
+    "security": {
+      "title": "Security Best Practices",
+      "items": [
+        "Use a strong <code>API_TOKEN</code> to protect your API",
+        "Keep your <code>.env</code> file secure and never commit it to version control",
+        "Use HTTPS in production with a reverse proxy (nginx, Traefik)",
+        "Regularly update your Docker images for security patches"
+      ]
+    }
+  },
+  "cta": {
+    "title": "Ready to Enhance Your Writing?",
+    "description": "Join thousands of users who trust Lubb Writer for their daily text enhancement needs.",
+    "button": "Install Now"
+  },
+  "footer": {
+    "brand": "Lubb Writer - AI-powered text enhancement",
+    "resources": "Resources",
+    "connect": "Connect",
+    "github": "GitHub",
+    "contact": "Contact",
+    "copyright": "2024 Lubb Writer. All rights reserved.",
+    "madeWith": "Made with ❤️ for writers everywhere"
+  },
+  "preview": {
+    "originalLabel": "Original Text",
+    "originalPlaceholder": "Your text here...",
+    "sampleOriginal": "I think we should maybe consider potentially reaching out to them at some point.",
+    "enhancedLabel": "Enhanced Text",
+    "sampleEnhanced": "I believe we should reach out to them soon to discuss this opportunity.",
+    "popupTitle": "Writer Popup",
+    "humanize": "Humanize ✨",
+    "modes": ["Humanize", "Formal", "Shorten"]
+  },
+  "home": "Home",
+  "privacy": {
+    "pageTitle": "Privacy Policy",
+    "lastUpdated": "Last updated:",
+    "date": "January 1, 2024",
+    "sections": {
+      "infoCollect": {
+        "title": "1. Information We Collect",
+        "intro": "Lubb Writer is a privacy-first application. Here's how your data is handled:",
+        "items": [
+          "<strong>Text you select:</strong> When you use the extension to enhance text, the selected text is sent to your configured API endpoint for processing. You control where this data goes.",
+          "<strong>Extension settings:</strong> Your preferences (theme, default mode, API endpoint, etc.) are stored locally in your browser.",
+          "<strong>API credentials:</strong> Your API token is stored locally in your browser and is only sent to your configured API endpoint."
+        ]
+      },
+      "howUse": {
+        "title": "2. How Your Data Is Used",
+        "intro": "We operate <strong>no central servers</strong>. Your text is only sent to the API endpoint you configure. We do not:",
+        "items": [
+          "Receive or store any of your text data",
+          "Track your API usage or requests",
+          "Use your text for training machine learning models",
+          "Share your data with third parties",
+          "Track your browsing activity"
+        ]
+      },
+      "dataRetention": {
+        "title": "3. Data Retention",
+        "content": "We retain no data. Your selected text is processed in real-time through your configured API endpoint and is never sent to our servers. Any enhancement history stored locally in your browser can be cleared at any time through the extension settings."
+      },
+      "thirdParty": {
+        "title": "4. Your API Provider",
+        "content": "When you use a self-hosted API, your text stays within your infrastructure. When using third-party AI providers (OpenAI, Anthropic, Google, etc.), your text is sent to their services per their privacy policies. We recommend reviewing the privacy policy of your chosen AI provider."
+      },
+      "selfHosting": {
+        "title": "5. Self-Hosting",
+        "content": "For maximum privacy, you can self-host the Writer API on your own server. When self-hosted, your text is processed entirely within your infrastructure and never leaves your control."
+      },
+      "cookies": {
+        "title": "6. Cookies",
+        "content": "Lubb Writer does not use cookies. All data is stored locally in your browser's storage."
+      },
+      "security": {
+        "title": "7. Security",
+        "intro": "Your data security depends on your configuration. We recommend:",
+        "items": [
+          "Using a strong API token for your endpoint",
+          "Self-hosting the API for complete data control",
+          "Using HTTPS for your API endpoint in production",
+          "Keeping your browser and extensions up to date"
+        ]
+      },
+      "yourRights": {
+        "title": "8. Your Rights",
+        "intro": "You have complete control over your data:",
+        "items": [
+          "<strong>Access:</strong> View your settings at any time through the extension popup",
+          "<strong>Delete:</strong> Remove enhancement history and settings through the extension",
+          "<strong>Control:</strong> Choose your API provider and endpoint",
+          "<strong>Own:</strong> With self-hosting, your data never leaves your infrastructure"
+        ]
+      },
+      "childrenPrivacy": {
+        "title": "9. Children's Privacy",
+        "content": "Lubb Writer is not intended for use by children under the age of 13. We do not knowingly collect information from children under 13."
+      },
+      "changes": {
+        "title": "10. Changes to This Policy",
+        "content": "We may update this privacy policy from time to time. We will notify users of any changes by posting the new policy on this page and updating the \"Last updated\" date."
+      },
+      "contact": {
+        "title": "11. Contact Us",
+        "intro": "If you have any questions about this privacy policy, please contact us:",
+        "items": [
+          "Email: contact@lubbwriter.com",
+          "GitHub: Create an issue in our repository"
+        ]
+      }
+    }
+  }
+}
