@@ -1,10 +1,15 @@
 # Lubb - Writer
 
-AI-powered text enhancement tool that transforms your writing with multiple modes and multi-provider AI support. Includes both a REST API and browser extension.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Node.js Version](https://img.shields.io/badge/node-18%2B-green)](https://nodejs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.4-blue)](https://www.typescriptlang.org/)
+[![Docker](https://img.shields.io/badge/Docker-Ready-2496ed?logo=docker)](https://www.docker.com/)
 
-## Overview
+> **Open-source AI writing tool** with 13 enhancement modes, multi-provider support (OpenAI, Claude, Gemini), browser extension & REST API. Self-host for free.
 
-Lubb - Writer helps you improve any text with AI. Choose from 13 different writing modes, connect to your preferred AI provider, and enhance text directly from your browser or via API.
+**✨ Transform any text in seconds — rewrite, summarize, humanize, SEO-optimize, or create platform-specific content.**
+
+🔗 **Live Demo**: <https://lubb-writer.adelpro.us.kg/>
 
 ## Screenshots
 
@@ -40,6 +45,16 @@ Browser Extension  ─────>  REST API  ─────>  AI Providers
 - **Keyboard Shortcuts**: Enhance selected text with Ctrl+Shift+Y
 - **Docker Ready**: Deploy the API anywhere with Docker
 - **Interactive Docs**: Swagger UI documentation at `/docs`
+
+## 🚀 Quick Install
+
+```bash
+# One-command setup
+git clone https://github.com/YOUR_USERNAME/lubb-writer.git && cd lubb-writer && yarn install
+
+# Start the API
+yarn dev:api
+```
 
 ## Projects
 
@@ -126,3 +141,7 @@ docker compose up -d
 ## License
 
 MIT License - see individual project folders for details.
+
+---
+
+⭐ **Star this repo if you find it useful!** | 🐛 [Report issues](https://github.com/adelpro/lubb-writer/issues) | 📝 [Contributions welcome](https://github.com/adelpro/lubb-writer/pulls)
