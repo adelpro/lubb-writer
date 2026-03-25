@@ -841,4 +841,19 @@ body {
     gap: 1rem;
     text-align: center;
   }
+
+  .browser-links {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .browser-btn {
+    padding: 0.625rem 1rem;
+    font-size: 0.875rem;
+  }
+
+  .browser-btn img {
+    width: 20px;
+    height: 20px;
+  }
 }

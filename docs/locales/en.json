@@ -112,9 +112,11 @@
     "title": "Easy Installation",
     "step1": {
       "title": "Choose Your Browser",
-      "description": "Available for Chrome, Firefox, and Edge",
+      "description": "Available for Chrome, Firefox, Edge, and Brave",
       "chrome": "Chrome",
-      "firefox": "Firefox"
+      "firefox": "Firefox",
+      "edge": "Edge",
+      "brave": "Brave"
     },
     "step2": {
       "title": "Add to Browser",

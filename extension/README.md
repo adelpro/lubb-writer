@@ -48,3 +48,12 @@ The extension requires a Lubb - Writer API endpoint. You can:
 - Chrome (Manifest V3)
 - Firefox (Manifest V3)
 - Edge (Chromium-based)
+- Brave (Chromium-based)
+
+## Build Notes
+
+### Manifest Fix Script
+
+Due to a known issue with Plasmo (v0.90.5), the build process may generate invalid `web_accessible_resources` entries referencing non-existent CSS and PNG files. The `scripts/fix-manifest.mjs` post-build script automatically removes these invalid references.
+
+This fix is automatically applied when running any of the build commands (`yarn build`, `yarn build:chrome`, `yarn build:firefox`, `yarn build:edge`).

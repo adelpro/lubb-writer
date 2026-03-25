@@ -1,5 +1,7 @@
 # Lubb - Writer
 
+<img src="docs/icons/icon512.png" alt="Lubb Writer Logo" width="200" align="center"/>
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js Version](https://img.shields.io/badge/node-18%2B-green)](https://nodejs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.4-blue)](https://www.typescriptlang.org/)
@@ -9,7 +11,18 @@
 
 **✨ Transform any text in seconds — rewrite, summarize, humanize, SEO-optimize, or create platform-specific content.**
 
-🔗 **Live Demo**: <https://lubb-writer.adelpro.us.kg/>
+🔗 **Home Page**: <https://lubb-writer.adelpro.us.kg/>
+
+## Install
+
+Install the browser extension and start enhancing your text in seconds.
+
+| Browser | Link |
+|---------|------|
+| Chrome | [Chrome Web Store](https://chromewebstore.google.com/detail/lubb-ai-writer/hbdghnimecpnpoomobaeeeeekleanjjo) |
+| Firefox | [Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/lubb-ai-writer/) |
+| Edge | [Microsoft Edge Add-ons](#) *(coming soon)* |
+| Brave | [Chrome Web Store](https://chromewebstore.google.com/detail/lubb-ai-writer/hbdghnimecpnpoomobaeeeeekleanjjo) |
 
 ## Screenshots
 
@@ -75,7 +88,7 @@ yarn dev
 
 ### [Extension](./extension/) - Browser Extension
 
-Cross-browser extension for Chrome, Firefox, and Edge.
+Cross-browser extension for Chrome, Firefox, Edge, and Brave.
 
 **Quick Start:**
 
