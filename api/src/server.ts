@@ -191,6 +191,33 @@ function getModelConfig(model: string): ModelConfig | null {
 }
 
 // =============================================================================
+// Default Model Helper
+// =============================================================================
+function getDefaultOrFirstModel(): string {
+  const availableModels = Object.keys(MODELS);
+  if (availableModels.length === 0) {
+    throw new Error(
+      "No AI providers configured. Please set up at least one provider in your environment.",
+    );
+  }
+  
+  // Validate DEFAULT_MODEL if set
+  if (process.env.DEFAULT_MODEL) {
+    if (MODELS[process.env.DEFAULT_MODEL]) {
+      return process.env.DEFAULT_MODEL;
+    }
+    console.warn(
+      `DEFAULT_MODEL "${process.env.DEFAULT_MODEL}" not found in configured models. Falling back to first available model: ${availableModels[0]}`
+    );
+  }
+  
+  return availableModels[0];
+}
+
+// Resolve and validate the fallback model at startup
+const FALLBACK_MODEL = getDefaultOrFirstModel();
+
+// =============================================================================
 // Swagger Configuration
 // =============================================================================
 
@@ -587,7 +614,7 @@ app.get("/models", (req, res) => {
  *                 example: "Make it more engaging and professional"
  *               model:
  *                 type: string
- *                 description: AI model to use (defaults to MiniMax-M2.1)
+ *                 description: AI model to use. If not specified, uses the DEFAULT_MODEL environment variable if set and valid, otherwise falls back to the first configured model.
  *                 example: "gpt-4o"
  *     responses:
  *       200:
@@ -680,7 +707,7 @@ app.post("/enhance", authenticate, async (req, res) => {
       fullPrompt = `${fullPrompt}. Additional instructions: ${customPrompt}`;
     }
 
-    const chatModel = model || process.env.DEFAULT_MODEL || "MiniMax-M2.1";
+    const chatModel = model || FALLBACK_MODEL;
     const systemPrompt = `You are a writing enhancement assistant. Your ONLY task is to improve the provided text according to the instruction. Return ONLY the enhanced text, nothing else. Do not include any explanations, meta-commentary, or the original instruction in your response. Output only the improved version of the text.`;
 
     const userMessage = `<instruction>
@@ -733,7 +760,7 @@ Return ONLY the enhanced content. Do not include the instruction text itself in 
  *                 example: "Translate to Spanish and make it formal"
  *               model:
  *                 type: string
- *                 description: AI model to use (defaults to MiniMax-M2.1)
+ *                 description: AI model to use. If not specified, uses the DEFAULT_MODEL environment variable if set and valid, otherwise falls back to the first configured model.
  *                 example: "claude-3-5-sonnet"
  *     responses:
  *       200:
@@ -808,7 +835,7 @@ app.post("/custom", authenticate, async (req, res) => {
       return res.status(400).json({ error: "Text and prompt are required" });
     }
 
-    const chatModel = model || process.env.DEFAULT_MODEL || "MiniMax-M2.1";
+    const chatModel = model || FALLBACK_MODEL;
     const systemPrompt = `You are a text processing assistant. Your task is to process text according to specific instructions. Return ONLY the result. Do not include explanations, instructions, or any meta-commentary. Output only the processed text.`;
 
     const userMessage = `<task>
@@ -918,7 +945,7 @@ app.post("/enhance/rewrite", authenticate, async (req, res) => {
     if (!text) {
       return res.status(400).json({ error: "Text is required" });
     }
-    const chatModel = model || process.env.DEFAULT_MODEL || "MiniMax-M2.1";
+    const chatModel = model || FALLBACK_MODEL;
     const result = await chatWithAI(chatModel, DEFAULT_PROMPTS.rewrite, text);
     res.json(result);
   } catch (error: unknown) {
@@ -974,7 +1001,7 @@ app.post("/enhance/summarize", authenticate, async (req, res) => {
     if (!text) {
       return res.status(400).json({ error: "Text is required" });
     }
-    const chatModel = model || process.env.DEFAULT_MODEL || "MiniMax-M2.1";
+    const chatModel = model || FALLBACK_MODEL;
     const result = await chatWithAI(chatModel, DEFAULT_PROMPTS.summarize, text);
     res.json(result);
   } catch (error: unknown) {
@@ -1030,7 +1057,7 @@ app.post("/enhance/humanize", authenticate, async (req, res) => {
     if (!text) {
       return res.status(400).json({ error: "Text is required" });
     }
-    const chatModel = model || process.env.DEFAULT_MODEL || "MiniMax-M2.1";
+    const chatModel = model || FALLBACK_MODEL;
     const result = await chatWithAI(chatModel, DEFAULT_PROMPTS.humanize, text);
     res.json(result);
   } catch (error: unknown) {
@@ -1086,7 +1113,7 @@ app.post("/enhance/grammar", authenticate, async (req, res) => {
     if (!text) {
       return res.status(400).json({ error: "Text is required" });
     }
-    const chatModel = model || process.env.DEFAULT_MODEL || "MiniMax-M2.1";
+    const chatModel = model || FALLBACK_MODEL;
     const result = await chatWithAI(chatModel, DEFAULT_PROMPTS.grammar, text);
     res.json(result);
   } catch (error: unknown) {
@@ -1142,7 +1169,7 @@ app.post("/enhance/formal", authenticate, async (req, res) => {
     if (!text) {
       return res.status(400).json({ error: "Text is required" });
     }
-    const chatModel = model || process.env.DEFAULT_MODEL || "MiniMax-M2.1";
+    const chatModel = model || FALLBACK_MODEL;
     const result = await chatWithAI(chatModel, DEFAULT_PROMPTS.formal, text);
     res.json(result);
   } catch (error: unknown) {
@@ -1200,7 +1227,7 @@ app.post("/enhance/casual", authenticate, async (req, res) => {
     if (!text) {
       return res.status(400).json({ error: "Text is required" });
     }
-    const chatModel = model || process.env.DEFAULT_MODEL || "MiniMax-M2.1";
+    const chatModel = model || FALLBACK_MODEL;
     const result = await chatWithAI(chatModel, DEFAULT_PROMPTS.casual, text);
     res.json(result);
   } catch (error: unknown) {
@@ -1258,7 +1285,7 @@ app.post("/enhance/academic", authenticate, async (req, res) => {
     if (!text) {
       return res.status(400).json({ error: "Text is required" });
     }
-    const chatModel = model || process.env.DEFAULT_MODEL || "MiniMax-M2.1";
+    const chatModel = model || FALLBACK_MODEL;
     const result = await chatWithAI(chatModel, DEFAULT_PROMPTS.academic, text);
     res.json(result);
   } catch (error: unknown) {
@@ -1316,7 +1343,7 @@ app.post("/enhance/seo", authenticate, async (req, res) => {
     if (!text) {
       return res.status(400).json({ error: "Text is required" });
     }
-    const chatModel = model || process.env.DEFAULT_MODEL || "MiniMax-M2.1";
+    const chatModel = model || FALLBACK_MODEL;
     const result = await chatWithAI(chatModel, DEFAULT_PROMPTS.seo, text);
     res.json(result);
   } catch (error: unknown) {
@@ -1372,7 +1399,7 @@ app.post("/enhance/persuasive", authenticate, async (req, res) => {
     if (!text) {
       return res.status(400).json({ error: "Text is required" });
     }
-    const chatModel = model || process.env.DEFAULT_MODEL || "MiniMax-M2.1";
+    const chatModel = model || FALLBACK_MODEL;
     const result = await chatWithAI(
       chatModel,
       DEFAULT_PROMPTS.persuasive,
@@ -1432,7 +1459,7 @@ app.post("/enhance/creative", authenticate, async (req, res) => {
     if (!text) {
       return res.status(400).json({ error: "Text is required" });
     }
-    const chatModel = model || process.env.DEFAULT_MODEL || "MiniMax-M2.1";
+    const chatModel = model || FALLBACK_MODEL;
     const result = await chatWithAI(chatModel, DEFAULT_PROMPTS.creative, text);
     res.json(result);
   } catch (error: unknown) {
@@ -1488,7 +1515,7 @@ app.post("/enhance/twitter", authenticate, async (req, res) => {
     if (!text) {
       return res.status(400).json({ error: "Text is required" });
     }
-    const chatModel = model || process.env.DEFAULT_MODEL || "MiniMax-M2.1";
+    const chatModel = model || FALLBACK_MODEL;
     const result = await chatWithAI(chatModel, DEFAULT_PROMPTS.twitter, text);
     res.json(result);
   } catch (error: unknown) {
@@ -1546,7 +1573,7 @@ app.post("/enhance/linkedin", authenticate, async (req, res) => {
     if (!text) {
       return res.status(400).json({ error: "Text is required" });
     }
-    const chatModel = model || process.env.DEFAULT_MODEL || "MiniMax-M2.1";
+    const chatModel = model || FALLBACK_MODEL;
     const result = await chatWithAI(chatModel, DEFAULT_PROMPTS.linkedin, text);
     res.json(result);
   } catch (error: unknown) {
@@ -1604,7 +1631,7 @@ app.post("/enhance/story", authenticate, async (req, res) => {
     if (!text) {
       return res.status(400).json({ error: "Text is required" });
     }
-    const chatModel = model || process.env.DEFAULT_MODEL || "MiniMax-M2.1";
+    const chatModel = model || FALLBACK_MODEL;
     const result = await chatWithAI(chatModel, DEFAULT_PROMPTS.story, text);
     res.json(result);
   } catch (error: unknown) {
