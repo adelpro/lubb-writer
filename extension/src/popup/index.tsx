@@ -110,13 +110,19 @@ export default function Popup() {
       return;
     }
 
+    const modelToUse = model || settings.defaultModel;
+    if (!modelToUse) {
+      setError("No model available. Please configure an AI provider.");
+      return;
+    }
+
     setLoading(true);
     setError("");
     setOutput("");
     setTokenUsage(null);
 
     try {
-      const result = await enhanceText(input, mode, settings, model);
+      const result = await enhanceText(input, mode, settings, modelToUse);
       setOutput(result.result);
       setTokenUsage(result.usage?.total_tokens || null);
 
@@ -125,7 +131,7 @@ export default function Popup() {
           originalText: input,
           enhancedText: result.result,
           mode,
-          model: model || settings.defaultModel,
+          model: modelToUse,
         });
       }
     } catch (err) {
