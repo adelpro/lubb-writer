@@ -110,7 +110,22 @@ export default function Popup() {
       return;
     }
 
-    const modelToUse = model || settings.defaultModel;
+    // Handle loading state separately
+    if (modelsLoading) {
+      setError("Models are still loading. Please wait...");
+      return;
+    }
+
+    // Resolve effective model by validating against available models
+    const availableModelNames = settings.availableModels.map((m) => m.value);
+    let modelToUse = "";
+    
+    if (model && availableModelNames.includes(model)) {
+      modelToUse = model;
+    } else if (settings.defaultModel && availableModelNames.includes(settings.defaultModel)) {
+      modelToUse = settings.defaultModel;
+    }
+
     if (!modelToUse) {
       setError("No model available. Please configure an AI provider.");
       return;
