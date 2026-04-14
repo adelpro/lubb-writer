@@ -29,9 +29,21 @@ interface ModelConfig {
   client: unknown;
 }
 
+// Safe model info type that excludes sensitive fields
+type SafeModelInfo = Omit<ModelConfig, "apiKey" | "client">;
+
 // =============================================================================
 // Helper Functions
 // =============================================================================
+
+/**
+ * Sanitizes model configuration by removing sensitive fields
+ * This prevents accidental exposure of API keys or client instances
+ */
+function sanitizeModelConfig(config: ModelConfig): SafeModelInfo {
+  const { apiKey, client, ...safe } = config;
+  return safe;
+}
 function parseModelsList(
   envValue: string | undefined,
   defaults: string[],
@@ -571,12 +583,9 @@ app.get("/health", (req, res) => {
  *                       baseURL: "https://api.anthropic.com"
  */
 app.get("/models", (req, res) => {
-  const availableModels = Object.values(MODELS).map((config) => ({
-    name: config.name,
-    provider: config.provider,
-    providerName: config.providerName,
-    baseURL: config.baseURL,
-  }));
+  const availableModels: SafeModelInfo[] = Object.values(MODELS).map(
+    sanitizeModelConfig
+  );
   res.json({ models: availableModels });
 });
 
