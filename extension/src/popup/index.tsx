@@ -55,43 +55,43 @@ export default function Popup() {
     loadPendingText();
   }, []);
 
-  useEffect(() => {
-    const loadModels = async () => {
-      if (!settings.apiToken || !settings.apiUrl) return;
+  const loadModels = async () => {
+    if (!settings.apiToken || !settings.apiUrl) return;
 
-      setModelsLoading(true);
-      setModelsError(null);
-      try {
-        const models = await fetchAvailableModels(settings);
-        const modelOptions = models.map((m) => ({
-          value: m.name,
-          label: `${m.providerName}: ${formatModelLabel(m.name)}`,
-        }));
-        await settings.setSettings({ availableModels: modelOptions });
+    setModelsLoading(true);
+    setModelsError(null);
+    try {
+      const models = await fetchAvailableModels(settings);
+      const modelOptions = models.map((m) => ({
+        value: m.name,
+        label: `${m.providerName}: ${formatModelLabel(m.name)}`,
+      }));
+      await settings.setSettings({ availableModels: modelOptions });
 
-        if (!settings.defaultModel && modelOptions.length > 0) {
+      if (!settings.defaultModel && modelOptions.length > 0) {
+        await settings.setSettings({ defaultModel: modelOptions[0].value });
+        setModel(modelOptions[0].value);
+      } else {
+        const modelNames = models.map((m) => m.name);
+        if (
+          settings.defaultModel &&
+          !modelNames.includes(settings.defaultModel)
+        ) {
           await settings.setSettings({ defaultModel: modelOptions[0].value });
           setModel(modelOptions[0].value);
-        } else {
-          const modelNames = models.map((m) => m.name);
-          if (
-            settings.defaultModel &&
-            !modelNames.includes(settings.defaultModel)
-          ) {
-            await settings.setSettings({ defaultModel: modelOptions[0].value });
-            setModel(modelOptions[0].value);
-          }
         }
-      } catch (err) {
-        console.error("Failed to fetch models:", err);
-        setModelsError(
-          err instanceof Error ? err.message : "Failed to load models",
-        );
-      } finally {
-        setModelsLoading(false);
       }
-    };
+    } catch (err) {
+      console.error("Failed to fetch models:", err);
+      setModelsError(
+        err instanceof Error ? err.message : "Failed to load models",
+      );
+    } finally {
+      setModelsLoading(false);
+    }
+  };
 
+  useEffect(() => {
     loadModels();
   }, [settings.apiToken, settings.apiUrl]);
 
@@ -119,10 +119,13 @@ export default function Popup() {
     // Resolve effective model by validating against available models
     const availableModelNames = settings.availableModels.map((m) => m.value);
     let modelToUse = "";
-    
+
     if (model && availableModelNames.includes(model)) {
       modelToUse = model;
-    } else if (settings.defaultModel && availableModelNames.includes(settings.defaultModel)) {
+    } else if (
+      settings.defaultModel &&
+      availableModelNames.includes(settings.defaultModel)
+    ) {
       modelToUse = settings.defaultModel;
     }
 
@@ -213,6 +216,7 @@ export default function Popup() {
       apiUrl: tempUrl.trim() || settings.apiUrl,
     });
     setLoading(false);
+    await loadModels();
   };
 
   if (!settings.apiToken) {
@@ -440,30 +444,50 @@ export default function Popup() {
                       </option>
                     ))}
                   </select>
-                  <select
-                    value={model}
-                    onChange={(e) => setModel(e.target.value)}
-                    className="flex-1 px-3 py-2 text-sm bg-gray-50 rounded-lg border border-gray-200 transition-colors cursor-pointer dark:border-gray-700 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary hover:bg-gray-100 dark:hover:bg-gray-700/50"
-                    disabled={modelsLoading}
-                  >
-                    {modelsLoading ? (
-                      <option>
-                        {chrome.i18n.getMessage("loadingModels") ||
-                          "Loading models..."}
-                      </option>
-                    ) : displayModels.length === 0 ? (
-                      <option>
-                        {chrome.i18n.getMessage("noModelsAvailable") ||
-                          "No models available"}
-                      </option>
-                    ) : (
-                      displayModels.map((m) => (
-                        <option key={m.value} value={m.value}>
-                          {m.label}
+                  <div className="flex gap-1 min-w-0">
+                    <select
+                      value={model}
+                      onChange={(e) => setModel(e.target.value)}
+                      className="flex-1 min-w-0 px-3 py-2 text-sm bg-gray-50 rounded-lg border border-gray-200 transition-colors cursor-pointer dark:border-gray-700 dark:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-primary hover:bg-gray-100 dark:hover:bg-gray-700/50"
+                      disabled={modelsLoading}
+                    >
+                      {modelsLoading ? (
+                        <option>
+                          {chrome.i18n.getMessage("loadingModels") ||
+                            "Loading models..."}
                         </option>
-                      ))
-                    )}
-                  </select>
+                      ) : displayModels.length === 0 ? (
+                        <option>
+                          {chrome.i18n.getMessage("noModelsAvailable") ||
+                            "No models available"}
+                        </option>
+                      ) : (
+                        displayModels.map((m) => (
+                          <option key={m.value} value={m.value}>
+                            {m.label}
+                          </option>
+                        ))
+                      )}
+                    </select>
+                    <button
+                      onClick={loadModels}
+                      disabled={
+                        modelsLoading || !settings.apiToken || !settings.apiUrl
+                      }
+                      className="px-2 py-2 bg-gray-50 rounded-lg border border-gray-200 transition-colors cursor-pointer dark:border-gray-700 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700/50 disabled:opacity-50 disabled:cursor-not-allowed"
+                      title={
+                        chrome.i18n.getMessage("refreshModels") ||
+                        "Refresh models"
+                      }
+                    >
+                      <Loader2
+                        className={clsx(
+                          "w-4 h-4",
+                          modelsLoading && "animate-spin",
+                        )}
+                      />
+                    </button>
+                  </div>
                 </div>
                 {modelsError && (
                   <div className="text-xs text-red-600 dark:text-red-400">

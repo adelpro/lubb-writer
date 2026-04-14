@@ -21,29 +21,29 @@ export default function Options() {
 
   const isRTL = chrome.i18n.getUILanguage().startsWith("ar");
 
+  const loadModels = async () => {
+    if (!settings.apiToken || !settings.apiUrl) return;
+
+    setModelsLoading(true);
+    setModelsError(null);
+    try {
+      const models = await fetchAvailableModels(settings);
+      const modelOptions = models.map((m) => ({
+        value: m.name,
+        label: `${m.providerName}: ${formatModelLabel(m.name)}`,
+      }));
+      await settings.setSettings({ availableModels: modelOptions });
+    } catch (err) {
+      console.error("Failed to fetch models:", err);
+      setModelsError(
+        err instanceof Error ? err.message : "Failed to load models",
+      );
+    } finally {
+      setModelsLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const loadModels = async () => {
-      if (!settings.apiToken || !settings.apiUrl) return;
-
-      setModelsLoading(true);
-      setModelsError(null);
-      try {
-        const models = await fetchAvailableModels(settings);
-        const modelOptions = models.map((m) => ({
-          value: m.name,
-          label: `${m.providerName}: ${formatModelLabel(m.name)}`,
-        }));
-        await settings.setSettings({ availableModels: modelOptions });
-      } catch (err) {
-        console.error("Failed to fetch models:", err);
-        setModelsError(
-          err instanceof Error ? err.message : "Failed to load models",
-        );
-      } finally {
-        setModelsLoading(false);
-      }
-    };
-
     loadModels();
   }, [settings.apiToken, settings.apiUrl]);
 
@@ -70,6 +70,7 @@ export default function Options() {
       apiUrl: tempUrl.trim() || "http://localhost:3001",
     });
     setSaving(false);
+    await loadModels();
   };
 
   if (!settings.apiToken) {
@@ -254,29 +255,57 @@ export default function Options() {
                     {modelsLoading &&
                       `(${chrome.i18n.getMessage("loading") || "Loading..."})`}
                   </label>
-                  <select
-                    value={settings.defaultModel}
-                    onChange={async (e) =>
-                      await settings.setSettings({
-                        defaultModel: e.target.value,
-                      })
-                    }
-                    className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-primary"
-                    disabled={modelsLoading}
-                  >
-                    {modelsLoading ? (
-                      <option>
-                        {chrome.i18n.getMessage("loadingModels") ||
-                          "Loading models..."}
-                      </option>
-                    ) : (
-                      displayModels.map((m) => (
-                        <option key={m.value} value={m.value}>
-                          {m.label}
+                  <div className="flex gap-2">
+                    <select
+                      value={settings.defaultModel}
+                      onChange={async (e) =>
+                        await settings.setSettings({
+                          defaultModel: e.target.value,
+                        })
+                      }
+                      className="flex-1 px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-primary"
+                      disabled={modelsLoading}
+                    >
+                      {modelsLoading ? (
+                        <option>
+                          {chrome.i18n.getMessage("loadingModels") ||
+                            "Loading models..."}
                         </option>
-                      ))
-                    )}
-                  </select>
+                      ) : displayModels.length === 0 ? (
+                        <option value="">
+                          {chrome.i18n.getMessage("noModelsAvailable") ||
+                            "No models available"}
+                        </option>
+                      ) : (
+                        displayModels.map((m) => (
+                          <option key={m.value} value={m.value}>
+                            {m.label}
+                          </option>
+                        ))
+                      )}
+                    </select>
+                    <button
+                      onClick={loadModels}
+                      disabled={
+                        modelsLoading || !settings.apiToken || !settings.apiUrl
+                      }
+                      className="px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm"
+                      title={
+                        chrome.i18n.getMessage("refreshModels") ||
+                        "Refresh models"
+                      }
+                    >
+                      <Loader2
+                        className={clsx(
+                          "w-4 h-4",
+                          modelsLoading && "animate-spin",
+                        )}
+                      />
+                    </button>
+                  </div>
+                  {modelsError && (
+                    <p className="text-xs text-red-500 mt-1">{modelsError}</p>
+                  )}
                 </div>
               </div>
             </section>
@@ -351,9 +380,10 @@ export default function Options() {
                     autoComplete="off"
                     spellCheck={false}
                     value={settings.apiUrl}
-                    onChange={async (e) =>
-                      await settings.setSettings({ apiUrl: e.target.value })
-                    }
+                    onChange={async (e) => {
+                      await settings.setSettings({ apiUrl: e.target.value });
+                      await loadModels();
+                    }}
                     placeholder="https://lubb-writer-api.adelpro.us.kg"
                     className="w-full px-3 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-primary font-mono text-sm"
                   />
@@ -372,11 +402,12 @@ export default function Options() {
                     autoComplete="off"
                     spellCheck={false}
                     value={settings.apiToken}
-                    onChange={async (e) =>
+                    onChange={async (e) => {
                       await settings.setSettings({
                         apiToken: e.target.value.trim(),
-                      })
-                    }
+                      });
+                      await loadModels();
+                    }}
                     placeholder={
                       chrome.i18n.getMessage("apiTokenPlaceholder") ||
                       "Your API token"
